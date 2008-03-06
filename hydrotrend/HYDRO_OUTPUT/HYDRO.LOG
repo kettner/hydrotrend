@@ -1,0 +1,26 @@
+ =====================================
+
+ ----- HydroTrend 3.0 Model Run ----- 
+
+ 	Start: 13:54:47  02/14/08 
+
+ Calculate mean discharge, epoch: 1
+ Calculate daily discharge, epoch: 1
+ Calculate mean suspended sediment load, epoch: 1
+ Calculate daily suspended sediment load, epoch: 1
+
+
+STATISTICS PER EPOCH PER OUTLET
+Ep	Outlet	Qbar	Qsbar	Qsmean/outlet	Qpeak	TEbas. TEres.
+1	0(100%)	8.02	0.11			649.6	0.0   0.0
+nr	nr	(m^3/s)	(kg/s)	(%)		(m^3/s)	 (%)   (%)
+
+Basin area                           = 1536.48  (km^2) 
+Basin relief                         = 345.00  (m) 
+
+
+ 	------------------------- 
+
+	 Stop:  13:54:48  02/14/08 
+ =====================================
+

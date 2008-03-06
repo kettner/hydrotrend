@@ -1,0 +1,35 @@
+hydroran2sediment.o hydroran2sediment.o: hydroran2sediment.c \
+  /usr/include/math.h /usr/include/architecture/i386/math.h \
+  /usr/include/sys/cdefs.h hydroparams.h /usr/include/stdio.h \
+  /usr/include/_types.h /usr/include/sys/_types.h \
+  /usr/include/machine/_types.h /usr/include/i386/_types.h \
+  /usr/include/ctype.h /usr/include/runetype.h /usr/include/time.h \
+  /usr/include/_structs.h /usr/include/sys/_structs.h
+
+/usr/include/math.h:
+
+/usr/include/architecture/i386/math.h:
+
+/usr/include/sys/cdefs.h:
+
+hydroparams.h:
+
+/usr/include/stdio.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+/usr/include/ctype.h:
+
+/usr/include/runetype.h:
+
+/usr/include/time.h:
+
+/usr/include/_structs.h:
+
+/usr/include/sys/_structs.h:

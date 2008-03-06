@@ -1,0 +1,26 @@
+hydroDEMpixelsize.o : \
+ hydroDEMpixelsize.c /usr/include/stdio.h \
+ /usr/include/_ansi.h /usr/include/sys/config.h \
+ /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stddef.h \
+ /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stdarg.h \
+ /usr/include/sys/reent.h /usr/include/sys/_types.h \
+ /usr/include/stdlib.h /usr/include/alloca.h /usr/include/math.h \
+ /usr/include/machine/ieeefp.h hydroDEMreadrti.h hydroDEMpixelsize.h \
+ hydroalloc_mem.h hydrofree_mem.h hydroinout.h
+hydroDEMpixelsize.c :
+/usr/include/stdio.h :
+/usr/include/_ansi.h :
+/usr/include/sys/config.h :
+/usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stddef.h :
+/usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stdarg.h :
+/usr/include/sys/reent.h :
+/usr/include/sys/_types.h :
+/usr/include/stdlib.h :
+/usr/include/alloca.h :
+/usr/include/math.h :
+/usr/include/machine/ieeefp.h :
+hydroDEMreadrti.h :
+hydroDEMpixelsize.h :
+hydroalloc_mem.h :
+hydrofree_mem.h :
+hydroinout.h :

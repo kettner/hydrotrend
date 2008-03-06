@@ -1,0 +1,31 @@
+hydrohypsim.o : \
+ hydrohypsim.c /usr/include/stdio.h /usr/include/_ansi.h \
+ /usr/include/sys/config.h \
+ /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stddef.h \
+ /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stdarg.h \
+ /usr/include/sys/reent.h /usr/include/sys/_types.h hydroparams.h \
+ /usr/include/math.h /usr/include/machine/ieeefp.h \
+ /usr/include/ctype.h /usr/include/time.h /usr/include/machine/time.h \
+ /usr/include/sys/types.h /usr/include/machine/types.h \
+ /usr/include/sys/features.h /usr/include/cygwin/types.h \
+ hydroclimate.h hydrotimeser.h
+hydrohypsim.c :
+/usr/include/stdio.h :
+/usr/include/_ansi.h :
+/usr/include/sys/config.h :
+/usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stddef.h :
+/usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stdarg.h :
+/usr/include/sys/reent.h :
+/usr/include/sys/_types.h :
+hydroparams.h :
+/usr/include/math.h :
+/usr/include/machine/ieeefp.h :
+/usr/include/ctype.h :
+/usr/include/time.h :
+/usr/include/machine/time.h :
+/usr/include/sys/types.h :
+/usr/include/machine/types.h :
+/usr/include/sys/features.h :
+/usr/include/cygwin/types.h :
+hydroclimate.h :
+hydrotimeser.h :
