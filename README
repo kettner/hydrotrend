@@ -1,0 +1,27 @@
+
+01/28/08
+
+Make sure that the ASCII input files called "configure.in" and
+"Makefile.am" have been converted with dos2unix.  End-of-line
+characters will be of DOS type if any of these files are edited
+edited with a Windows-based editor.  Source code files whose
+names end in ".c" or ".h" seem to be okay.
+
+Comment out the KSH line in Makefile.am.
+
+Run these commands:
+
+(1) touch README AUTHORS COPYING NEWS ChangeLog
+(2) aclocal  (creates aclocal.m4)
+(3) autoconf (creates configure from configure.in)
+(4) automake --add-missing   (creates makefile.in from makefile.am)
+(5) /bin/bash configure  (creates Makefile)
+(6) make
+
+Note:  To recompile after changes to source code, try:
+       (1) rm *.o
+       (2) make
+
+
+S. Peckham & A.J. Kettner
+

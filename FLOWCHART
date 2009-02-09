@@ -1,0 +1,642 @@
+To Do:
+------
+3) finish the glossary
+	copy ref's out of C&GS papers into code (ie. bedload ref)
+	clean old variable names from *.h files (DONE 09/18/02)
+	HydroSedload: 
+	   units for trnfac and trneff
+	   get a reference for the bedload equation
+	   should Sed load coefficients for Qexceedgw be gw or rain
+
+4) document the assumptions
+	
+8) Test if one of the include files can be removed from each subroutine.
+	Do only a couple of variables cross over?
+
+11) add T and P coherence to HydroWeather.c
+	use Eric's coherence on day scrambler and my T&P generators
+	add real weather generator?
+
+18) Implement snthrm
+	call from hydronival.c ?
+	remove dryevap, percentgw ?
+
+20) Testing needed:
+	i) snow/rain on glacier
+
+50) Rewrite code to get rid of the globaly variables.
+
+51) Find a better way to calculate bedload. Bedload is now depending on Q, make
+	it depending on velocity.
+
+52)	Build a DEM read menu to calculate hypsometry, Hypso.file is now created by
+	Rivertools.
+	
+57) Hydrotrend can't handle negative values in hypsometry file, For example a
+	negative elevation due to an inner lake gives an error.
+58)	Add delta routine to hydrotrend so output will be devided among a given number of 
+	outlets.
+	
+Notes:
+------
+Tstdcorr in hydroweather => 0.5 of STD
+TmaxSTD = 2.0
+PmaxSTD = 3.0
+
+Done:
+-----
+1) document max flood algorithim in qflood.c
+2) document all the river & hydrotrend papers in hydrotrend.c
+5) have chkdat, verify end of one epoch = begining of next
+6) have hydrotrend.c do the year counting.
+7) in hydroreadinput.c/hydrocheckinput
+	convert raininm and rainstd from mm to m	
+	convert totalarea from km^2 to m^2
+	basinlgt convert from km to m
+	alphag convert to m/d
+	alphac convert to m/d
+	alphagwe convert to m/d
+	pcr convert to m/d
+	ko convert to m/d
+9) add fidlog output to hydrocheckinput.c 
+10) HydroTrend: add baseflow algorithims
+	This will cause mass balance errors if baseflow > 0.0
+12) hydroweather actually calculates the T/P for each day at the river mouth
+	need to create the routine to calculate T/P for each hypsim bin
+13) explicitly switch to doubles
+	does #define rnd(a)  ((fmod(a,1.0)>(0.5)?((float)((int)(a)+1)):((float)((int)(a)))))
+		in HydroParams.h need to be doubled
+	can floats in hydroran2 and funct be switched to doubles (no)
+14) include hydrofunct in glossary
+15) write the digital version of hydrohypsim
+	hypsim file may be in cumulative areas
+	areabins are in actual areas
+16) Hydroclimate.h: are the following used ??? (NO)
+	Qnivalmonth[nmonth], Qrainmonth[nmonth], Qicemonth[nmonth];
+	Qgwmonth[nmonth], Qmonth[nmonth], stored, Qraintot, Qnivaltot
+    Hydroparams.h: are the following used ???
+	ela, bigg, smallg (YES)
+	biga[12], smalla[12], bigb, bigc, arbela (NO)
+    HydroTimeSer.h: are the following used ???
+	tprecip, qbcfwd, qbfrom , qicfwd, qifrom (NO)
+	qncfwd, qnfrom, qrcfwd, qrfrom (NO)
+17) clean up old variable names in *.h files
+19) make sure abs => fabs
+21) Make sure to free any arrays that change from year to year or epoch to epoch
+22) Make sure to deal with carryover arrays
+	HydroTrend sets "wrap" arrays from previous years data
+23) HydroGlacial, Should meltday Temp[][] be indexed to elaind ???, line 267
+	meltday Temp[][] presently indexed to glacierind (at the toe) [NO]
+24) HydroRain: include shoulder routines (Shoulder)	not
+	at present no rain is wrapped.
+	include distbins timelags (Route)
+    HydroGlacial, turned on Route and Shoulder
+    HydroSnow, turned on Route and Shoulder
+25) removed
+26) HydroSnow: Does all the snow melt?
+	add a check to HydroSnow for the total amount of snow on August 31
+27) remove HydroPrintLog.c
+28) remove HydroMassCons.c (now included in HydroSumFlow)
+29) fidlog:
+	check usage throughout,		Checked, removed were appropriate
+						except for DBG locations
+	only used for DBG?		NO
+30) Change HydroTable
+	output summary info to HydroLog
+	output daily Q's to hydro.q
+	output daily Qs's to hydro.qs
+	change documentation
+31) Move meltrate from HydroParams.h to Hydro.In
+32) Qss < 0.0 in HydroRain????
+33) Verify nran is always incremented
+	nran used in HydroGlacial
+	but not in HydroSnow or HydroRain (except indirectly in T and P)
+34) Is the ground water time lag used? (gwtlag, read in)
+35) Hardwire SHOULDER and ROUTE when testing is finished.
+36) create shoulder or route for GW?
+37) Hydroweather.c, if sumt is opposite sign of Tmean than
+	monthly T's reverse???
+38) Exceedflood causes redudant addition to Qsum's
+	partially fixed in HydroTrend.c
+39) HydroGlacial, check maxflood maxq algorithm
+A.J. Kettner:
+41) Calculate Qbar by the mean of daily Q (was first done by the log of Qbar but
+	that gave strange mean Qbars when for example the same run was done with the
+	lake option on or off (Qbar would vary then with the same precipitation input)).
+42) Rewrite the program that the mean of the daily Qs is equal to Qsbar
+    by setting a new Qsbar.
+43) Make it possible to use arguments when starting program (give output filename)
+44) Separate out- input files from code
+45) Write output to ASCII files option
+46) Fix the program so it can handle again more than 1 epoch
+47) Write the rain distribution so that it clusters the raindays more or less
+48) Make second binary file, exactly the same as the other output file but swabbed
+	so it can be read on a different platform
+49) Rebuild hypsometeric readin sub routine so it can handel multiple epoch hypso 
+	input.
+53)	HydroRain.c was not working properly when lake option in input file was turned on.
+	Repaired again, and again, changed back.
+40) Add code to allow for input of real Precipitation & temperature time series. 
+	Is done. 	
+54)	Write used statistic values used for stochastic Qs(i) formula to a file. Is done.
+55)	Fix bug in the weather generator. Hydrotrend is not exactly the same daily
+	weather, which gives slightly errors in long-term Qsbar. Problem was the way the
+	random numbers where generated in hydroWeather.c. Problem solved.
+56)	Fix the way Tbar is calculated in hydrosetgeoparams.c For real climate as well
+	as for generated climate. Is done.
+	
+
+==============================================================================
+==============================================================================
+
+===============
+HydroGlossary.C
+===============
+
+This file documents the HYDROTREND.C program and it's components. Hydrotrend
+has been developed over many years by many different researchers. An attempt
+has been made to give appropriate credit. The program started out with the
+name "river" and was in fortran. Over the years, it's capabilities have
+been built upon and greatly expanded to it's present state.  This is the
+first C version of the program. It had progressed to river.5.11 in it's
+fortran form. The present rewrite was inspired to clean up the structure,
+convert to MKS units, add more realistic snow and glacial routines, 
+add the ability to simulate large arctic rivers (base flow, time lags ...),
+increased error checking (especially between epochs).
+
+Most variables are now in MKS. The input variables are converted immediately
+upon reading by the program. The exceptions include many of the precipitation
+and evaporation parameters (which are in m/day) and some of the annual values
+(in x/year).
+
+----
+
+Precipitation is divided among rain, snow and ice by:
+(if the ELA > maxelevation, there will be no ice)
+
+a) if( FLA < ELA )  [ie the snowline is below the ELA]
+     rain from sealevel to below FLA
+     snow from FLA to below the ELA
+     ice from ELA to the maxelevation
+
+       Rain           Snow                 Ice
+   0---------->0----------------->0-------------------->
+   |           |                  |                    |
+   Sealevel    FLA                ELA                  MaxElevation
+
+
+b) elseif( FLA > ELA & FLA < maxelevation )
+     rain from sealevel to below the FLAindex
+     ice from FLA to the maxelevation
+     
+                      Rain                      Ice
+   0--------------------------------------->0---------->
+   |                              |         |          |
+   Sealevel                       ELA       FLA        MaxElevation
+
+
+c) else( FLA > maxelevation )
+     rain throughout the basin
+
+                            Rain                      
+   0--------------------------------------------------->
+   |                              |                    |              |
+   Sealevel                       ELA                  MaxElevation   FLA
+
+d) ELA>MaxElevation, FLA < Maxelevation
+	rain and snow (no ice)
+
+                            Rain             Snow         
+   0---------------------------------->0--------------->
+   |                                   |               |              |
+   Sealevel                            FLA             MaxElevation   ELA
+	
+
+
+
+==============
+COMMUNICATION:
+==============
+
+	J.P.M. Syvitski	(James.Syvitski@Colorado.EDU)
+	A.J. Kettner	(Kettner@Colorado.EDU)
+	Institute of Arctic and Alpine Research (INSTAAR)
+	University of Colorado
+	1560 30th Street, Campus Box 450
+	Boulder, CO 80309-0450
+
+
+==================
+Historic Versions:
+==================
+
+Through out it's life time, Hydrotrend has been overseen by James Syvitski.
+The "River" versions are all in Fortran, the "HydroTrend" versions are in C.
+
+ River V.1.0:		M. Nicholson	April 1992
+ River V.2.0:		T. Maceachern	August 1992
+ River V.3.0:		J.M. Alcott	July 1993
+ River V.4.0:		M. Nicholson	April 1995
+ River V.5.0:		M.D. Morehead	October 1996
+ River V.5.1:		M.D. Morehead	August 1997
+ Hydrotrend V.1.0:	M.D. Morehead	1998-1999
+ Hydrotrend V.2.0:	S.D. Peckham	2000-2001
+ Hydrotrend V.2.1:	S.D. Peckham	2001-2002
+ Hydrotrend V.2.?:	A.J. Kettner	2002
+
+
+=================
+Major References:
+=================
+
+River/Hydrotrend Documentation:
+-------------------------------
+
+Syvitski, J. P. M., and Alcott, J.M. 1994. RIVER3: Simulation of water and 
+	sediment river discharge from climate and drainage basin variables. 
+	Computers and Geoscience, 21(1):89-151.
+
+Syvitski, J.P., Morehead, M.D. and Nicholson, M., 1998. HYDROTREND: A 
+	Climate-driven Hydrologic-Transport Model for Predicting Discharge and 
+	Sediment Loads to Lakes or Oceans. Computers & Geosciences,
+	24(1),51-68.
+
+
+Model Usage:
+------------
+
+Morehead, M.D. and Syvitski, J.P. in press. River Plume Sedimentation 
+	Modeling for Sequence Stratigraphy: Application to the Eel River 
+	Margin, Northern California. Marine Geology, V:pp.
+
+Syvitski, J.P. and Morehead, M.D., in press. River Discharge Modeling 
+	for Oceanographers. Marine Geology, V:pp.
+
+
+Syvitski, J.P.M. and Andrews, J.T. 1994. Climate Change: Numerical Modelling of 
+	sedimentation and coastal processes, Eastern Canadian Arctic. Arctic & 
+	Alpine Research, 26(3):199-212.
+
+Dynamics:
+---------
+
+Mulder T. and Syvitski J.P.M. (in prep.) Climatic and morphologic relationships 
+	for rivers. Implications during eustatic changes. Journal of Geology.
+
+Syvitski, J.P., Asprey, K.W., Clattenburg, D.A. and Hodge, G.D., 1985.
+	The prodelta environment of a fjord: Suspended particle dynamics.
+	Sedimentology, 32:83-107.
+
+Mulder T. and Syvitski J.P.M., 1995. Turbidity currents generated at river 
+	mouths during exceptional discharge to the world oceans. 
+	Journal of Geology, 103: 285-298.
+
+Physically based precipitation/groundwater/evaporation routine based on: 
+M. Sivapalan, J.K. Ruprecht, N.R. Viney, 1996.  Water and Salt Balance 
+	Modelling to predict the effects of Land-Use changes in forested 
+	catchments. 1. Small Catchment water balance model.
+	Hydrological Processes, V.10, P.393-411.
+
+Other Code Sources
+------------------
+hydroran2 is from "Numerical Recipes in C", p282, 2nd ed.
+gasdev (hydrorandom.c) is from "Numerical Recipes in C", p.289, 2nd ed.
+hydronewton is mostly from "Numerical Recipes in C", p365, 2nd ed.
+
+===================
+Input/Output Files:
+===================
+I = Input
+O = Output
+D = Output if DBG flag is on
+
+I	Input data (ASCII), basin and climate info		HYDRO.IN
+I	Hypsometric Integral data (ASCII, Digitized)		HYDRO.HYPS
+ O	ASCII summary table of discharge and Cs info		*.TB1
+ O	Table1 of annual trends in climate, discharge...	*.TRN1
+ O	Table2 of annual trends in climate, discharge...	*.TRN2
+ O	Table3 of annual trends in climate, discharge...	*.TRN3
+ O	Binary discharge file (uvw,bedload,Cs(i))			*.DIS
+ O	Optional ASCII file of daily vel., width and depth	*ASCII.VWD
+ O	Optional ASCII file of daily discharge			*ASCII.Q
+ O	Optional ASCII file of daily Cs per grainsize		*ASCII.CS
+ O	Optional ASCII file of daily total Cs and Qs		*ASCII.CSQS
+ O	Optional ASCII file of daily Qbedload average		*ASCII.QBAVG
+ O	Optional ASCII file of daily Qs average			*ASCII.QSAVG
+  D	ASCII Log file for debuging and additional info		*.LOG
+  D	ASCII file of derived Temperature data at sealevel	hydro.t
+  D	ASCII file of derived Temperature data at elevation	hydro.tt
+  D	ASCII file of derived Precipitation data			hydro.pr
+  D	ASCII file of derived Precipitation & Q data		hydro.pp
+  D	ASCII file of derived Hypsometric Areas			hydro.hp
+
+
+============
+Header Files
+============
+
+  HydroAlloc_mem.h contains different functions to allocate memory
+  HydroClimate.h	 contains predicted monthly and annual climate
+			 and discharge values and total annual values
+  HydroFree_mem.h  contains functions to free memory after it was
+			 allocated
+  HydroInOut.h	 contains fid's, filenames and the header string
+  HydroParams.h	 contains input parameters and common constants
+  HydroTimeser.h	 contains arrays of daily values
+
+
+============
+C code Files
+============
+
+  Makefile		Makefile for Hydrotrend 
+  HydroTrend.c	New and improved version of Hydrotrend (River)
+			Main program, controls flow, counts years...
+  HydroCheckInput.c	Checks the input parameters for HYDROTREND
+  HydroClimate.c	Sets the annual climate values of P and T using
+			the starting values, the trends and the Std. Dev.
+			The climate values are assumed to be at the river
+			mouth.  The lapse rate is used later to calculate
+			the temperature for each altitude bin.
+  HydroExpDist.c	Estimates a rainfall distribution:
+			takes (exp(normal-distribution))^1.35
+			matches the STD exactly
+  HydroGlacial.c	Calculates the daily ice accumulation or melt
+			for each altitude bin.  Also calculates the
+			groundwater flow and time lag.
+  HydroHypsom.c	Sums the basin area below the input elevation
+			Used to determine the areas over which rain, snow
+			glaciers are active.
+  HydroNewton.c	Calculates the mean sediment discharge per epoch
+			on a iterative base.
+  HydroOpenFiles.c	Opens the input/output files for HYDROTREND
+  HydroOutput.c		Writes the discharge (v,w,d) and sediment load
+			data to a binary file.  After averaging the data
+			to the user requested timestep (d,m,s,y).
+  HydroPrintAnnual.c	Prints the annually averaged data to series of
+			text files.  Used to view the long term trends.
+  HydroPrintTable.c	Prints the various summary values and the daily 
+			discharge and sediment load data to log files
+			for a user specified range of years.
+  HydroRain.c	Calculates the daily rainfall and runoff
+			for each altitude bin.  Also calculates the
+			groundwater flow, evaporation and time lag.
+  HydroRan2.c	Generates uniformly distributed numbers between 0.0 and 1.0
+			ran2.c from: "Numerical Recipes in C", p282, 2nd ed.
+  HydroRandom.c	Generates a large array of normally distributed
+			deviates with zero mean and unit variance.  Other
+			routines sequentially pluck numbers from this array.
+  HydroReadHypsom.c	Reads the digitized hypsometeric integral data.
+			This is only used if user specified, otherwise a power
+			function is utilized to approximate the integral.
+  HydroReadInput.c	Reads the ASCII input file for HYDROTREND
+  HydroSecurity.c	Checks the ASCII input files on strange characters. This
+  			is done for the website model, so people can't upload scripts or
+  			other stuff that will couse damage to the server of HYDROTREND itself.
+  HydroSedLoad.c	Calculates the sediment load (suspended and bedload)
+			discharging from the river mouth for each day.
+  HydroSetGeoparams.c	Sets parameters for calculating Qsbar on a 
+			geographical base of the river mouth.
+  HydroSetparams.c	Sets most of the variables to a certain value for each
+			epoch.
+  HydroShoulder.c	Calculates the flood wave shoulder parameters. The shoulder's
+			simulate the dispersion of a flood wave as it propagates down
+			channel.
+  HydroShuffle.c	Randomly shuffles the days of the month for climate
+			simulations
+  HydroSnow.c	Calculates the daily snow fall or melt
+			for each altitude bin.  Also calculates the
+			groundwater flow and time lag due to the snow.
+  HydroSumFlow.c	Sums the discharges from the snowmelt, icemelt
+			and precipitation routines, calculates the
+			annual peak flood.
+			Also Checks for mass conservations in:
+			precipitation, snow and glacial volume.
+  HydroSwap.c	Is a swaproutine for the binary output file. When output
+  			is all written to the binary output file, a second file will
+  			be created as a copy of the original binary output file but the
+  			bit order is swabbed so it is also readable on other platforms.
+  HydroWeather.c	Calculates the daily values of T and P for each
+			altitude bin of the basin.
+
+
+=================
+Program Structure
+=================
+
+HydroTrend.c
+|
+|<-- HydroClimate.h
+|    HydroInOut.h
+|    HydroParams.h
+|    HydroTimeser.h
+|    HydroAlloc_mem.h
+|    HydroFree_mem.h
+|
+|~ check the command line
+|  get the start time
+|  initialize variables
+|
+|--- HydroSetParams.c		Set the hardwired parameters
+|    |<-- HydroParams.h
+|         HydroClimate.h
+|
+|--- Hydrosecurityinputcheck.c (Check input files; done for webpage version)
+|    |<-- stdio.h
+|         HydroInOut.h 
+|         HydroParams.h
+|
+|--- HydroReadInput.c 		Read the input file
+|    |<-- string.h
+|         HydroClimate.h
+|         HydroInOut.h
+|         HydroParams.h
+|
+|~ set output path name
+|  start the log file
+|  print program start time 
+|
+|--- HydroReadHypsom.c		Read the hypsometric data file, if used
+|    |<-- stdio.h
+|         HydroInOut.h
+|         HydroParams.h
+|
+|--- HydroSetGeoParams.c	Read Qs constant parameters given by location
+|    |<-- HydroClimate.h	  of river mouth
+|         HydroParams.h
+|
+|--- HydroCheckInput.c		Check the input parameters
+|    |<-- string.h
+|         HydroClimate.h
+|         HydroInOut.h
+|         HydroParams.h
+|
+|--- HydroOpenFiles.c		Opens the various data files and sets fid's
+|    |<-- stdio.h
+|         string.h
+|         HydroInOut.h
+|         HydroParams.h
+|
+|~ for( ep=0; ep<nepochs; ep++ )  [Loop through each epoch]
+||
+||~ set variables per epoch
+||  allocate memory to calculate mean Qs per epoch
+||  if allocation of mem. fails, open temp. files
+||
+||~ while (setstartmeanQandQs < 3) [loop through program to calculate Qbar
+|| |                                 and Qsbar]. By setting those variables
+|| |						 Q and Qs daily can finally be calculated
+|| |
+|| |~ set variables for each loop back to start value
+|| |  calculate maximum flood for the basin size
+|| |
+|| |--- HydroShoulder.c		Calculate event shoulder numbers
+|| |    |<---HydroClimate.h
+|| |         HydroParams.h
+|| |
+|| |~ for( yr=syear[ep]; yr<lyear; yr++ ) [Loop through each year of the epoch]
+|| ||
+|| ||~ Reset annual arrays tracking carryover from previous year
+|| ||  Keep track of groundwater pool size
+|| ||
+|| ||~ while( exceedflood > 0 && floodtry < 10 ) [Prevent max. flood exceedance]
+|| || |
+|| || |~ Reset annual arrays/values
+|| || |  Set the initial GW pool
+|| || |
+|| || |--- HydroRandom.c	Get maxran worth of normally distributed values.
+|| || |    |<-- math.h		The rest of the code pulls numbers from a stored matrix
+|| || |    |    stdio.h		[ranarray] as needed and increments the counter nran.
+|| || |    |    HydroInOut.h
+|| || |    |    HydroParams.h
+|| || |    |
+|| || |    |--- HydroRan2.c	Finds uniformly distributed numbers [0:1]
+|| || |         |<-- math.h
+|| || |              HydroParams.h
+|| || |
+|| || |--- HydroClimate.c	Sets the actual annual and monthly T and P values from
+|| || |    |			  the trends and standard deviations.
+|| || |    |<-- HydroClimate.h
+|| || |         HydroInOut.h
+|| || |         HydroTimeser.h
+|| || |         HydroParams.h
+|| || |
+|| || |--- HydroWeather.c	Set the daily T and P values based on the monthly values.
+|| || |    |			  Designed to match exactly the predicted monthly values.
+|| || |    |<-- HydroClimate.h
+|| || |    |    HydroInOut.h
+|| || |    |    HydroParams.h
+|| || |    |    HydroTimeser.h
+|| || |    |
+|| || |    |--- HydroExpDist.c	Generate exponential-normal distribution of
+|| || |    |    |<-- HydroClimate.h	  rainfall.
+|| || |    |         Hydroparams.h
+|| || |    |
+|| || |    |--- HydroShuffle.c	Randomly shuffle the days of the month.
+|| || |         |<-- HydroClimate.h
+|| || |              HydroParams.h
+|| || |
+|| || |--- HydroHypsom.c	Calculates/converts the hypsometric integral data
+|| || |    |			into a regular grid (in elevation).
+|| || |    |			Then calculates the daily temperature for each 
+|| || |    |			altitude/area bin based on the lapse rate and the 
+|| || |    |			hypsometric integral. This is used later to determine
+|| || |    |<-- stdio.h		snow/glacial melt and accumulation.
+|| || |         HydroClimate.h
+|| || |         HydroParams.h
+|| || |         HydroTimeser.h
+|| || |
+|| || |--- HydroGlacial.c	Calculate ice melt/accumulation by altitude/area bin
+|| || |    |			approximate the glacier mass as a skin = d(ela)*d(area)
+|| || |    |<-- HydroClimate.h
+|| || |         HydroInout.h
+|| || |         HydroParams.h
+|| || |         HydroTimester.h
+|| || |
+|| || |--- HydroSnow.c	Calculate snow melt/accumulation/storage by altitude/area bin
+|| || |    |			Approximates snow melt from T,P and storage.
+|| || |    |<-- HydroClimate.h
+|| || |         HydroInout.h
+|| || |         HydroParams.h
+|| || |         HydroTimeser.h
+|| || |
+|| || |
+|| || |--- HydroRain.c	Calculate rain runoff.
+|| || |    |			Deteremine enough events to meet monthly rain.
+|| || |    |			Distribute the events in the month.
+|| || |    |<-- HydroClimate.h
+|| || |         HydroParams.h
+|| || |         HydroTimeser.h
+|| || |
+|| || |--- HydroSumFlow.c	Adds the various flows together to get daily discharge.
+|| || |    |			Checks the annual rain input balance.
+|| || |    |			Checks the total annual mass balance.
+|| || |    |			Calculates the peak annual flood.
+|| || |    |<-- HydroClimate.h
+|| || |         HydroParams.h
+|| || |         HydroTimeser.h
+|| || |
+|| || |~ check for maximum basin flood exceedance, loop back if necessary
+|| || |
+|| || |~ end flood excedance while loop
+|| ||
+|| ||--- HydroSedload.c	Calculates the sediment load (suspended and 
+|| ||    |			bedload) discharging from the river mouth 
+|| ||    |			for each day with the Psi model.
+|| ||    |<-- math.h
+|| ||         HydroClimate.h
+|| ||         HydroInout.h
+|| ||         HydroParams.h
+|| ||         HydroTimeser.h
+|| ||
+|| ||--- HydroOutput.c	Output the Binary Hydro.dis file
+|| ||    |			Composed of a header, and v,w,d,Qb,Csi
+|| ||    |<-- string.h
+|| ||         HydroClimate.h
+|| ||         HydroInout.h
+|| ||         HydroParams.h
+|| ||         HydroTimeser.h
+|| ||
+|| ||--- HydroPrintTable.c	Writes annual stats and daily data to a file
+|| ||    |<-- HydroClimate.h
+|| ||         HydroInout.h
+|| ||         HydroParams.h
+|| ||         HydroTimeser.h
+|| ||
+|| ||--- HydroPrintAnnual.c	Writes to the annual trend files
+|| ||    |<-- HydroClimate.h
+|| ||         HydroInout.h
+|| ||         HydroParams.h
+|| ||         HydroTimeser.h
+|| ||
+|| ||~ random number generator check, if it created enough numbers.
+|| ||
+|| ||~ end of the year loop
+|| |
+|| |~ Calculating Qbar
+|| |
+|| |~ end of calculating Qbar and Qsbar loop
+||
+||
+||~ Set variables for summary statistic report
+||  Free allocated memory
+||
+||~ end of the epoch loop
+|
+|~ print the program stop time
+|  close all the data files
+|
+|---HydroSwap.c Writes a second binary file, with swabbed bit order.
+|   |<--- HydroClimate.h
+|   |     HydroInout.h
+|   |     HydroParams.h
+|   |     HydroTimeser.h
+|
+|~ Web option; calls a cgi script to email the
+|  user back that run is finished.
+|
+end
+    
+--- Hydrofunct.c is not included in the program structure. It contains functions
+    which are used by the verious sub programs.
+    
