@@ -1,0 +1,15 @@
+hydroDEMsaveline.o : \
+ hydroDEMsaveline.c /usr/include/stdio.h \
+ /usr/include/_ansi.h /usr/include/sys/config.h \
+ /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stddef.h \
+ /usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stdarg.h \
+ /usr/include/sys/reent.h /usr/include/sys/_types.h hydroDEMsaveline.h
+hydroDEMsaveline.c :
+/usr/include/stdio.h :
+/usr/include/_ansi.h :
+/usr/include/sys/config.h :
+/usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stddef.h :
+/usr/lib/gcc-lib/i686-pc-cygwin/2.95.3-5/include/stdarg.h :
+/usr/include/sys/reent.h :
+/usr/include/sys/_types.h :
+hydroDEMsaveline.h :

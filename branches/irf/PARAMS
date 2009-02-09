@@ -1,0 +1,103 @@
+
+/*
+ *
+ * Variable		Def.Location	Type	Units	Usage
+ * --------		------------	----	-----	-----
+ *
+ * alphag[]		HydroParams.h	double	m/day	ground precipitation coefficient
+ * alphagwe[]	HydroParams.h	double	m/day	groundwater evaporation coefficient
+ * alphass[]	HydroParams.h	double	m^3/s	subsurface storm flow coefficient
+ * anglerep[]	HydroParams.h	double	deg	angle of repose for bed grains
+ * areabins[]	HydroParams.h	double	m^2	area bins, (see elevbins, elevbinsize)
+ * avgvel[]		HydroParams.h	double	m/s	average river velocity
+ * basinlength[]	HydroParams.h	double	m	river basin length
+ * betag[]		HydroParams.h	double	-	ground precipitation exponent
+ * betagwe[]	HydroParams.h	double	-	groundwater evaporation exponent
+ * betass[]		HydroParams.h	double	kg/s	subsurface storm flow exponent (b+1)
+ * bigg[]		HydroParams.h	double	m^2	glaciated area below the ELA
+ * dTOs		HydroParams.h	define	-	days to seconds (s/day) = 86400 = 60*60*24
+ * degTOr		HydroParams.h	define	-	convert degrees to radians = 2*PI/360
+ * depcof[]		HydroParams.h	double	%	river mouth depth exponent
+ * deppow[]		HydroParams.h	double	%	river mouth depth coefficient
+ * distbins		HydroParams.h	int		days	derived days to discharge bins, (see areabins, elevbinsize)
+ * dryevap[]	HydroParams.h	double	%	percentage of nival and ice flow that evaporates
+ * ela		HydroParams.h	double	m	actual glacial equilibrium line altitude
+ * ELAindex		HydroParams.h	int		m	glacial equilibrium line altitude index for elevbins
+ * elevbins[]	HydroParams.h	double	m	elevation bins, (see areabins, elevbinsize)
+ * elevbinsize	HydroParams.h	define	-	elevation bin size (m)
+ * ep			HydroParams.h	int		-	actual epoch being processed, counted in hydrotrend.c
+ * exceedflood	HydroParams.h	int		-	flag to indicate if maxflood was exceeded
+ * FLAflag		HydroParams.h	define	-	Flag indicating no freezing on that day
+ * floodtry		HydroParams.h	int		-	loop counter to retry and not exceed maxflood
+ * Gmass		HydroParams.h	double	m^3	Change in glacial mass for this year
+ * grainpct[][]	HydroParams.h	double	%	percentage of each grain size
+ * grv		HydroParams.h	define	-	acceleration due to gravity (m/s^2) = 9.806194
+ * gwinitial	HydroParams.h	double	m^3	actual groundwater storage on the first model day
+ * gwlast		HydroParams.h	double	m^3	groundwater storage on the last day of the previous year
+ * gwmax[]		HydroParams.h	double	m^3	maximum size of the groundwater pool
+ * gwmin[]		HydroParams.h	double	m^3	minimum size of the groundwater pool
+ * hypsarea[]
+ * hypselev[]
+ * maxhyps
+ * hypsmodel[2]	HydroParams.h	char		-	hypsometeric model type (f = power function, d = digitized)
+ * hypspow[]	HydroParams.h	double	-	hypsometric power function exponent 
+ * km2TOm2		HydroParams.h	define	-	km^2 to m^2 (m^2/km^2) = 1e6
+ * Ko[]		HydroParams.h	double	m/day	saturated hydraulic cond
+ * lastarea		HydroParams.h	double	m^2	previous years glaciated area
+ * lastela		HydroParams.h	double	m	previous years ELA
+ * masscheck	HydroParams.h	define	%	mass balance error limit
+ * maxalt[]		HydroParams.h	double	m	maximum basin altitude
+ * maxepoch		HydroParams.h	define	-	maximum number of epochs to run
+ * maxerr		HydroParams.h	double	m^3	maximum mass balance error
+ * maxflood		HydroParams.h	double	m^3/s	maximum theoretical flood for a given basin
+ * maxgrn		HydroParams.h	define	-	maximum number of grain sizes to simulate
+ * maxran		HydroParams.h	define	-	number of random deviates to calculate
+ * Meltrate[]	HydroParams.h	double	m/degC	snow melt rate	
+ * mn(a,b)		HydroParams.h	define	-	function to find the minimum of a and b
+ * mx(a,b)		HydroParams.h	define	-	function to find the maximum of a and b
+ * MPglacial	HydroParams.h	double	m^3/a	Mass of precip as glacial/year
+ * MPnival		HydroParams.h	double	m^3/a	Mass of precip as nival/year
+ * MPrain		HydroParams.h	double	m^3/a	Mass of precip as rain/year
+ * Msnowend		HydroParams.h	double	m^3	Snow in the basin at the end of a year
+ * Msnowstart	HydroParams.h	double	m^3	Snow in the basin at the start of a year
+ * nepochs		HydroParams.h	int		-	number of epochs to run
+ * ngrain		HydroParams.h	int		-	number of grain sizes to simulate
+ * nhypts		HydroParams.h	int		-	number of digitized hypsometric integral points
+ * nran		HydroParams.h	int		-	counter for ranarray 
+ * nyears[]		HydroParams.h	int		-	number of years to run each epoch
+ * omega		HydroParams.h	define	-	angular rotation rate of the earth = 2*PI/86164 
+ * omega								(1/s), 86164s/sidereal day, 86400s/solar day
+ * pcr[]		HydroParams.h	double	m/day	critical precipitation for infiltration excess
+ * percentgw[]	HydroParams.h	double	%	percentage of nival and ice flow that goes to groundwater
+ * PI			HydroParams.h	define	-	pi = 3.1415926535
+ * pmax[]		HydroParams.h	double	m/day	precipitation required to reach max. hydraulic cond.
+ * prlake[]		HydroParams.h	double	%	percentage of the basin covered by lakes
+ * rTOdeg		HydroParams.h	define	-	convert radians to degrees = 360/(2*PI)
+ * ranarray[]	HydroParams.h	double	-	array of normally distributed random numbers
+ * rhosed[]		HydroParams.h	double	kg/m^3	density of the sediment
+ * rhowater[]	HydroParams.h	double	kg/m^3	density of the river water
+ * rnd(a)		HydroParams.h	define	-	function to round a double
+ * rndf(a)		HydroParams.h	define	-	function to round a float
+ * rnseed		HydroParams.h	int		-	random number seed to initialize the generator
+ * rslope[]		HydroParams.h	double	deg	average slope of the river
+ * smallg[]		HydroParams.h	double	m^2	glaciated area above the ELA
+ * sq(a)		HydroParams.h	define	-	function to square a
+ * sqpi		HydroParams.h	define	-	sqrt(PI) = 1.772453851
+ * sqtwo		HydroParams.h	define	-	sqrt(2) = 1.414213562
+ * syear[]		HydroParams.h	int		a	start year of each epoch
+ * tblend[]		HydroParams.h	int		a	year to end writing output to the table file
+ * tblstart[]	HydroParams.h	int		a	year to start writing output to the table file
+ * threshbed[]	HydroParams.h	double	m^3/s	threshold discharge for bedload transport
+ * timestep[2]	HydroParams.h	char		-	output timestep of model results (day, month, season, year)
+ * TMLEN		HydroParams.h	define	-	length of the time stamp
+ * totalarea[]	HydroParams.h	double	m^2	total basin area
+ * totalmass	HydroParams.h	double	m^3	Total mass put into the basin
+ * trneff[]		HydroParams.h	double	-	bedload transport effeciency
+ * velcof[]		HydroParams.h	double	%	river mouth velocity exponent
+ * velpow[]		HydroParams.h	double	%	river mouth velocity coefficient
+ * widcof[]		HydroParams.h	double	%	river mouth width exponent
+ * widpow[]		HydroParams.h	double	%	river mouth width coefficient
+ * yr			HydroParams.h	int		-	actual year being processed, counted in hydrotrend.c
+ *
+ */
+
