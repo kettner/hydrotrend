@@ -1,9 +1,9 @@
-AC_INIT(hydrotrend.c)
+AC_INIT(hydrotrend_main.c)
 
-PROGRAM=hydrotrend
-VERSION=3.0
+#PROGRAM=hydrotrend
+#VERSION=3.0.5
 
-AM_INIT_AUTOMAKE(hydrotrend,3.0)
+AM_INIT_AUTOMAKE(hydrotrend,3.0.5)
 
 AC_PROG_CC
 AC_PROG_CPP
@@ -12,17 +12,34 @@ AC_PROG_LN_S
 
 AC_PATH_PROG(KSH,ksh,/sbin/ksh,$PATH:/sbin:/usr/sbin:/usr/bin:/usr/local/bin)
 
+AC_CHECK_PROGS(UNAME,uname)
+if test x$UNAME != x ; then
+   ARCH_NAME=`uname -s`-`uname -p`
+else
+   ARCH_NAME="Unknown"
+fi
+
 AC_CHECK_LIB(m, main)
 
 AC_SUBST(KSH)
 AC_SUBST(CFLAGS)
 AC_SUBST(PROGRAM)
 AC_SUBST(VERSION)
-##AC_SUBST(SUBDIRS)
 
 AM_PROG_CC_STDC
 
-AC_MSG_RESULT($CFLAGS)
-
 AC_OUTPUT(Makefile)
 
+echo \
+"------------------------------------------------------------------------
+Configuration:
+
+  Source code location:       ${srcdir}
+  Compiler:                   ${CC}
+  Compiler flags:             ${CFLAGS}
+  Host System Type:           ${ARCH_NAME}
+  Installation architecture:  ${DPKG_ARCHITECTURE}
+  Install path:               ${prefix}
+
+  See config.h for further configuration information.
+------------------------------------------------------------------------"
