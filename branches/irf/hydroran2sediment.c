@@ -19,10 +19,11 @@
  *	--------		------------	----		-----	-----
  *
  *-------------------------------------------------------------------------------------------*/
-
+   
+  
 #include <math.h>
 #include "hydroparams.h"
-
+  
 #define	IM1	2147483563
 #define	IM2	2147483399
 #define	AM	(1.0/IM1)
@@ -37,57 +38,70 @@
 #define	NDIV	(1+IMM1/NTAB)
 #define	EPS	1.2e-7
 #define	RNMX	(1.0-EPS)
-
-
+  
 #include <stdio.h>
-
+  
 /*------------------------
  *  Start of HydroRan2sediment.c
- *------------------------*/
-float hydroran2sediment(long *idum)
+ *------------------------*/ 
+  float
+hydroran2sediment (long *idum) 
 {
-
+  
 /*-------------------
  *  Local Variables
- *-------------------*/
-int jj;
-long kk;
-static long idum2=123456789;
-static long iy=0;
-static long iv[NTAB];
-float temp;
-
+ *-------------------*/ 
+  int jj;
+  long kk;
+  static long idum2 = 123456789;
+  static long iy = 0;
+  static long iv[NTAB];
+  float temp;
+  
 /*----------------------------
  *  Initialize the generator
- *----------------------------*/
-if (*idum <= 0) {
-    if( -(*idum) < 1 ) *idum = 1;	  /* prevent idum = 0 */
-    else *idum = -(*idum);
-    idum2=(*idum);
-    for (jj=NTAB+7; jj>=0; jj--) {	  /* load the shuffle table */
-         kk=(*idum)/IQ1;
-         *idum=IA1*(*idum-kk*IQ1)-kk*IR1;
-         if( *idum < 0 ) *idum += IM1;
-         if( jj < NTAB ) iv[jj] = *idum;
-    }
-    iy = iv[0];
-}
-
+ *----------------------------*/ 
+    if (*idum <= 0)
+    {
+      if (-(*idum) < 1)
+        *idum = 1;              /* prevent idum = 0 */
+      
+      else
+        *idum = -(*idum);
+      idum2 = (*idum);
+      for (jj = NTAB + 7; jj >= 0; jj--)
+        {                       /* load the shuffle table */
+          kk = (*idum) / IQ1;
+          *idum = IA1 * (*idum - kk * IQ1) - kk * IR1;
+          if (*idum < 0)
+            *idum += IM1;
+          if (jj < NTAB)
+            iv[jj] = *idum;
+        }
+      iy = iv[0];
+    }
+  
 /*-----------------------
  *  Start the generator
- *-----------------------*/
-kk = (*idum)/IQ1;
-*idum = IA1*(*idum-kk*IQ1)-kk*IR1;
-if (*idum < 0) *idum += IM1;
-kk = idum2/IQ2;
-idum2 = IA2*(idum2-kk*IQ2)-kk*IR2;
-if (idum2 < 0) idum2 += IM2;
-jj=iy/NDIV;
-iy = iv[jj]-idum2;
-iv[jj] = *idum;
-if (iy < 1) iy += IMM1;
-if ((temp=AM*iy) > RNMX) return RNMX;
-else return temp;
+ *-----------------------*/ 
+    kk = (*idum) / IQ1;
+  *idum = IA1 * (*idum - kk * IQ1) - kk * IR1;
+  if (*idum < 0)
+    *idum += IM1;
+  kk = idum2 / IQ2;
+  idum2 = IA2 * (idum2 - kk * IQ2) - kk * IR2;
+  if (idum2 < 0)
+    idum2 += IM2;
+  jj = iy / NDIV;
+  iy = iv[jj] - idum2;
+  iv[jj] = *idum;
+  if (iy < 1)
+    iy += IMM1;
+  if ((temp = AM * iy) > RNMX)
+    return RNMX;
+  
+  else
+    return temp;
+}                             /* end of HydroRan2Sediment.c */
 
-}  /* end of HydroRan2Sediment.c */
-
+

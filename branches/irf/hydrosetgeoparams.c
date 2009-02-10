@@ -68,115 +68,138 @@
  *  Tmean		HydroSetGeoParams.c	double	deg.C	Mean temp. not corrected for the whole basin yet.
  * 
  *-------------------------------------------------------------------------------------------*/
-
+   
+  
 #include "hydroparams.h"
 #include "hydroclimate.h"
 #include "hydroreadclimate.h"
 #include "hydroinout.h"
-
+  
 /*------------------------------
  *  Start of HydroSetGeoParams
- *------------------------------*/
-int hydrosetgeoparams( gw_rainfall_etc* gw_rain ) {
-int err,i, kk;
-double Tend, Tmean, Tbar,Tdummy;
-
+ *------------------------------*/ 
+  int
+hydrosetgeoparams (gw_rainfall_etc * gw_rain)
+{
+  int err, i, kk;
+  double Tend, Tmean, Tbar, Tdummy;
+  
 /*----------------------------------------------------------------
  * Set all the constants of the Qsbar
  * (Qsbar = alpha3 * pow(A,alpha4) * pow(H,alpha5) * exp(k * Tbar)
- *----------------------------------------------------------------*/
-err = 0;
-Tbar = 0.0;
+ *----------------------------------------------------------------*/ 
+    err = 0;
+  Tbar = 0.0;
+  if (raindatafile == 1)
+    {
+      Tdummy = 0.0;
+      for (i = 0; i < nyears[ep]; i++)
+        Tdummy += gw_rain->Tperyear[i];
+      Tmean = Tdummy / nyears[ep];
+    }
+  
+  else
+    {
+      Tend = Tstart[ep] + (Tchange[ep] * nyears[ep]);
+      Tmean = (Tstart[ep] + Tend) / 2;
+    }
+  for (kk = 0; kk < nhypts; kk++)
+    {
+      if (kk == 0)
+        Tbar +=
+          (Tmean -
+           (((hypselev[kk] -
+              hypselev[0])) * lapserate[ep])) * (hypsarea[kk] / totalarea);
+      
+      else
+        Tbar +=
+          (Tmean -
+           (((hypselev[kk] - hypselev[0])) * lapserate[ep])) * ((hypsarea[kk] -
+                                                                 hypsarea[kk -
+                                                                          1]) /
+                                                                totalarea);
+    }
+  if (lat > 30 && Tbar > 0)
+    {                           /* Temperate North */
+      alpha3 = 0.000061;
+      alpha4 = 0.55;
+      alpha5 = 1.12;
+      k1 = 0.07;
+    }
+  if ((lat > 0 || lat == 0) && lat < 30 && Tbar > 0)
+    {                           /* Tropics North */
+      alpha3 = 0.31;
+      alpha4 = 0.40;
+      alpha5 = 0.66;
+      k1 = -0.1;
+    }
+  if ((lat >= -30) && lat < 0 && Tbar > 0)
+    {                           /* Tropics South */
+      alpha3 = 0.57;
+      alpha4 = 0.50;
+      alpha5 = 0.37;
+      k1 = -0.1;
+    }
+  if (lat < -30 && Tbar > 0)
+    {                           /* Temperate South */
+      alpha3 = 0.0013;
+      alpha4 = 0.43;
+      alpha5 = 0.96;
+      k1 = 0.0;
+    }
+  if (Tbar <= 0.0)
+    {                           /* Polar; South or North */
+      alpha3 = 0.00002;
+      alpha4 = 0.50;
+      alpha5 = 1.50;
+      k1 = 0.1;
+    }
+  if (lat > 30 && Tbar > 0)
+    {                           /* Temperate North */
+      alpha6 = 0.0011;
+      alpha7 = 0.53;
+      alpha8 = 1.1;
+      k2 = 0.06;
+    }
+  if ((lat >= 0.0) && lat < 30 && Tbar > 0)
+    {                           /* Tropics North */
+      alpha6 = 2.0;
+      alpha7 = 0.45;
+      alpha8 = 0.57;
+      k2 = -0.09;
+    }
+  if ((lat >= -30) && lat < 0 && Tbar > 0)
+    {                           /* Tropics South */
+      alpha6 = 162;
+      alpha7 = 0.65;
+      alpha8 = -0.05;
+      k2 = -0.16;
+    }
+  if (lat < -30 && Tbar > 0)
+    {                           /* Temperate South */
+      alpha6 = 0.0011;
+      alpha7 = 0.53;
+      alpha8 = 1.1;
+      k2 = 0.06;
+    }
+  if (Tbar <= 0.0)
+    {                           /* Polar; South or North */
+      alpha6 = 0.00013;
+      alpha7 = 0.55;
+      alpha8 = 1.50;
+      k2 = 0.1;
+    }
+  if (lat > 30 && Tbar < 0.0)
+    {                           /* Temperate North exception */
+      alpha6 = 0.0011;
+      alpha7 = 0.53;
+      alpha8 = 1.1;
+      k2 = 0.06;
+    }
+  alpha9 = 0.02;
+  alpha10 = 0.31;
+  alpha11 = 0.50;
+  return (err);
+}                              /* end of HydroSetGeoParams.c */
 
-if ( raindatafile == 1){
-	Tdummy = 0.0;
-	for (i=0; i<nyears[ep]; i++)
-		Tdummy +=gw_rain->Tperyear[i];
-	Tmean = Tdummy / nyears[ep];
-}
-
-else {
-	Tend		= Tstart[ep] + ( Tchange[ep] * nyears[ep] );
-	Tmean		= ( Tstart[ep] + Tend ) / 2;
-}	
-	for (kk=0; kk<nhypts;kk++){
-		if (kk == 0)
-		Tbar += (Tmean - (((hypselev[kk] - hypselev[0]))* lapserate[ep]))*(hypsarea[kk]/ totalarea);		
-		else 
-		Tbar += (Tmean - (((hypselev[kk] - hypselev[0]))* lapserate[ep]))*((hypsarea[kk] - hypsarea[kk-1])/ totalarea);
-	}
-
-   	if (lat > 30 && Tbar > 0){                                /* Temperate North */
-       	alpha3 = 0.000061;
-   	    alpha4 = 0.55;
-    	alpha5 =  1.12;
-       	k1 = 0.07;
-    }   
-   	if ((lat > 0 || lat == 0) && lat < 30 && Tbar > 0){       /* Tropics North */
-        alpha3 = 0.31;
-   	    alpha4 = 0.40;
-       	alpha5 =  0.66;
-        k1 = -0.1;
-   	}
-    if ((lat >= -30 ) && lat < 0 && Tbar > 0){    /* Tropics South */
-   	    alpha3 = 0.57;
-       	alpha4 = 0.50;
-        alpha5 =  0.37;
-   	    k1 = -0.1;
-    }
-   	if (lat < -30 && Tbar > 0){                               /* Temperate South */
-        alpha3 = 0.0013;
-   	    alpha4 = 0.43;
-       	alpha5 =  0.96;
-        k1 = 0.0;
-   	}
-    if (Tbar <= 0.0 ){                         /* Polar; South or North */
-   	    alpha3 = 0.00002;
-       	alpha4 = 0.50;
-        alpha5 =  1.50;
-   	    k1 = 0.1;
-    }   	
-   	if (lat > 30 && Tbar > 0){                                /* Temperate North */
-       	alpha6 = 0.0011;
-        alpha7 = 0.53;
-   	    alpha8 =  1.1;
-       	k2 = 0.06;
-    }
-   	if ((lat >= 0.0) && lat < 30 && Tbar > 0){       /* Tropics North */
-        alpha6 = 2.0;
-   	    alpha7 = 0.45;
-       	alpha8 =  0.57;
-        k2 = -0.09;
-   	}
-    if ((lat >= -30 ) && lat < 0 && Tbar > 0){    /* Tropics South */
-   	    alpha6 = 162;
-       	alpha7 = 0.65;
-        alpha8 =  -0.05;
-   	    k2 = -0.16;
-    }
-   	if (lat < -30 && Tbar > 0){                               /* Temperate South */
-        alpha6 = 0.0011;
-   	    alpha7 = 0.53;
-       	alpha8 =  1.1;
-        k2 = 0.06;
-   	}
-    if ( Tbar <= 0.0){                         /* Polar; South or North */
-   	    alpha6 = 0.00013;
-       	alpha7 = 0.55;
-        alpha8 =  1.50;
-   	    k2 = 0.1;
-    }
-   	if (lat > 30 && Tbar < 0.0 ){                                /* Temperate North exception*/
-     	alpha6 = 0.0011;
-        alpha7 = 0.53;
-   	    alpha8 =  1.1;
-       	k2 = 0.06;
-    }
-    alpha9 = 0.02;
-    alpha10 = 0.31;  
-    alpha11 = 0.50;       
-return(err);
-} /* end of HydroSetGeoParams.c */
-
-
-
+

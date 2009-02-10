@@ -19,8 +19,8 @@
  * k			Read_Rainfall_Etc	int			-
  * line[200]	Read_Rainfall_Etc	char		-
  * n			Read_Rainfall_Etc	long		-		counter for the number of years
- */
-
+ */  
+  
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,24 +31,24 @@
 #include "hydroreadevaporation.h"
 #include "hydrotimeser.h"
 #include "hydroclimate.h"
-
+  
 /*---------------------------
  *  Start of HydroReadInput
- *---------------------------*/
-int hydroreadevaporation() {
-
+ *---------------------------*/ 
+  int
+hydroreadevaporation ()
+{
+  
 /*-------------------
  *  Local Variables
- *-------------------*/
-int k,err;
-
+ *-------------------*/ 
+  int k, err;
+  
 /*-----------------------
  *  Set local Variables
- *-----------------------*/
-err=0;
+ *-----------------------*/ 
+    err = 0;
+  return;
+}                              /* end Read_Evaporation */
 
-
-    return;
-}  /* end Read_Evaporation */
-  
-
+
