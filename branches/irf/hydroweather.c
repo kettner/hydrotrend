@@ -258,7 +258,6 @@ anneal (double *x, int n, Cost_fcn * f, int cost_min, int jj)
   return x;
 }
 
-
 /* FUNCTION EH_GET_FUZZY_INT */
 int
 eh_get_fuzzy_int (int y, int z, int jj, int count)
@@ -285,7 +284,6 @@ eh_get_fuzzy_int (int y, int z, int jj, int count)
   x = x * (z - y) + y;
   return (int) (x + .5);
 }
-
 
 /* FUNCTION Cost_fcn */
 int

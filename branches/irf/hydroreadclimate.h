@@ -9,8 +9,7 @@
  *	--------		------------	----		-----	-----
  * 
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #ifndef HYDROREADCLIMATE_H_
 #define HYDROREADCLIMATE_H_
   typedef struct
@@ -20,5 +19,5 @@
    double **T, *Tperyear;
  } gw_rainfall_etc;
 
-#endif  /*  */
+#endif /*  */
   

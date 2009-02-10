@@ -149,7 +149,6 @@ hydroran2 (long *idum)
 
 }                               /* end of HydroRan2.c */
 
-
 /*------------------------
  *  Start of HydroRan3.c
  *------------------------*/
@@ -210,7 +209,6 @@ hydroran3 (long *idumb)
 
 }                               /* end of HydroRan3.c */
 
-
 /*------------------------
  *  Start of HydroRan4.c
  *------------------------*/
@@ -270,7 +268,6 @@ hydroran4 (long *idumc)
     return temp3;
 
 }                               /* end of HydroRan4.c */
-
 
 /*------------------------
  *  Start of HydroRan5.c

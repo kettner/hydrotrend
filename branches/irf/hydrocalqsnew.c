@@ -13,8 +13,7 @@
  *  Qsgrandtotaloutlettot Hydrocalqsnew.c double kg/s total Qs of all outlets
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include <stdio.h>
 #include "hydroparams.h"
 #include "hydrotimeser.h"

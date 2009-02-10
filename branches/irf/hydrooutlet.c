@@ -14,8 +14,7 @@
  *  5) HydroFreeMemOutlet
  * 
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include <math.h>
 #include "hydroclimate.h"
 #include "hydroinout.h"

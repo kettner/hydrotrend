@@ -26,8 +26,7 @@
  * wid[]		HydroOutput.c	float	m		river width
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include <string.h>
 #include "hydroclimate.h"
 #include "hydroparams.h"

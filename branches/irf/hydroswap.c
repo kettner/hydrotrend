@@ -20,8 +20,7 @@
  * dataWord             HydroSwap.c     char    -       Holding byte info of each byte in a lope
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

@@ -22,8 +22,7 @@
  * n			Read_Rainfall_Etc	long		-		counter for the number of years
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -167,6 +166,7 @@ Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
                 {
                   fgets (line, sizeof (line), fidinputgw_r);
                   count = sscanf (line, "%lf %lf", &dummyR, &dummyT);
+                  printf ("%lf, %lf\n", dummyR, dummyT);
                   if (count != 2)
                     {
                       n = (n + 1) * (k + 1) * (i + 1);
@@ -181,12 +181,12 @@ Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
                       fprintf (stderr, "    program aborted \n");
                       exit (-1);
                     }
-                  if (dummyR < 0.0 || dummyR > 1000.0)
+                  if (dummyR < 0.0 || dummyR > 2000.0)
                     {
                       fprintf (stderr, "  HydroReadclimate.c ERROR:\n");
                       fprintf (stderr,
                                 "    Precipitation data out of range,\n");
-                      fprintf (stderr, "    ppt is 1000.0 < %f < 0.0\n ",
+                      fprintf (stderr, "    ppt is 2000.0 < %f < 0.0\n ",
                                 dummyR);
                       fprintf (stderr, "    program aborted \n");
                       exit (-1);

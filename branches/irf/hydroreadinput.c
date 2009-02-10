@@ -16,8 +16,7 @@
  * 	jj			various				int		-		temporary loop counter
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include <string.h>
 #include "hydroclimate.h"
 #include "hydroinout.h"
@@ -38,7 +37,7 @@ hydroreadinput ()
  *-------------------*/ 
   char chs[150], dumchr[2];
   int jj, err, dumint, totyears, k;
-  double dumdbl;
+  double dumdbl, evapotranspiration;
   char dummyx;
   
 /*------------------------
@@ -58,8 +57,9 @@ hydroreadinput ()
                 fnameinput);
       fprintf (stderr, "    Make sure the input file name is HYDRO.IN\n");
       fprintf (stderr, "    program aborted \n");
-      exit (1);
-    }
+      
+//    exit(1);
+    }
   
 /*---------------------------------------
  *  1) Read in title of first epoch (-)
@@ -235,11 +235,36 @@ hydroreadinput ()
         fscanf (fidinput, "%lf ", &dryevap[ep]);
       fgets (chs, 150, fidinput);
       
+   /*-------------------------------------------------------------------
+    *  27a) Read the canopy interception coefficients (mm/d)(-)
+    *-------------------------------------------------------------------*/ 
+        fscanf (fidinput, "%lf %lf ", &alphag[ep], &betag[ep]);
+      alphag[ep] /= 1000;
+      fgets (chs, 150, fidinput);
+      
+   /*-------------------------------------------------------------------
+    *  27b) Read the evapotranspiration coefficient(alphagwe[ep](mm/day))
+	*       Read the evapotransiration coefficient (betagwe[ep](-))
+    *-------------------------------------------------------------------*/ 
+        fscanf (fidinput, "%lf %lf ", &alphagwe[ep], &betagwe[ep]);
+      alphagwe[ep] /= 1000;
+      fgets (chs, 150, fidinput);
+      
    /*----------------------------------------------
     *  28) Read river bed average slope (m/m)
     *----------------------------------------------*/ 
         fscanf (fidinput, "%lf ", &rslope[ep]);
       fgets (chs, 150, fidinput);
+      
+        /*----------------------------------------------
+	 *  28a) Read bedload rating term (-)
+	 *----------------------------------------------*/ 
+        fscanf (fidinput, "%lf ", &alphabed[ep]);
+      fgets (chs, 150, fidinput);
+      if (alphabed[ep] == -9999)
+        {
+          alphabed[ep] = 1.0;
+        }
       
    /*-------------------------------------
     *  29) Read basin length ( km -> m )

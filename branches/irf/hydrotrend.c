@@ -492,7 +492,7 @@ main (int argc, char **argv)
     *---------------------------------------------------------*/ 
             if (verbose)
             printf ("  Epoch = %d \n", ep + 1);
-          logarea = log10 (totalarea / 1e6);
+          logarea = log10 (totalarea[ep] / 1e6);
           maxflood =
             pow (10.0, (2.084 + 0.865 * logarea - 0.07 * sq (logarea)));
           
@@ -1080,10 +1080,10 @@ main (int argc, char **argv)
                 "nr\tnr\t(m^3/s)\t(kg/s)\t(%%)\t\t(m^3/s)\t (%%)   (%%)\n\n");
       fprintf (stderr,
                 "Basin area                           = %.2f  (km^2) \n",
-                totalarea / 1e6);
+                totalarea[ep] / 1e6);
       fprintf (stderr,
                 "Basin relief                         = %.2f  (m) \n\n\n",
-                maxalt);
+                maxalt[ep]);
     }
   fprintf (fidlog, "\n\nSTATISTICS PER EPOCH PER OUTLET\n");
   fprintf (fidlog,
@@ -1110,10 +1110,10 @@ main (int argc, char **argv)
                 "nr\tnr\t(m^3/s)\t(kg/s)\t(%%)\t\t(m^3/s)\t (%%)   (%%)\n\n");
       fprintf (fidlog,
                 "Basin area                           = %.2f  (km^2) \n",
-                totalarea / 1e6);
+                totalarea[ep] / 1e6);
       fprintf (fidlog,
                 "Basin relief                         = %.2f  (m) \n\n\n",
-                maxalt);
+                maxalt[ep]);
     }
   
 /*-------------------

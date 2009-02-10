@@ -9,37 +9,37 @@
  *	--------		------------	----		-----	-----
  *
  *-------------------------------------------------------------------------------------------*/
- 
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "hydroinout.h"
-#include "hydroparams.h"       /* includes <stdio.h> */
+#include "hydroparams.h"        /* includes <stdio.h> */
 #include "hydroalloc_mem.h"
-  
+
 /*----------------------------
  *  Start of HydroReadHypsom
- *----------------------------*/ 
-  int
-hydroreadhypsom () 
+ *----------------------------*/
+int
+hydroreadhypsom ()
 {
-  
+
 /*-------------------
  *  Local Variables
- *-------------------*/ 
+ *-------------------*/
   double dumdbl, dummyelev, adjusttosealevel, binerror;
   int dumint, err, kk, i, k, ep;
   char chs[120], dummystring[100];
-  
+
 /*------------------------
  *  Initialize Variables
- *------------------------*/ 
-    err = 0;
-  
+ *------------------------*/
+  err = 0;
+
 /*-----------------------
  *  Open the input file
- *-----------------------*/ 
-    fidhyps = allocate_1d_F (nepochs);
+ *-----------------------*/
+  fidhyps = allocate_1d_F (nepochs);
   for (ep = 0; ep < nepochs; ep++)
     {
       sprintf (dummystring, "%s%d", fnamehyps, ep);
@@ -48,26 +48,26 @@ hydroreadhypsom ()
       if ((fidhyps[ep] = fopen (ffnamehyps, "r")) == NULL)
         {
           fprintf (stderr,
-                    "  openfiles ERROR: Unable to open the hypsometeric integral data file %s \n",
-                    ffnamehyps);
+                   "  openfiles ERROR: Unable to open the hypsometeric integral data file %s \n",
+                   ffnamehyps);
           fprintf (stderr,
-                    "    Make sure the input file name is all in capitals\n");
+                   "    Make sure the input file name is all in capitals\n");
           fprintf (stderr, "    program aborted \n");
           exit (1);
         }
     }
-  
+
 /*------------------------
  *  Take off file header
- *------------------------*/ 
-    for (ep = 0; ep < nepochs; ep++)
+ *------------------------*/
+  for (ep = 0; ep < nepochs; ep++)
     for (k = 0; k < 5; k++)
       fgets (chs, 120, fidhyps[ep]);
-  
+
 /*------------------
  *  Alocate memory
- *------------------*/ 
-    hypsarea = (double **) malloc ((nepochs) * sizeof (double *));
+ *------------------*/
+  hypsarea = (double **) malloc ((nepochs) * sizeof (double *));
   if (!hypsarea)
     {
       perror ("HYDROTREND ERROR; hydroreadhypsom.c\n");
@@ -79,11 +79,11 @@ hydroreadhypsom ()
       perror ("HYDROTREND ERROR; hydroreadhypsom.c\n");
       exit (-1);
     }
-  
+
 /*--------------------------------------------
  *  Read the hypsometric data for each epoch
- *--------------------------------------------*/ 
-    k = -1;
+ *--------------------------------------------*/
+  k = -1;
   for (i = 0; i < nepochs; i++)
     {
       adjusttosealevel = 0.0;
@@ -115,12 +115,12 @@ hydroreadhypsom ()
               if (kk == 0 && dummyelev < 0.0)
                 adjusttosealevel = dummyelev;
               hypselev[i][kk] = dummyelev - adjusttosealevel;
-              hypsarea[i][kk] = dumdbl * 1e6;  /* Convert km^2 to m^2 */
-              
+              hypsarea[i][kk] = dumdbl * 1e6;   /* Convert km^2 to m^2 */
+
            /*-----------------------------------------------------
             *  Make sure the elevation bin size are all the same
-            *-----------------------------------------------------*/ 
-                if (kk == 1)
+            *-----------------------------------------------------*/
+              if (kk == 1)
                 elevbinsize = hypselev[i][kk] - hypselev[i][kk - 1];
               if (kk > 0)
                 {
@@ -129,8 +129,8 @@ hydroreadhypsom ()
                   if (fabs (binerror) > masscheck)
                     {
                       printf ("%lf, %lf, %lf, %lf\n", elevbinsize,
-                               hypselev[i][kk], hypselev[i][kk - 1],
-                               hypselev[i][kk] - hypselev[i][kk - 1]);
+                              hypselev[i][kk], hypselev[i][kk - 1],
+                              hypselev[i][kk] - hypselev[i][kk - 1]);
                       printf ("\nhydrotrend ERROR; hydroreadhypsom.c\n");
                       printf
                         ("   The elevation bin size is not equal in the hypsometry file\n");
@@ -146,69 +146,69 @@ hydroreadhypsom ()
             }
           fgets (chs, 120, fidhyps[i]);
         }
-      
+
       else
         i = nepochs;
       k++;
     }
-  
+
 /*------------------
  *  Close the file
- *------------------*/ 
-    for (i = 0; i < nepochs; i++)
+ *------------------*/
+  for (i = 0; i < nepochs; i++)
     {
       fclose (fidhyps[i]);
-      
+
 /*----------------------------------------------------------
  *  Warning messages if nepochs != nr. of hyps. data files
- *----------------------------------------------------------*/ 
-        if (k == 0 && nepochs > 1)
+ *----------------------------------------------------------*/
+      if (k == 0 && nepochs > 1)
         {
           fprintf (stderr, "\n WARNING in HydroReadHypsom: \n");
           fprintf (stderr,
-                    "    Hydrotrend found only 1 hypsometric data file for  \n");
+                   "    Hydrotrend found only 1 hypsometric data file for  \n");
           fprintf (stderr, "    multiple Epochs. \n");
           fprintf (stderr,
-                    "    The original hypsometric data file will be used for ALL \n");
+                   "    The original hypsometric data file will be used for ALL \n");
           fprintf (stderr,
-                    "    epochs.  Changes in maximum elevation (or sealevel) may cause\n");
+                   "    epochs.  Changes in maximum elevation (or sealevel) may cause\n");
           fprintf (stderr, "    subtle (or obvious) errors. \n\n");
           fprintf (fidlog, "\n WARNING in HydroReadHypsom: \n");
           fprintf (fidlog,
-                    "    Hydrotrend found only 1 hypsometric data file for  \n");
+                   "    Hydrotrend found only 1 hypsometric data file for  \n");
           fprintf (fidlog, "    multiple Epochs. \n");
           fprintf (fidlog,
-                    "    The original hypsometric data file will be used for ALL \n");
+                   "    The original hypsometric data file will be used for ALL \n");
           fprintf (fidlog,
-                    "    epochs.  Changes in maximum elevation (or sealevel) may cause\n");
+                   "    epochs.  Changes in maximum elevation (or sealevel) may cause\n");
           fprintf (fidlog, "    subtle (or obvious) errors. \n\n");
         }
       if (k != 0 && k < nepochs - 1)
         {
           fprintf (stderr, "\n WARNING in HydroReadHypsom: \n");
           fprintf (stderr,
-                    "    Hydrotrend found only less hypsometric data files then  \n");
+                   "    Hydrotrend found only less hypsometric data files then  \n");
           fprintf (stderr, "    the number of Epochs. \n");
           fprintf (stderr,
-                    "    The last found hypsometric data file will be used for \n");
+                   "    The last found hypsometric data file will be used for \n");
           fprintf (stderr,
-                    "    remaining epochs.  Changes in maximum elevation (or sealevel)\n");
+                   "    remaining epochs.  Changes in maximum elevation (or sealevel)\n");
           fprintf (stderr, "    may cause subtle (or obvious) errors. \n\n");
           fprintf (fidlog, "\n WARNING in HydroReadHypsom: \n");
           fprintf (fidlog,
-                    "    Hydrotrend found only less hypsometric data files then  \n");
+                   "    Hydrotrend found only less hypsometric data files then  \n");
           fprintf (fidlog, "    the number of Epochs. \n");
           fprintf (fidlog,
-                    "    The last found hypsometric data file will be used for \n");
+                   "    The last found hypsometric data file will be used for \n");
           fprintf (fidlog,
-                    "    remaining epochs.  Changes in maximum elevation (or sealevel)\n");
+                   "    remaining epochs.  Changes in maximum elevation (or sealevel)\n");
           fprintf (fidlog, "    may cause subtle (or obvious) errors. \n\n");
         }
-      
+
 /*-----------------------------------------------------------------------------
  *  Adusting nr. of hyps. data files to the nr. of epochs if they don't match
- *-----------------------------------------------------------------------------*/ 
-        if (k == 0 && nepochs > 1)
+ *-----------------------------------------------------------------------------*/
+      if (k == 0 && nepochs > 1)
         {
           for (k = 0; k < nepochs; k++)
             {
@@ -260,55 +260,55 @@ hydroreadhypsom ()
               nhypts[k + 1] = nhypts[k];
             }
         }
-      
+
 /*-----------------------
  *  Is # of points > 1?		
- *----------------------*/ 
-        if (nhypts[i] <= 1)
+ *----------------------*/
+      if (nhypts[i] <= 1)
         {
           fprintf (stderr, "   HydroReadHypsom ERROR: \n");
           fprintf (stderr,
-                    "	 Number of hypsometric points read is less than 2. \n");
+                   "	 Number of hypsometric points read is less than 2. \n");
           fprintf (stderr, "	 nhypts = %d\n", nhypts[i]);
           err++;
         }
     }
-  
+
 /*--------------------------------------------------------
  *  Are the hypsometric curves monotonically increasing?
- *--------------------------------------------------------*/ 
-    for (i = 0; i < nepochs; i++)
+ *--------------------------------------------------------*/
+  for (i = 0; i < nepochs; i++)
     for (kk = 0; kk < nhypts[i]; kk++)
       {
         if (kk > 0
-             && (hypselev[i][kk] <= hypselev[i][kk - 1]
-                 || hypsarea[i][kk] <= hypsarea[i][kk - 1]))
+            && (hypselev[i][kk] <= hypselev[i][kk - 1]
+                || hypsarea[i][kk] <= hypsarea[i][kk - 1]))
           {
             fprintf (stderr, "   HydroReadHypsom ERROR: \n");
             fprintf (stderr,
-                      "	 Altitude and area in digitized hypsometric  \n");
+                     "	 Altitude and area in digitized hypsometric  \n");
             fprintf (stderr,
-                      "	 data file must be monotonically increasing. \n");
+                     "	 data file must be monotonically increasing. \n");
             fprintf (stderr, "	 kk = %d \n", kk);
             fprintf (stderr, "	 hypselev[ep][kk-1] \t = %f \n",
-                      hypselev[ep][kk - 1]);
-            fprintf (stderr, "	 hypselev[ep][kk]   \t = %f \n", hypselev[ep][kk]);
+                     hypselev[ep][kk - 1]);
+            fprintf (stderr, "	 hypselev[ep][kk]   \t = %f \n",
+                     hypselev[ep][kk]);
             fprintf (stderr, "	 hypsarea[ep][kk-1] \t = %f \n",
-                      hypsarea[ep][kk - 1]);
-            fprintf (stderr, "	 hypsarea[ep][kk]   \t = %f \n", hypsarea[ep][kk]);
+                     hypsarea[ep][kk - 1]);
+            fprintf (stderr, "	 hypsarea[ep][kk]   \t = %f \n",
+                     hypsarea[ep][kk]);
             err++;
           }
       }
-  
+
 /*----------------------------------------------------
  *  Use hypsometric data to set maxalt and totalarea
- *----------------------------------------------------*/ 
-    for (i = 0; i < nepochs; i++)
+ *----------------------------------------------------*/
+  for (i = 0; i < nepochs; i++)
     {
       totalarea[i] = hypsarea[i][nhypts[i] - 1];
       maxalt[i] = hypselev[i][nhypts[i] - 1];
     }
   return (err);
-}                              /* end of HydroReadHypsom */
-
-
+}                               /* end of HydroReadHypsom */
