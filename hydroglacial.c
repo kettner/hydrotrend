@@ -82,7 +82,7 @@ hydroglacial ()
 			 *  Find the closest elevbin to the ela;
 			 *  this may be above or below the ela
 			 *----------------------------------------*/
-          if (ELAstart[ep] > maxalt)
+          if (ELAstart[ep] > maxalt[ep])
             {
               lastela = ELAstart[ep];
               elaerror = 0.0;
@@ -95,7 +95,7 @@ hydroglacial ()
           else
             {
               lastela = ELAstart[ep];
-              elaerror = maxalt;
+              elaerror = maxalt[ep];
               for (kk = 0; kk < nelevbins; kk++)
                 if (fabs (lastela - elevbins[kk]) < elaerror)
                   {
@@ -139,7 +139,7 @@ hydroglacial ()
 				 *------------------------------------*/
               lastarea = smallg + bigg;
             }                   /* end if ELA > maxalt */
-        }                       /* end if ep == 0 %% yr == syear[ep]
+        }                       /* end if ep == 0 %% yr == syear[ep]  */
 
                                    /*-----------------------------------------------------------------
                                    *  Keep last years Glaciated area for Mass Balance and Discharge
@@ -170,7 +170,6 @@ hydroglacial ()
         }
     }                           /* endif floodtry==0 */
 
-
         /*-------------------------
 	 *  Calculate the new ELA
 	 *-------------------------*/
@@ -178,9 +177,10 @@ hydroglacial ()
         /*-------------------------------------
 	 *  Simulate a basin with NO glaciers
 	 *-------------------------------------*/
-  if (ela > maxalt)
+
+  if (ela > maxalt[ep])
     {
-      if (lastela < maxalt)
+      if (lastela < maxalt[ep])
         {
           fprintf (stderr, "\nHydroGlacial WARNING: epoch = %d, year = %d \n",
                    ep + 1, yr);
@@ -189,7 +189,7 @@ hydroglacial ()
           fprintf (stderr, "   There will be a mass balance error for \n");
           fprintf (stderr, "   the remaining part of the glacier. \n");
         }
-      glacierelev = maxalt + elevbinsize;       /* make sure it is above the basin */
+      glacierelev = maxalt[ep] + elevbinsize;   /* make sure it is above the basin */
       glacierarea = 0.0;
       approxarea = 0.0;
       bigg = 0.0;
@@ -215,7 +215,7 @@ hydroglacial ()
 		 *  Find the closest elevbin to the ela;
 		 *  this may be above or below the ela
 		 *----------------------------------------*/
-      elaerror = maxalt;
+      elaerror = maxalt[ep];
       for (kk = 0; kk < nelevbins; kk++)
         if (fabs (ela - elevbins[kk]) < elaerror)
           {
@@ -266,6 +266,33 @@ hydroglacial ()
           glacierelev = elevbins[kk];
           glacierind = kk;
           kk--;
+          if (glacierelev < 0.0)
+            {
+              fprintf (stderr, "HydroGlacial ERROR: year = %d, ep =%d \n", yr,
+                       ep);
+              fprintf (stderr, " \t Glacier covers the whole basin, \n");
+              fprintf (stderr, " \t and reached the rivermouth. \n");
+              fprintf (stderr,
+                       " \t Elevation of the glacier toe reached %f m.\n",
+                       glacierelev);
+              fprintf (stderr, " \t Glacier area is %f km^2\n",
+                       approxarea / 1e6);
+              fprintf (stderr, " \t You might want to change your ELA\n");
+              fprintf (stderr, " \t HydroTrend is aborted.\n\n");
+
+              fprintf (fidlog, "HydroGlacial ERROR: year = %d, ep =%d \n", yr,
+                       ep);
+              fprintf (fidlog, " \t Glacier covers the whole basin, \n");
+              fprintf (fidlog, " \t and reached the rivermouth. \n");
+              fprintf (fidlog,
+                       " \t Elevation of the glacier toe reached %f m.\n",
+                       glacierelev);
+              fprintf (fidlog, " \t Glacier area is %f km^2\n",
+                       approxarea / 1e6);
+              fprintf (fidlog, " \t You might want to change your ELA\n");
+              fprintf (fidlog, " \t HydroTrend is aborted.\n\n");
+              exit (-1);
+            }
         }
 
                 /*---------------------------------------------------------------------------
@@ -521,10 +548,10 @@ hydroglacial ()
 			 *  In HydroSedload.c the actual distribution over the days is
 			 *  calculated.
 			 *--------------------------------------------------------------*/
-          if ((100 * glacierarea / totalarea) > 1.0)
+          if ((100 * glacierarea / totalarea[ep]) > 1.0)
             {
               yieldQsbar =
-                (Qsbartot[ep] * dTOs * 365) / (1000 * (totalarea / 1e6));
+                (Qsbartot[ep] * dTOs * 365) / (1000 * (totalarea[ep] / 1e6));
 
               /* yield Hallet if there are no glaciers in the basin */
               yieldnoglaciers = pow (10, 1.7846);
@@ -537,11 +564,11 @@ hydroglacial ()
                 (pow
                  (10,
                   (1.7846 +
-                   (0.99126 * log10 ((100 * (glacierarea / totalarea)))))) +
+                   (0.99126 * log10 ((100 * (glacierarea / totalarea[ep])))))) +
                  yielddifference) - yieldQsbar;
 
               /* annual glacier influence; Qs only from glaciers */
-              Qsglacierannual = yield * (totalarea / 1e6) * 1000;
+              Qsglacierannual = yield * (totalarea[ep] / 1e6) * 1000;
               if (Qsglacierannual < 0.0)
                 Qsglacierannual = 0.0;
             }
@@ -609,5 +636,6 @@ hydroglacial ()
             fractionglaciersediment[ep] = 1.0;
         }
     }                           /* endif glacial */
+
   return (err);
 }                               /* end of HydroGlacial */

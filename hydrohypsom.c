@@ -40,7 +40,7 @@ hydrohypsom ()
   err = 0;
   noldelevbins = 0;
 
-  cumarea = malloc1d (nhypts, double);
+  cumarea = malloc1d (nhypts[ep], double);
 
 /*-----------------------------------------
  *  Check for FloodExceedence
@@ -61,7 +61,7 @@ hydrohypsom ()
     *----------------------------------------*/
       if (yr == syear[ep])
         {
-          nelevbins = (int) floor ((maxalt / elevbinsize) + 1);
+          nelevbins = (int) floor ((maxalt[ep] / elevbinsize) + 1);
         }
       if (yr == syear[0])
         noldelevbins = nelevbins;
@@ -186,18 +186,18 @@ hydrohypsom ()
          /*----------------------------
           *  Find the cumulative area
           *----------------------------*/
-          cumarea[0] = hypsarea[0];
+          cumarea[0] = hypsarea[ep][0];
           for (kk = 1; kk < nelevbins - 1; kk++)
             {
               tst = 0;
-              for (ii = 1; ii < nhypts; ii++)
-                if (elevbins[kk] > hypselev[ii - 1]
-                    && elevbins[kk] <= hypselev[ii])
+              for (ii = 1; ii < nhypts[ep]; ii++)
+                if (elevbins[kk] > hypselev[ep][ii - 1]
+                    && elevbins[kk] <= hypselev[ep][ii])
                   {
-                    cumarea[kk] = hypsarea[ii - 1]
-                      + ((elevbins[kk] - hypselev[ii - 1])
-                         / (hypselev[ii] - hypselev[ii - 1]))
-                      * (hypsarea[ii] - hypsarea[ii - 1]);
+                    cumarea[kk] = hypsarea[ep][ii - 1]
+                      + ((elevbins[kk] - hypselev[ep][ii - 1])
+                         / (hypselev[ep][ii] - hypselev[ep][ii - 1]))
+                      * (hypsarea[ep][ii] - hypsarea[ep][ii - 1]);
                     tst = 1;
                   }
               if (tst == 0)
@@ -210,7 +210,7 @@ hydrohypsom ()
                   err++;
                 }
             }
-          cumarea[nelevbins - 1] = totalarea;
+          cumarea[nelevbins - 1] = totalarea[ep];
           areabins[0] = cumarea[0];
           totarea = areabins[0];
           for (kk = 1; kk < nelevbins; kk++)
@@ -222,15 +222,15 @@ hydrohypsom ()
       /*------------------------
        *  Check the total area
        *------------------------*/
-          if (fabs (totarea - totalarea) > 0.001)
+          if (fabs (totarea - totalarea[ep]) > 0.001)
             {
               fprintf (stderr,
                        " ERROR in HydroHypsom, totarea != totalarea in ep=%d \n",
                        ep + 1);
               fprintf (stderr, "\t totarea    = %f \n", totarea);
-              fprintf (stderr, "\t totalarea  = %f \n", totalarea);
+              fprintf (stderr, "\t totalarea  = %f \n", totalarea[ep]);
               fprintf (stderr, "\t totarea-totalarea  = %f \n",
-                       totarea - totalarea);
+                       totarea - totalarea[ep]);
               err = 1;
             }
 
@@ -246,7 +246,7 @@ hydrohypsom ()
               dumdbl += areabins[kk];
               distbins[kk] =
                 (int) ((basinlength[ep] / (avgvel[ep] * dTOs)) *
-                       (dumdbl / totalarea));
+                       (dumdbl / totalarea[ep]));
             }
 
       /*-----------------------------------------------------------
@@ -306,5 +306,6 @@ hydrohypsom ()
       }
 
   freematrix1D ((void *) cumarea);
+
   return (err);
 }                               /* end of HydroHypsom */

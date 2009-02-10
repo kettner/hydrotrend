@@ -46,28 +46,29 @@ hydroprintstat ()
   Tend = Tstart[ep] + (Tchange[ep] * nyears[ep]);
   Tmean = (Tstart[ep] + Tend) / 2;
 //      Tbar = Tmean - ( (lapserate[ep] * maxalt) / 3.0 );
-  for (kk = 0; kk < nhypts; kk++)
+  for (kk = 0; kk < nhypts[ep]; kk++)
     {
       if (kk == 0)
         Tbar +=
           (Tmean -
-           (((hypselev[kk] -
-              hypselev[0])) * lapserate[ep])) * (hypsarea[kk] / totalarea);
+           (((hypselev[ep][kk] -
+              hypselev[ep][0])) * lapserate[ep])) * (hypsarea[ep][kk] /
+                                                     totalarea[ep]);
       else
         Tbar +=
           (Tmean -
-           (((hypselev[kk] - hypselev[0])) * lapserate[ep])) * ((hypsarea[kk] -
-                                                                 hypsarea[kk -
-                                                                          1]) /
-                                                                totalarea);
+           (((hypselev[ep][kk] -
+              hypselev[ep][0])) * lapserate[ep])) * ((hypsarea[ep][kk] -
+                                                      hypsarea[ep][kk -
+                                                                   1]) /
+                                                     totalarea[ep]);
     }
-
 
 /*----------------------------------
  *  Calculate the needed variables
  *----------------------------------*/
-  A = (totalarea / 1e6);
-  H = maxalt;
+  A = (totalarea[ep] / 1e6);
+  H = maxalt[ep];
   sigmapsi = 0.763 * pow (0.99995, Qbartotal[ep]);
   cbar =
     (1.4 - (0.025 * Tbar) + (0.00013 * H) + (0.145 * log10 (Qsbartot[ep])));
@@ -142,7 +143,7 @@ hydroprintstat ()
       fprintf (fidstat, "\t T = %.2f; Tbar = mean basin temp (C)\n", Tbar);
       fprintf (fidstat,
                "\t\t T =Tstart[ep](=%.2f) - ((lapserate[ep](=%f) * maxalt(=%.5f))/3.0\n\n",
-               Tstart[ep], lapserate[ep], maxalt);
+               Tstart[ep], lapserate[ep], maxalt[ep]);
       fprintf (fidstat,
                "\t alpha3, alpha4, alpha5 and k are set by temperature and\n");
       fprintf (fidstat,
@@ -170,7 +171,7 @@ hydroprintstat ()
       fprintf (fidstat, "\t T = %.2f; Tbar = mean basin temp (C)\n", Tbar);
       fprintf (fidstat,
                "\t\t T =Tstart[ep](=%.2f) - ((lapserate[ep](=%.5f) * maxalt(=%.2f))/3.0\n\n",
-               Tstart[ep], lapserate[ep], maxalt);
+               Tstart[ep], lapserate[ep], maxalt[ep]);
       fprintf (fidstat,
                "\t alpha6, alpha7, alpha8 and k are set by temperature and\n");
       fprintf (fidstat,

@@ -40,6 +40,7 @@
 #include "hydroclimate.h"
 #include "hydroparams.h"
 #include "hydrotimeser.h"
+#include <stdlib.h>
 
 /*----------------------
  *  Start of HydroRain
@@ -57,6 +58,7 @@ hydrorain ()
   double Mout, Mannualin, Mannualout;
   double Qrainlag[maxday], Qsslag[maxday];
   double ratio1, ratio2;
+  double test;
   int ii, jj, kk, err;
 
 /*------------------------
@@ -109,11 +111,11 @@ hydrorain ()
     *  to very small numbers when gwstore is close to gwmin.
     *---------------------------------------------------------------------------*/
       Egw[ii] =
-        mn (alphagwe *
-            pow ((gwstore[ii] - gwmin[ep]) / (gwmax[ep] - gwmin[ep]), betagwe),
-            (gwstore[ii] - gwmin[ep]) / totalarea);
+        mn (alphagwe[ep] *
+            pow ((gwstore[ii] - gwmin[ep]) / (gwmax[ep] - gwmin[ep]),
+                 betagwe[ep]), (gwstore[ii] - gwmin[ep]) / totalarea[ep]);
       Egw[ii] = mx (Egw[ii], 0.0);
-      gwstore[ii] -= Egw[ii] * totalarea;
+      gwstore[ii] -= Egw[ii] * totalarea[ep];
 
       Qss[ii] =
         mn (alphass[ep] *
@@ -151,8 +153,12 @@ hydrorain ()
 	 *  Check if there is a input file with evaporation data
 	 *--------------------------------------------------------*/
       if (evaporationdatafile == 0)
-        Pground[ii] = mx (alphag + betag * Pdaily[ii], 0.0);
+        {
+          Pground[ii] = mx (alphag[ep] + betag[ep] * Pdaily[ii], 0.0);
+//              printf("%f, %f\n",Pground[ii], Pdaily[ii]);
+        }
       Ecanopy[ii] = Pdaily[ii] - Pground[ii];
+//   printf("%f, %f, %f\n",Ecanopy[ii], Pground[ii], betag[ep]);
 
    /*----------------------------------------------------
     *  Calculate Surface Runoff (m^3/s)
@@ -215,6 +221,7 @@ hydrorain ()
     *    remainder went to groundwater pool or evaporation
     *-------------------------------------------------------*/
       Qrain[ii] = Qsaturationexcess[ii] + Qinfiltexcess[ii];
+//   printf("%f\n",Qrain[ii]);
 
    /*---------------------------------------------------------------------------
     *  Add the carryover from the previous year
@@ -290,7 +297,8 @@ hydrorain ()
           fprintf (stderr, "      gwstore (m^3) = %e \n", gwstore[ii]);
           fprintf (stderr, "      gwmin   (m^3) = %e \n", gwmin[ep]);
           fprintf (stderr, "      Qss[ii] (m^3) = %e \n", Qss[ii] * dTOs);
-          fprintf (stderr, "      Egw[ii] (m^3) = %e \n", Egw[ii] * totalarea);
+          fprintf (stderr, "      Egw[ii] (m^3) = %e \n",
+                   Egw[ii] * totalarea[ep]);
           err = 1;
         }
     }                           /* end day loop */
@@ -347,11 +355,15 @@ hydrorain ()
     {
       for (kk = 0; kk < nelevbins && kk < FLAindex[ii]; kk++)
         {
-          Qrainlag[ii + distbins[kk]] +=
-            Qrain[ii] * areabins[kk] / rainarea[ii];
-          Qsslag[ii + distbins[kk]] += Qss[ii] * areabins[kk] / rainarea[ii];
-          Qrain[ii] -= Qrain[ii] * areabins[kk] / rainarea[ii];
-          Qss[ii] -= Qss[ii] * areabins[kk] / rainarea[ii];
+          if (rainarea[ii] > 0.0)
+            {
+              Qrainlag[ii + distbins[kk]] +=
+                Qrain[ii] * areabins[kk] / rainarea[ii];
+              Qsslag[ii + distbins[kk]] +=
+                Qss[ii] * areabins[kk] / rainarea[ii];
+              Qrain[ii] -= Qrain[ii] * areabins[kk] / rainarea[ii];
+              Qss[ii] -= Qss[ii] * areabins[kk] / rainarea[ii];
+            }
         }
     }
 
@@ -398,6 +410,5 @@ hydrorain ()
 
       exit (-1);
     }
-
   return (err);
 }                               /* end of HydroRain.c */

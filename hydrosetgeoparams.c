@@ -68,8 +68,7 @@
  *  Tmean		HydroSetGeoParams.c	double	deg.C	Mean temp. not corrected for the whole basin yet.
  * 
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include "hydroparams.h"
 #include "hydroclimate.h"
 #include "hydroreadclimate.h"
@@ -103,21 +102,23 @@ hydrosetgeoparams (gw_rainfall_etc * gw_rain)
       Tend = Tstart[ep] + (Tchange[ep] * nyears[ep]);
       Tmean = (Tstart[ep] + Tend) / 2;
     }
-  for (kk = 0; kk < nhypts; kk++)
+  for (kk = 0; kk < nhypts[ep]; kk++)
     {
       if (kk == 0)
         Tbar +=
           (Tmean -
-           (((hypselev[kk] -
-              hypselev[0])) * lapserate[ep])) * (hypsarea[kk] / totalarea);
+           (((hypselev[ep][kk] -
+              hypselev[ep][0])) * lapserate[ep])) * (hypsarea[ep][kk] /
+                                                     totalarea[ep]);
       
       else
         Tbar +=
           (Tmean -
-           (((hypselev[kk] - hypselev[0])) * lapserate[ep])) * ((hypsarea[kk] -
-                                                                 hypsarea[kk -
-                                                                          1]) /
-                                                                totalarea);
+           (((hypselev[ep][kk] -
+              hypselev[ep][0])) * lapserate[ep])) * ((hypsarea[ep][kk] -
+                                                      hypsarea[ep][kk -
+                                                                   1]) /
+                                                     totalarea[ep]);
     }
   if (lat > 30 && Tbar > 0)
     {                           /* Temperate North */

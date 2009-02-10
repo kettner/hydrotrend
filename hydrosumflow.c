@@ -125,6 +125,7 @@ hydrosumflow ()
                                                                    Qexceedgw
                                                                    [ii]) +
             baseflowtot[ep];
+//              printf("Qice=%f, Qnival=%f, Qrain=%f, Qss=%f, Qexceedgw=%f, Qsumtot=%f\n",Qice[ii], Qnival[ii], Qrain[ii], Qss[ii], Qexceedgw[ii], Qsumtot[ii]);
           if (steadyoutletpctflag == 1)
             {
               for (p = 0; p < eventsnr[ep]; p++)
@@ -205,7 +206,7 @@ hydrosumflow ()
               Qtotaloutlet[p][eventcounter] += Qsum[ii][p];
             }
         }
-      Ewetannual += (Egw[ii] * totalarea) + (Ecanopy[ii] * rainarea[ii]);
+      Ewetannual += (Egw[ii] * totalarea[ep]) + (Ecanopy[ii] * rainarea[ii]);
     }                           /* end for daysiy */
   Qtotal *= dTOs;
   Qgrandtotal[ep] += Qtotal;
@@ -217,7 +218,8 @@ hydrosumflow ()
           Qgrandtotaloutlet[ep][p][y] += Qtotaloutlet[p][y];
           Qtotaloutletannual[p] += Qtotaloutlet[p][y];
         }
-  MEtotal += Enivalannual * totalarea + Eiceannual * glacierarea + Ewetannual;
+  MEtotal +=
+    Enivalannual * totalarea[ep] + Eiceannual * glacierarea + Ewetannual;
 
 /*-----------------------------------------------------
  *  Sum the carryover from/to the previous/next years
@@ -247,7 +249,7 @@ hydrosumflow ()
   if (setstartmeanQandQs == 0)
     {
       Moutput = MPnival + MPglacial + MPrain;
-      Minput = (Pannual) * totalarea;
+      Minput = (Pannual) * totalarea[ep];
       mtotal = (Moutput - Minput) / Moutput;
 
       if (fabs (mtotal) > masscheck)
@@ -268,10 +270,10 @@ hydrosumflow ()
           fprintf (stderr, "   Minput = (Pannual)*totalarea \n");
           fprintf (stderr, " \t Minput    \t = \t %e (m^3) \n", Minput);
           fprintf (stderr, " \t Pannual   \t = \t %e (m^3) \n",
-                   Pannual * totalarea);
+                   Pannual * totalarea[ep]);
           fprintf (stderr, " \t Pannual   \t = \t %e (m)   \n", Pannual);
           fprintf (stderr, " \t Pbaseflow \t = \t %e (m) \n\n",
-                   baseflowtot[ep] * totalarea);
+                   baseflowtot[ep] * totalarea[ep]);
 
           fprintf (stderr, "   Moutput = MPnival + MPglacial + MPrain \n");
           fprintf (stderr, " \t Moutput   \t = \t %e (m^3) \n", Moutput);
@@ -288,7 +290,8 @@ hydrosumflow ()
  *  Msnowstart = Snow in basin at start of year
  *  Msnowend   = Snow in basin at end of year
  *-----------------------------------------------*/
-      Minput = Pannual * totalarea + gwlast + Gmass + Msnowstart + MQprevious;
+      Minput =
+        Pannual * totalarea[ep] + gwlast + Gmass + Msnowstart + MQprevious;
       Moutput = MEtotal + Qtotal + gwstore[daysiy - 1] + Msnowend + MQnext;
       mtotal = (Minput - Moutput) / Moutput;
 
@@ -312,7 +315,7 @@ hydrosumflow ()
                    "   Minput =  Pannual + gwlast + previousice + previousnival + MQprevious \n");
           fprintf (stderr, " \t Minput \t = \t\t\t %e (m^3) \n", Minput);
           fprintf (stderr, " \t Pannual \t = %e (m) \t %e (m^3)\n", Pannual,
-                   Pannual * totalarea);
+                   Pannual * totalarea[ep]);
           fprintf (stderr, " \t gwlast \t = \t\t\t %e (m^3) \n", gwlast);
           fprintf (stderr, " \t Gmass \t\t = \t\t\t %e (m^3) \n", Gmass);
           fprintf (stderr, " \t Msnowstart \t = \t\t\t %e (m^3) \n",

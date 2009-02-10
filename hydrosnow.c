@@ -174,7 +174,7 @@ hydrosnow ()
  *-------------------------------------------------------------------*/
   for (ii = 0; ii < daysiy; ii++)
     {
-      Enivalannual += Qnival[ii] * dryevap[ep] * dTOs / totalarea;
+      Enivalannual += Qnival[ii] * dryevap[ep] * dTOs / totalarea[ep];
       Qnival[ii] -= Qnival[ii] * dryevap[ep];
     }
 
@@ -242,7 +242,7 @@ hydrosnow ()
   for (kk = 0; kk < nelevbins; kk++)    /* the remaining snow */
     Msnowend += Snowelevday[kk][daysiy - 1] * areabins[kk];
 
-  Mout = Mgw + Mnival + Enivalannual * totalarea + Msnowend + Mwrapout;
+  Mout = Mgw + Mnival + Enivalannual * totalarea[ep] + Msnowend + Mwrapout;
   Minput = MPnival + Mwrapin + Msnowstart;
 
   if ((fabs (Mout - Minput) / Minput) > masscheck)
@@ -268,7 +268,8 @@ hydrosnow ()
       fprintf (stderr, " \t Mout         \t = %e \n", Mout);
       fprintf (stderr, " \t Mnival       \t = %e \n", Mnival);
       fprintf (stderr, " \t Mgw          \t = %e \n", Mgw);
-      fprintf (stderr, " \t Enivalannual \t = %e \n", Enivalannual * totalarea);
+      fprintf (stderr, " \t Enivalannual \t = %e \n",
+               Enivalannual * totalarea[ep]);
       fprintf (stderr, " \t Mwrapout     \t = %e \n", Mwrapout);
       fprintf (stderr, " \t Msnowend     \t = %e \n\n", Msnowend);
       exit (-1);
