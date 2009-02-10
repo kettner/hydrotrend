@@ -20,7 +20,8 @@
  * dataWord             HydroSwap.c     char    -       Holding byte info of each byte in a lope
  *
  *-------------------------------------------------------------------------------------------*/
-
+   
+  
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -30,120 +31,146 @@
 #include "hydrotimeser.h"
 #include "hydroalloc_mem.h"
 #define DEFAULT_WORD 4
-
+  
 /*----------------------
  *  Start main program
- *----------------------*/
-int hydroswap()
+ *----------------------*/ 
+  int
+hydroswap () 
 {
-
+  
 /*-------------------
  *  Local Variables
- *-------------------*/
-int i, err, comLen, nYears,p;
-int word;
-int start;
-static int recperyear;
-char *dataWord;
-char dummystring[300];
-
+ *-------------------*/ 
+  int i, err, comLen, nYears, p;
+  int word;
+  int start;
+  static int recperyear;
+  char *dataWord;
+  char dummystring[300];
+  
 /*------------------------
  *  Initialize Variables
- *------------------------*/
-word = DEFAULT_WORD;
-err = 0;
-
+ *------------------------*/ 
+    word = DEFAULT_WORD;
+  err = 0;
+  
 /*------------------------
  *  Opening binary files
- *------------------------*/
-if (verbose) printf("Opening %s... \n",ffnamedistot);
-if ( (fiddistot = fopen(ffnamedistot,"rb")) == NULL) {
-   fprintf(stderr, "  HydroSwap ERROR: Unable to open the discharge file %s \n",ffnamedistot);
-   err = 1;
-}
-strcpy(ffnameconvdistot,startname);
-strcat(ffnameconvdistot,fnameconvdis);
-if (verbose) printf("Opening %s... \n",ffnameconvdistot);
-if ( (fidconvdistot = fopen(ffnameconvdistot,"wb")) == NULL) {
-   fprintf(stderr, "  HydroSwap ERROR: Unable to open the convdischarge file %s \n",ffnameconvdistot);
-   err = 1;
-}
-
-if ( outletmodelflag == 1 ){
-	fidconvdis = allocate_1d_F( maxnoutlet );	
-	for (p=0; p<maxnoutlet; p++){
-		strcpy(ffnamedis,startname);
-		sprintf(dummystring,"%sOUTLET%d",ffnamedis,p+1);
-		strcpy(ffnamedis,dummystring);
-		strcat(ffnamedis,fnamedis);
-		if (verbose) printf("Opening %s... \n",ffnamedis);
-		if ( (fiddis[p] = fopen(ffnamedis,"rb")) == NULL) {
-			fprintf(stderr, "  HydroSwap ERROR: Unable to open the discharge file %s \n",ffnamedis);
-			err = 1;
-		}
-		strcpy(ffnameconvdis,startname);
-		sprintf(dummystring,"%sOUTLET%d",ffnameconvdis,p+1);
-		strcpy(ffnameconvdis,dummystring);
-		strcat(ffnameconvdis,fnameconvdis);
-		if (verbose) printf("Opening %s... \n",ffnameconvdis);
-		if ( (fidconvdis[p] = fopen(ffnameconvdis,"wb")) == NULL) {
-		fprintf(stderr, "  HydroSwap ERROR: Unable to open the convdischarge file %s \n",ffnameconvdis);
-		err = 1;
-		}
-	}
-}
-
+ *------------------------*/ 
+    if (verbose)
+    printf ("Opening %s... \n", ffnamedistot);
+  if ((fiddistot = fopen (ffnamedistot, "rb")) == NULL)
+    {
+      fprintf (stderr,
+                "  HydroSwap ERROR: Unable to open the discharge file %s \n",
+                ffnamedistot);
+      err = 1;
+    }
+  strcpy (ffnameconvdistot, startname);
+  strcat (ffnameconvdistot, fnameconvdis);
+  if (verbose)
+    printf ("Opening %s... \n", ffnameconvdistot);
+  if ((fidconvdistot = fopen (ffnameconvdistot, "wb")) == NULL)
+    {
+      fprintf (stderr,
+                "  HydroSwap ERROR: Unable to open the convdischarge file %s \n",
+                ffnameconvdistot);
+      err = 1;
+    }
+  if (outletmodelflag == 1)
+    {
+      fidconvdis = allocate_1d_F (maxnoutlet);
+      for (p = 0; p < maxnoutlet; p++)
+        {
+          strcpy (ffnamedis, startname);
+          sprintf (dummystring, "%sOUTLET%d", ffnamedis, p + 1);
+          strcpy (ffnamedis, dummystring);
+          strcat (ffnamedis, fnamedis);
+          if (verbose)
+            printf ("Opening %s... \n", ffnamedis);
+          if ((fiddis[p] = fopen (ffnamedis, "rb")) == NULL)
+            {
+              fprintf (stderr,
+                        "  HydroSwap ERROR: Unable to open the discharge file %s \n",
+                        ffnamedis);
+              err = 1;
+            }
+          strcpy (ffnameconvdis, startname);
+          sprintf (dummystring, "%sOUTLET%d", ffnameconvdis, p + 1);
+          strcpy (ffnameconvdis, dummystring);
+          strcat (ffnameconvdis, fnameconvdis);
+          if (verbose)
+            printf ("Opening %s... \n", ffnameconvdis);
+          if ((fidconvdis[p] = fopen (ffnameconvdis, "wb")) == NULL)
+            {
+              fprintf (stderr,
+                        "  HydroSwap ERROR: Unable to open the convdischarge file %s \n",
+                        ffnameconvdis);
+              err = 1;
+            }
+        }
+    }
+  
 /*-------------------
  *  Allocate memory
- *-------------------*/
-   dataWord = (char*)malloc(sizeof(char)*word);
-
+ *-------------------*/ 
+    dataWord = (char *) malloc (sizeof (char) * word);
+  
 /*------------------------------------
  *  Setting variables for the header
- *------------------------------------*/
-   if(      timestep[0] == 'd' ) recperyear = 365;
-   else if( timestep[0] == 'm' ) recperyear = 12;
-   else if( timestep[0] == 's' ) recperyear = 4;
-   else recperyear = 1;
-
-   nYears	= syear[nepochs-1]+nyears[nepochs-1]-syear[0];
-   comLen	= strlen(title)-1;
-   start = (word) +comLen;
-
+ *------------------------------------*/ 
+    if (timestep[0] == 'd')
+    recperyear = 365;
+  
+  else if (timestep[0] == 'm')
+    recperyear = 12;
+  
+  else if (timestep[0] == 's')
+    recperyear = 4;
+  
+  else
+    recperyear = 1;
+  nYears = syear[nepochs - 1] + nyears[nepochs - 1] - syear[0];
+  comLen = strlen (title) - 1;
+  start = (word) + comLen;
+  
 /*--------------------------------------------
  *  Swapping parts of header + rest datafile
- *--------------------------------------------*/
-		fread(dataWord,1,word,fiddistot);
-		for (i=word-1;i>=0;i--)
-			fwrite(&dataWord[i],1,1,fidconvdistot);
-		fwrite(    title, sizeof(char), comLen, fidconvdistot);
-		fseek(fiddistot,start,SEEK_SET);
-		while ( fread(dataWord,1,word,fiddistot)==word )
-			for (i=word-1;i>=0;i--)
-				fwrite(&dataWord[i],1,1,fidconvdistot);
-
-	if (outletmodelflag == 1)
-		for (p=0; p<maxnoutlet; p++){
-			fread(dataWord,1,word,fiddis[p]);
-			for (i=word-1;i>=0;i--)
-				fwrite(&dataWord[i],1,1,fidconvdis[p]);
-			fwrite(    title, sizeof(char), comLen, fidconvdis[p]);
-			fseek(fiddis[p],start,SEEK_SET);
-			while ( fread(dataWord,1,word,fiddis[p])==word )
-				for (i=word-1;i>=0;i--)
-					fwrite(&dataWord[i],1,1,fidconvdis[p]);
-		}
-	
+ *--------------------------------------------*/ 
+    fread (dataWord, 1, word, fiddistot);
+  for (i = word - 1; i >= 0; i--)
+    fwrite (&dataWord[i], 1, 1, fidconvdistot);
+  fwrite (title, sizeof (char), comLen, fidconvdistot);
+  fseek (fiddistot, start, SEEK_SET);
+  while (fread (dataWord, 1, word, fiddistot) == word)
+    for (i = word - 1; i >= 0; i--)
+      fwrite (&dataWord[i], 1, 1, fidconvdistot);
+  if (outletmodelflag == 1)
+    for (p = 0; p < maxnoutlet; p++)
+      {
+        fread (dataWord, 1, word, fiddis[p]);
+        for (i = word - 1; i >= 0; i--)
+          fwrite (&dataWord[i], 1, 1, fidconvdis[p]);
+        fwrite (title, sizeof (char), comLen, fidconvdis[p]);
+        fseek (fiddis[p], start, SEEK_SET);
+        while (fread (dataWord, 1, word, fiddis[p]) == word)
+          for (i = word - 1; i >= 0; i--)
+            fwrite (&dataWord[i], 1, 1, fidconvdis[p]);
+      }
+  
 /*-------------------
  *  Close files
- *------------------*/
-	fclose(fiddistot);
-	fclose(fidconvdistot);
- 	if (outletmodelflag == 1)
-		for (p=0; p<maxnoutlet; p++){
-			fclose(fiddis[p]);
-			fclose(fidconvdis[p]);
-		}
-	return(err);
-}  /* end of HydroSwap */
+ *------------------*/ 
+    fclose (fiddistot);
+  fclose (fidconvdistot);
+  if (outletmodelflag == 1)
+    for (p = 0; p < maxnoutlet; p++)
+      {
+        fclose (fiddis[p]);
+        fclose (fidconvdis[p]);
+      }
+  return (err);
+}                              /* end of HydroSwap */
 
+

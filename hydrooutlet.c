@@ -14,7 +14,8 @@
  *  5) HydroFreeMemOutlet
  * 
  *-------------------------------------------------------------------------------------------*/
-
+   
+  
 #include <math.h>
 #include "hydroclimate.h"
 #include "hydroinout.h"
@@ -24,7 +25,7 @@
 #include "hydroalloc_mem.h"
 #include "hydrofree_mem.h"
 #include "hydrornseeds.h"
-
+  
 /*-------------------------------------------------------------------------------------------
  *  1) HydroOutletFraction
  *
@@ -52,63 +53,65 @@
  * *tempfrac	HydroOutletFraction	double		-
  * *Qpowtempf	HydroOutletFraction	double		-
  * 
- *-------------------------------------------------------------------------------------------*/
- 
+ *-------------------------------------------------------------------------------------------*/ 
+  
 /*--------------------------------
  *  Start of HydroOutletFraction
- *--------------------------------*/
-int hydrooutletfraction(int x)
+ *--------------------------------*/ 
+  int
+hydrooutletfraction (int x) 
 {
-
+  
 /*-------------------
  *  Local Variables
- *-------------------*/
-int err,p;
-double *tempfrac, *Qpowtempf;
-double fdistance, Qtempfractot, totalpct, check;
-
+ *-------------------*/ 
+  int err, p;
+  double *tempfrac, *Qpowtempf;
+  double fdistance, Qtempfractot, totalpct, check;
+  
 /*------------------------
  *  Initialize variables
- *------------------------*/
-err = 0;
-Qtempfractot = 0.0;
-totalpct = 0.0;
-
+ *------------------------*/ 
+    err = 0;
+  Qtempfractot = 0.0;
+  totalpct = 0.0;
+  
 /*---------------------------------------
  *  Allocate memory for multiple outlet
- *---------------------------------------*/
-tempfrac	= malloc1d( maxnoutlet, double );
-Qpowtempf	= malloc1d( maxnoutlet, double );
-
+ *---------------------------------------*/ 
+    tempfrac = malloc1d (maxnoutlet, double);
+  Qpowtempf = malloc1d (maxnoutlet, double);
+  
 /*----------------------------------
  *  Set outlet fraction per outlet
  *----------------------------------*/ 
-	for (p=0; p<maxnoutlet; p++)
-	tempfrac[p] = 0.0;
-	fdistance = 1.0 / (noutlet+1);
-	for (p=0; p<noutlet; p++){
-		tempfrac[p] = fdistance * (1 + p);
-		Qpowtempf[p] = pow(tempfrac[p],2);
-		Qtempfractot += Qpowtempf[p];
-	}	
-	for (p=0; p<noutlet; p++){
-		outletpct[p][ep][x] = Qpowtempf[p]/Qtempfractot;
-		totalpct += outletpct[p][ep][x];
-	}
-	check = (totalpct - 1.0);
-	if (fabs(check) > masscheck )
-		err++;
-
+    for (p = 0; p < maxnoutlet; p++)
+    tempfrac[p] = 0.0;
+  fdistance = 1.0 / (noutlet + 1);
+  for (p = 0; p < noutlet; p++)
+    {
+      tempfrac[p] = fdistance * (1 + p);
+      Qpowtempf[p] = pow (tempfrac[p], 2);
+      Qtempfractot += Qpowtempf[p];
+    }
+  for (p = 0; p < noutlet; p++)
+    {
+      outletpct[p][ep][x] = Qpowtempf[p] / Qtempfractot;
+      totalpct += outletpct[p][ep][x];
+    }
+  check = (totalpct - 1.0);
+  if (fabs (check) > masscheck)
+    err++;
+  
 /*---------------
  *  Free memory
- *---------------*/
-	freematrix1D( (void*)tempfrac );
-	freematrix1D( (void*)Qpowtempf );
+ *---------------*/ 
+    freematrix1D ((void *) tempfrac);
+  freematrix1D ((void *) Qpowtempf);
+  return (err);
+}                              /* end of hydrooutletfraction */
 
-	return (err);
-} /* end of hydrooutletfraction */
-
-
+
 /*-------------------------------------------------------------------------------------------
  *  2) hydroSetNumberOutlet
  *
@@ -126,52 +129,61 @@ Qpowtempf	= malloc1d( maxnoutlet, double );
  * noutletoptionHydroSetNumberOutlet	int			-
  * x			HydroSetNumberOutlet	int			-
  * 
- *-------------------------------------------------------------------------------------------*/
-
+ *-------------------------------------------------------------------------------------------*/ 
+  
 /*---------------------------------
  *  Start of HydroSetNumberOutlet
- *---------------------------------*/
-int hydrosetnumberoutlet(int x)
+ *---------------------------------*/ 
+  int
+hydrosetnumberoutlet (int x) 
 {
-
+  
 /*-------------------
  *  Local Variables
- *-------------------*/
-int dumint, noutletoption;
-double dumdbl;
-float hydroran4(long *idum);
-static int err = 0;
-dumdbl = 0.5;
-
+ *-------------------*/ 
+  int dumint, noutletoption;
+  double dumdbl;
+  float hydroran4 (long *idum);
+  static int err = 0;
+  dumdbl = 0.5;
+  
 /*------------------------
  *  Set number of outlet
- *------------------------*/
-	if ( x == minnoutlet )
-		rnseed4 = -INIT_RAN_NUM_SEED;
-	dumint = minnoutlet-1;
-	while ( dumint < minnoutlet || dumint > maxnoutlet){
-		dumdbl = (double)hydroran4(&rnseed4);
-		if( 0 > dumdbl || dumdbl > 1 ){
-			err++;			
-			fprintf( stderr,"A function in HydroRan2 failed in HydroSetNumberOutlet (HydroOutlet) \n");
-			fprintf( stderr," \t dumflt = %f: \t setting value to 0.5, x = %d \n", dumdbl, x);
-			dumdbl=0.5;
-		}		
-		dumdbl = dumdbl*10.0;		
-		dumint = (int)(dumdbl);
-		if ( err > 1 ){
-			fprintf( stderr, " ERROR in HydroSetNumberOutlet (HydroOutlet).\n" );
-			fprintf( stderr, "\t Randomnummer generator failed twice: HydroTrend Aborted \n\n" );
-			fprintf( fidlog, " ERROR in HydroSetNumberOutlet (HydroOutlet).\n" );
-			fprintf( fidlog, "\t Randomnummer generator failed twice: HydroTrend Aborted \n\n" );
-			exit(1);
-		}						
-	}
-	noutletoption = dumint;
-	return (noutletoption);	
-} /* end of hydrosetnumberoutlet */
+ *------------------------*/ 
+    if (x == minnoutlet)
+    rnseed4 = -INIT_RAN_NUM_SEED;
+  dumint = minnoutlet - 1;
+  while (dumint < minnoutlet || dumint > maxnoutlet)
+    {
+      dumdbl = (double) hydroran4 (&rnseed4);
+      if (0 > dumdbl || dumdbl > 1)
+        {
+          err++;
+          fprintf (stderr,
+                    "A function in HydroRan2 failed in HydroSetNumberOutlet (HydroOutlet) \n");
+          fprintf (stderr,
+                    " \t dumflt = %f: \t setting value to 0.5, x = %d \n",
+                    dumdbl, x);
+          dumdbl = 0.5;
+        }
+      dumdbl = dumdbl * 10.0;
+      dumint = (int) (dumdbl);
+      if (err > 1)
+        {
+          fprintf (stderr, " ERROR in HydroSetNumberOutlet (HydroOutlet).\n");
+          fprintf (stderr,
+                    "\t Randomnummer generator failed twice: HydroTrend Aborted \n\n");
+          fprintf (fidlog, " ERROR in HydroSetNumberOutlet (HydroOutlet).\n");
+          fprintf (fidlog,
+                    "\t Randomnummer generator failed twice: HydroTrend Aborted \n\n");
+          exit (1);
+        }
+    }
+  noutletoption = dumint;
+  return (noutletoption);
+}                              /* end of hydrosetnumberoutlet */
 
-
+
 /*-------------------------------------------------------------------------------------------
  *
  * 3) Hydroqfractionshuffle
@@ -189,187 +201,203 @@ dumdbl = 0.5;
  * yy			Hydroqfractionshuffle	int		-		temporary integer
  * pp			Hydroqfractionshuffle	int		-		temporary integer
  *
- *-------------------------------------------------------------------------------------------*/
-
+ *-------------------------------------------------------------------------------------------*/ 
+  
 /*------------------------------------
  *  Start of Hydroqfractionshuffle.c
- *------------------------------------*/
-int hydroqfractionshuffle( int k )
+ *------------------------------------*/ 
+  int
+hydroqfractionshuffle (int k) 
 {
-
-float hydroran5(long * idumd);
-double dumdbl;
-double dummy_double, *dummyoutletpct;
-int yy, ii, err, *nvals, pp, *dummyvals, a;
-
+  float hydroran5 (long *idumd);
+  double dumdbl;
+  double dummy_double, *dummyoutletpct;
+  int yy, ii, err, *nvals, pp, *dummyvals, a;
+  
 /*---------------------------------------
  *  Allocate memory for multiple outlet
- *---------------------------------------*/
-dummyoutletpct	= malloc1d( maxnoutlet, double );
-nvals			= malloc1d( maxnoutlet, int);
-dummyvals		= malloc1d( maxnoutlet, int );
-
+ *---------------------------------------*/ 
+    dummyoutletpct = malloc1d (maxnoutlet, double);
+  nvals = malloc1d (maxnoutlet, int);
+  dummyvals = malloc1d (maxnoutlet, int);
+  
 /*------------------------
  *  Initialize variables
- *------------------------*/
-err   = 0;
-dumdbl = 0.5;
-for( ii=0; ii<maxnoutlet; ii++ ){
-	dummyoutletpct[ii] = outletpct[ii][ep][k];
-	nvals[ii] = ii+1;
-}
-
+ *------------------------*/ 
+    err = 0;
+  dumdbl = 0.5;
+  for (ii = 0; ii < maxnoutlet; ii++)
+    {
+      dummyoutletpct[ii] = outletpct[ii][ep][k];
+      nvals[ii] = ii + 1;
+    }
+  
 /*-------------------------------------
  *  shuffle the numbers of the outlet
- *-------------------------------------*/
-	if ( k == 0)
-		rnseed5 = -INIT_RAN_NUM_SEED/20; 
-	for( ii=0; ii<maxnoutlet; ii++ ) {
-		dumdbl = (double)hydroran5(&rnseed5);				/* get a uniform random number [0:1] */
-		if( 0 > dumdbl || dumdbl > 1 ){
-			fprintf( stderr,"A function in HydroRan2 failed in HydroShuffle.c \n");
-			fprintf( stderr," \t dumdbl = %f: \t setting value to 0.5, ii = %d \n", dumdbl, ii);
-			dumdbl=0.5;
-			err++;
-		}
-		if ( k > 0 ){
-			dummy_double = dumdbl*(float)maxnoutlet;
-			yy = (int)rnd(dummy_double);			/* scale to a random day */
-			if( yy == 0 ) yy += 1;
-			nvals[ii] = nvals[yy-1];
-			dummyvals[ii] = nvals[ii];		
-			if ( ii !=0 ){
-				a=1;
-				for (pp=ii-1; pp>-1; pp-- )
-					while ( dummyvals[ii] == dummyvals[pp] ){
-						dummyvals[ii] = a;
-						a++;
-						pp = (ii-1);
-					}
-				nvals[ii] = dummyvals[ii];
-			}
-		}
-	}
-	for( ii=0; ii<maxnoutlet; ii++ ){
-		nvals[ii] = nvals[ii]-1;
-		outletpct[ii][ep][k] = dummyoutletpct[nvals[ii]];
-	}
-
+ *-------------------------------------*/ 
+    if (k == 0)
+    rnseed5 = -INIT_RAN_NUM_SEED / 20;
+  for (ii = 0; ii < maxnoutlet; ii++)
+    {
+      dumdbl = (double) hydroran5 (&rnseed5);  /* get a uniform random number [0:1] */
+      if (0 > dumdbl || dumdbl > 1)
+        {
+          fprintf (stderr,
+                    "A function in HydroRan2 failed in HydroShuffle.c \n");
+          fprintf (stderr,
+                    " \t dumdbl = %f: \t setting value to 0.5, ii = %d \n",
+                    dumdbl, ii);
+          dumdbl = 0.5;
+          err++;
+        }
+      if (k > 0)
+        {
+          dummy_double = dumdbl * (float) maxnoutlet;
+          yy = (int) rnd (dummy_double);       /* scale to a random day */
+          if (yy == 0)
+            yy += 1;
+          nvals[ii] = nvals[yy - 1];
+          dummyvals[ii] = nvals[ii];
+          if (ii != 0)
+            {
+              a = 1;
+              for (pp = ii - 1; pp > -1; pp--)
+                while (dummyvals[ii] == dummyvals[pp])
+                  {
+                    dummyvals[ii] = a;
+                    a++;
+                    pp = (ii - 1);
+                  }
+              nvals[ii] = dummyvals[ii];
+            }
+        }
+    }
+  for (ii = 0; ii < maxnoutlet; ii++)
+    {
+      nvals[ii] = nvals[ii] - 1;
+      outletpct[ii][ep][k] = dummyoutletpct[nvals[ii]];
+    }
+  
 /*---------------
  *  Free memory
- *---------------*/
-	freematrix1D( (void*)dummyoutletpct );
-	freematrix1D( (void*)nvals );
-	freematrix1D( (void*)dummyvals );
+ *---------------*/ 
+    freematrix1D ((void *) dummyoutletpct);
+  freematrix1D ((void *) nvals);
+  freematrix1D ((void *) dummyvals);
+  return (err);
+}                              /* end of HydroqfractionShuffle */
 
-	return(err);
-} /* end of HydroqfractionShuffle */
-
+
 /*-------------------------------------------------------------------------------------------
  *  4) HydroAllocmemOutlet
  *
  * Allocates memory for the outlet variables. The real allocation takes
  * place in Hydroalloc_mem.c
  *
- *-------------------------------------------------------------------------------------------*/
- 
+ *-------------------------------------------------------------------------------------------*/ 
+  
 /*--------------------------------
  *  Start of HydroAllocmemOutlet
- *--------------------------------*/
-void hydroallocmemoutlet(int ep, int nepochs)
+ *--------------------------------*/ 
+  void
+hydroallocmemoutlet (int ep, int nepochs) 
 {
-	outletpcttotevents		= malloc2d( maxnoutlet, nepochs, double );
-	Qbedannualoutlet		= malloc1d( maxnoutlet, double );
-	Qpeakperoutlet			= malloc1d( maxnoutlet, double );
-	Qpeakperoutletall		= malloc2d( nepochs, maxnoutlet, double );
-	Qtotaloutletannual		= malloc1d( maxnoutlet, double );
-	Qsgrandtotaloutlet		= malloc2d( nepochs, maxnoutlet, double );
-	Csgrandtotaloutlet		= malloc2d( nepochs, maxnoutlet, double );
-	Qsannualoutlet			= malloc1d( maxnoutlet, double );
-	Csannualoutlet			= malloc1d( maxnoutlet, double );
-	Coutlettotal			= malloc2d( nepochs, maxnoutlet, double );
-	Csoutlet				= malloc2d( daysiy, maxnoutlet, double );
-	Qboutlet				= malloc2d( daysiy, maxnoutlet, double );
-	Qsoutlet				= malloc2d( daysiy, maxnoutlet, double );
-	Qsum					= malloc2d( maxday, maxnoutlet, double );
-	Qgrandtotalperepoch	= malloc2d( nepochs, maxnoutlet, double );
-	Qdummy					= malloc2d( nepochs, maxnoutlet, double );
-	Qgrandtotaltotoutlet 	= malloc1d( maxnoutlet, double );
-	Qsgrandtotaltotoutlet 	= malloc1d( maxnoutlet, double );
-	Qpeakfloodtemp			= malloc2d( nyears[ep], daysiy, double );
-	return;
-} /* end of HydroAllocmemOutlet1 */
+  outletpcttotevents = malloc2d (maxnoutlet, nepochs, double);
+  Qbedannualoutlet = malloc1d (maxnoutlet, double);
+  Qpeakperoutlet = malloc1d (maxnoutlet, double);
+  Qpeakperoutletall = malloc2d (nepochs, maxnoutlet, double);
+  Qtotaloutletannual = malloc1d (maxnoutlet, double);
+  Qsgrandtotaloutlet = malloc2d (nepochs, maxnoutlet, double);
+  Csgrandtotaloutlet = malloc2d (nepochs, maxnoutlet, double);
+  Qsannualoutlet = malloc1d (maxnoutlet, double);
+  Csannualoutlet = malloc1d (maxnoutlet, double);
+  Coutlettotal = malloc2d (nepochs, maxnoutlet, double);
+  Csoutlet = malloc2d (daysiy, maxnoutlet, double);
+  Qboutlet = malloc2d (daysiy, maxnoutlet, double);
+  Qsoutlet = malloc2d (daysiy, maxnoutlet, double);
+  Qsum = malloc2d (maxday, maxnoutlet, double);
+  Qgrandtotalperepoch = malloc2d (nepochs, maxnoutlet, double);
+  Qdummy = malloc2d (nepochs, maxnoutlet, double);
+  Qgrandtotaltotoutlet = malloc1d (maxnoutlet, double);
+  Qsgrandtotaltotoutlet = malloc1d (maxnoutlet, double);
+  Qpeakfloodtemp = malloc2d (nyears[ep], daysiy, double);
+  return;
+}                              /* end of HydroAllocmemOutlet1 */
 
-
+
 /*---------------------------------
  *  Start of HydroAllocmemOutlet1
- *---------------------------------*/
-void hydroallocmemoutlet1(int ep, int nepochs)
+ *---------------------------------*/ 
+  void
+hydroallocmemoutlet1 (int ep, int nepochs) 
 {
-	numberday				= malloc1d( eventsnr[ep], long ); //max allocatie is 365
-	nroutlets				= malloc1d( eventsnr[ep], int );
-	outletpct				= malloc3d( maxnoutlet, nepochs, eventsnr[ep], double);
-	Qgrandtotaloutlet		= malloc3d( nepochs, maxnoutlet, eventsnr[ep], double );
-	Qpeakevents				= malloc1d( eventsnr[ep], double );
-	Qtotaloutlet			= malloc2d( maxnoutlet, eventsnr[ep], double );
-	Qbar					= malloc3d( nepochs, maxnoutlet, eventsnr[ep], double );
-	Qpeakallevents			= malloc2d( nepochs, eventsnr[ep], double );
-	daysievent				= malloc1d( eventsnr[ep], long ); // max = days*years per event
-	return;
-} /* end of HydroAllocmemOutlet1 */
+  numberday = malloc1d (eventsnr[ep], long);   //max allocatie is 365
+  nroutlets = malloc1d (eventsnr[ep], int);
+  outletpct = malloc3d (maxnoutlet, nepochs, eventsnr[ep], double);
+  Qgrandtotaloutlet = malloc3d (nepochs, maxnoutlet, eventsnr[ep], double);
+  Qpeakevents = malloc1d (eventsnr[ep], double);
+  Qtotaloutlet = malloc2d (maxnoutlet, eventsnr[ep], double);
+  Qbar = malloc3d (nepochs, maxnoutlet, eventsnr[ep], double);
+  Qpeakallevents = malloc2d (nepochs, eventsnr[ep], double);
+  daysievent = malloc1d (eventsnr[ep], long);  // max = days*years per event
+  return;
+}                              /* end of HydroAllocmemOutlet1 */
 
-
+
 /*-------------------------------------------------------------------------------------------
  *  5) HydroFreeMemOutlet
  *
  * Free memory for the outlet variables. To free the memory, it will use
  * the various subprograms in Hydrofree_mem.c
  *
- *-------------------------------------------------------------------------------------------*/
- 
+ *-------------------------------------------------------------------------------------------*/ 
+  
 /*--------------------------------
  *  Start of HydroFreeMemOutlet
- *--------------------------------*/
-void hydrofreememoutlet(int j)
+ *--------------------------------*/ 
+  void
+hydrofreememoutlet (int j) 
 {
-	freematrix2D( (void**)outletpcttotevents, maxnoutlet );
-	freematrix1D( (void*)Qbedannualoutlet );
-	freematrix1D( (void*)Qpeakperoutlet );
-	freematrix2D( (void**)Qpeakperoutletall, nepochs);
-	freematrix1D( (void*)Qtotaloutletannual );
-	freematrix2D( (void**)Qsgrandtotaloutlet, nepochs );
-	freematrix2D( (void**)Csgrandtotaloutlet, nepochs );
-	freematrix1D( (void*)Qsannualoutlet );
-	freematrix1D( (void*)Csannualoutlet );	
-	freematrix2D( (void**)Coutlettotal, nepochs );
-	freematrix2D( (void**)Csoutlet, daysiy );
-	freematrix2D( (void**)Qboutlet, daysiy );
-	freematrix2D( (void**)Qsoutlet, daysiy );	
-	freematrix2D( (void**)Qsum, maxday );
-	freematrix2D( (void**)Qgrandtotalperepoch, nepochs );	
-	freematrix2D( (void**)Qdummy, nepochs );	
-	freematrix1D( (void*)Qgrandtotaltotoutlet );
-	freematrix1D( (void*)Qsgrandtotaltotoutlet );
-	freematrix2D( (void**)Qpeakfloodtemp, j );
-	return;
-} /* end of hydroFreeMemOutlet */
+  freematrix2D ((void **) outletpcttotevents, maxnoutlet);
+  freematrix1D ((void *) Qbedannualoutlet);
+  freematrix1D ((void *) Qpeakperoutlet);
+  freematrix2D ((void **) Qpeakperoutletall, nepochs);
+  freematrix1D ((void *) Qtotaloutletannual);
+  freematrix2D ((void **) Qsgrandtotaloutlet, nepochs);
+  freematrix2D ((void **) Csgrandtotaloutlet, nepochs);
+  freematrix1D ((void *) Qsannualoutlet);
+  freematrix1D ((void *) Csannualoutlet);
+  freematrix2D ((void **) Coutlettotal, nepochs);
+  freematrix2D ((void **) Csoutlet, daysiy);
+  freematrix2D ((void **) Qboutlet, daysiy);
+  freematrix2D ((void **) Qsoutlet, daysiy);
+  freematrix2D ((void **) Qsum, maxday);
+  freematrix2D ((void **) Qgrandtotalperepoch, nepochs);
+  freematrix2D ((void **) Qdummy, nepochs);
+  freematrix1D ((void *) Qgrandtotaltotoutlet);
+  freematrix1D ((void *) Qsgrandtotaltotoutlet);
+  freematrix2D ((void **) Qpeakfloodtemp, j);
+  return;
+}                              /* end of hydroFreeMemOutlet */
 
+
 /*--------------------------------
  *  Start of HydroFreeMemOutlet1
- *--------------------------------*/
-void hydrofreememoutlet1(int ep)
+ *--------------------------------*/ 
+  void
+hydrofreememoutlet1 (int ep) 
 {
-	freematrix1D( (void*)numberday );
-	freematrix1D( (void*)nroutlets );
-	freematrix3D( (void***)outletpct, maxnoutlet, nepochs );
-	freematrix3D( (void***)Qgrandtotaloutlet, nepochs, maxnoutlet );
-	freematrix1D( (void*)Qpeakevents );
-	freematrix2D( (void**)Qtotaloutlet, maxnoutlet );
-	freematrix3D( (void***)Qbar, nepochs, maxnoutlet );
-	freematrix2D( (void**)Qpeakallevents, nepochs );
-	freematrix1D( (void*)daysievent );				
-	return;	
-} /* end of hydroFreeMemOutlet1 */
+  freematrix1D ((void *) numberday);
+  freematrix1D ((void *) nroutlets);
+  freematrix3D ((void ***) outletpct, maxnoutlet, nepochs);
+  freematrix3D ((void ***) Qgrandtotaloutlet, nepochs, maxnoutlet);
+  freematrix1D ((void *) Qpeakevents);
+  freematrix2D ((void **) Qtotaloutlet, maxnoutlet);
+  freematrix3D ((void ***) Qbar, nepochs, maxnoutlet);
+  freematrix2D ((void **) Qpeakallevents, nepochs);
+  freematrix1D ((void *) daysievent);
+  return;
+}                              /* end of hydroFreeMemOutlet1 */
 
-
-/* end of HydroOutlet.c */
+
+/* end of HydroOutlet.c */ 

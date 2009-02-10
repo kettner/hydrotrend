@@ -9,7 +9,7 @@
  *	--------		------------	----		-----	-----
  *
  *-------------------------------------------------------------------------------------------*/
- 
+
 #ifndef HYDROTREND_H_
 #define HYDROTREND_H_
 #include "hydroreadclimate.h"
@@ -56,4 +56,3 @@ int hydroexpdist (double pvals[31], int mnth);
 void hydroinputalloc (int ep);
 
 #endif /*  */
-  
