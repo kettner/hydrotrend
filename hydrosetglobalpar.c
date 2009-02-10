@@ -10,8 +10,7 @@
  * err			various			int			-		error flag, halts program
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include "hydrofree_mem.h"
 #include "hydroclimate.h"
 #include "hydroinout.h"

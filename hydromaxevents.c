@@ -14,8 +14,7 @@
  *  Qpeakalleventstemp	hydromaxevent.c	double	-		temporary variable to store Qpeakvalue
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #include "hydroclimate.h"
 #include "hydroparams.h"
 #include "hydrotimeser.h"

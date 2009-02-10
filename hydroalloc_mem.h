@@ -9,8 +9,7 @@
  *	--------		------------	----		-----	-----
  *
  *-------------------------------------------------------------------------------------------*/
-   
-  
+ 
 #ifndef HYDROALLOC_MEM_H_
 #define HYDROALLOC_MEM_H_
   
@@ -25,4 +24,4 @@
 void **matrixalloc2D (int, int, long);
 void ***matrixalloc3D (int, int, int, long);
 
-#endif  /*  */
+#endif /*  */

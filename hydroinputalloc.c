@@ -43,7 +43,12 @@ hydroinputalloc (int nepochs)
   ELAstart = malloc1d (nepochs, double);
   ELAchange = malloc1d (nepochs, double);
   dryevap = malloc1d (nepochs, double);
+  alphag = malloc1d (nepochs, double);
+  betag = malloc1d (nepochs, double);
+  alphagwe = malloc1d (nepochs, double);
+  betagwe = malloc1d (nepochs, double);
   rslope = malloc1d (nepochs, double);
+  alphabed = malloc1d (nepochs, double);
   basinlength = malloc1d (nepochs, double);
   Rvol = malloc1d (nepochs, double);
   Rparamcheck = malloc1d (nepochs, char);
@@ -67,6 +72,9 @@ hydroinputalloc (int nepochs)
   Qsbarformulaflag = malloc1d (nepochs, int);
   TEsubbasin = malloc1d (nepochs, double);
   TE = malloc1d (nepochs, double);
+  maxalt = malloc1d (nepochs, double);
+  totalarea = malloc1d (nepochs, double);
+  nhypts = malloc1d (nepochs, int);
   Qsgrandtotal = malloc1d (nepochs, double);
   Qspsigrandtotal = malloc1d (nepochs, double);
   Csgrandtotal = malloc1d (nepochs, double);
