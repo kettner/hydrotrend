@@ -113,8 +113,8 @@ hydrosedload (gw_rainfall_etc * gw_rain)
   Qspeak = 0.0;
   Cspeak = 0.0;
 
-  A = (totalarea / 1e6);    /****  FORMULA USES AREA in km^2  ****/
-  H = maxalt;
+  A = (totalarea[ep] / 1e6);    /****  FORMULA USES AREA in km^2  ****/
+  H = maxalt[ep];
 
 /*-------------------------------------------------------
  *  Allocate memory for possible multiple outlet module
@@ -142,20 +142,22 @@ hydrosedload (gw_rainfall_etc * gw_rain)
   if (yr == syear[ep])
     {
       Tbar = 0.0;
-      for (kk = 0; kk < nhypts; kk++)
+      for (kk = 0; kk < nhypts[ep]; kk++)
         {
           if (kk == 0)
             Tbar +=
               (Tmean -
-               (((hypselev[kk] -
-                  hypselev[0])) * lapserate[ep])) * (hypsarea[kk] / totalarea);
+               (((hypselev[ep][kk] -
+                  hypselev[ep][0])) * lapserate[ep])) * (hypsarea[ep][kk] /
+                                                         totalarea[ep]);
           else
             Tbar +=
               (Tmean -
-               (((hypselev[kk] -
-                  hypselev[0])) * lapserate[ep])) * ((hypsarea[kk] -
-                                                      hypsarea[kk -
-                                                               1]) / totalarea);
+               (((hypselev[ep][kk] -
+                  hypselev[ep][0])) * lapserate[ep])) * ((hypsarea[ep][kk] -
+                                                          hypsarea[ep][kk -
+                                                                       1]) /
+                                                         totalarea[ep]);
         }
     }
 
@@ -171,11 +173,11 @@ hydrosedload (gw_rainfall_etc * gw_rain)
  		 *  Calculate area upstream of reservoir
 		 *----------------------------------------*/
           if (Rarea[ep] == 0.0)
-            for (kk = 0; kk < nhypts; kk++)
-              if (hypselev[kk] == Ralt[ep] || hypselev[kk] > Ralt[ep])
+            for (kk = 0; kk < nhypts[ep]; kk++)
+              if (hypselev[ep][kk] == Ralt[ep] || hypselev[ep][kk] > Ralt[ep])
                 {
-                  Rarea[ep] = A - (hypsarea[kk] / 1e6);
-                  kk = nhypts;
+                  Rarea[ep] = A - (hypsarea[ep][kk] / 1e6);
+                  kk = nhypts[ep];
                 }
 
           if (Rvol[ep] < 0.5)
@@ -255,7 +257,6 @@ hydrosedload (gw_rainfall_etc * gw_rain)
   trnfac = (rhowater * rhosed * trneff) /
     ((rhosed - rhowater) * tan (anglerep * degTOr));
 
-
 /*----------------------------------------------
  *  Get parameters for random numbers Psi & C.
  *  Qsum is passed in.
@@ -333,7 +334,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
      *----------------------------------------------*/
       if (setstartmeanQandQs < 4)
         {
-          if ((100 * glacierarea / totalarea) > 1.0)
+          if ((100 * glacierarea / totalarea[ep]) > 1.0)
             {
               Qspsi[i] =
                 Psi[i] * pow ((Qsumtot[i]) / (Qbartotal[ep]),
@@ -351,7 +352,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
         }
       if (setstartmeanQandQs == 4)
         {
-          if ((100 * glacierarea / totalarea) > 1.0)
+          if ((100 * glacierarea / totalarea[ep]) > 1.0)
             {
                 /*----------------------------------------------------------------
 		 *  Calculate the PSI part of the suspended sediment per day
@@ -440,7 +441,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
     /*---------------------------
      *  Compute bedload (kg/s)
      *--------------------------*/
-      Qb[i] = trnfac * rslope[ep] * pow (Qsumtot[i], alphabed);
+      Qb[i] = trnfac * rslope[ep] * pow (Qsumtot[i], alphabed[ep]);
       Qbedannual += Qb[i] * dTOs;
 
     /*-------------------------------
@@ -547,7 +548,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
      *  Compute bedload (kg/s) per outlet
      *-------------------------------------*/
                   Qboutlet[i][p] =
-                    trnfac * rslope[ep] * pow (Qsum[i][p], alphabed);
+                    trnfac * rslope[ep] * pow (Qsum[i][p], alphabed[ep]);
                   Qbedannualoutlet[p] += Qboutlet[i][p] * dTOs;
                 }
               else

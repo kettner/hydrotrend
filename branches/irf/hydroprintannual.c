@@ -100,7 +100,6 @@ hydroprintannual ()
            glacierareakmreset, fef, baseflowtot[ep] * dTOs * daysiy,
            Volumeglacierarea * 1e6);
 
-
 /*----------------------
  *  Print trend file 2
  *----------------------*/
@@ -221,8 +220,8 @@ hydroprintannual ()
   if (outletmodelflag == 1)
     for (p = 0; p < maxnoutlet; p++)
       fprintf (fidtrend3, "    %.3f  \t ", Qbedannualoutlet[p] / 1e9);
-  fprintf (fidtrend3, " %.2f\t     ", totalarea / 1e6);
-  fprintf (fidtrend3, " %.2f\t     ", (Qsannual / 1e3) / (totalarea / 1e6));
+  fprintf (fidtrend3, " %.2f\t     ", totalarea[ep] / 1e6);
+  fprintf (fidtrend3, " %.2f\t     ", (Qsannual / 1e3) / (totalarea[ep] / 1e6));
   fprintf (fidtrend3, " %d\t		", annualhyperpycnalflag);
   fprintf (fidtrend3, " %.3f\t		", Qshyperpycnal / 1e9);
   fprintf (fidtrend3, " %.3f\t		", Qspeak);

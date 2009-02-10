@@ -55,7 +55,8 @@
 #define	fnamestat			".STAT"
 #define	fnamedis			".DIS"
 #define	fnameconvdis		".CONVDIS"
-#define	fnamehyps			"HYDRO_INPUT/HYDRO.HYPS"
+#define	fnamehyps			"HYDRO_INPUT/HYDRO"
+#define fnamehypsext		".HYPS"
 #define	fnamelog			".LOG"
 #define	fnamelapserate		"HYDRO_PROGRAM_FILES/HYDRO_LAPSERATE.LUT"
 #define	fnameinputgw_r		"HYDRO_INPUT/HYDRO.CLIMATE"
@@ -76,7 +77,7 @@ FILE **fiddis;
 FILE *fidconvdistot;
 FILE **fidconvdis;
 FILE *fidinputgw_r;
-FILE *fidhyps;
+FILE **fidhyps;
 FILE *fidlog;
 FILE *fidlapserate;
 FILE *outp, *outp1, *outp2, *outp3, *outp4;
@@ -91,6 +92,7 @@ char ffnamedis[MAXCH];
 char ffnamedistot[MAXCH];
 char ffnameconvdis[MAXCH];
 char ffnameconvdistot[MAXCH];
+char ffnamehyps[MAXCH];
 char ffnameinputgw_r[MAXCH];
 char ffnamelog[MAXCH];
 char ffidasc[MAXCH];
