@@ -21,6 +21,9 @@
 #include "hydroparams.h"
 #include "hydroalloc_mem.h"
 #include "hydrotrend.h"
+
+#include "hydrotrend_cli.h"
+
 #define MAXLENGTH (80)
 
 #define HT_DEFAULT_PREFIX  "HYDRO"
@@ -68,21 +71,20 @@ If not given, HYDRO_OUT is used.
 
 Use: 'hydrotrend --help' for a full list of command line options.
 */
-int
+ht_args_st *
 parse_command_line (int argc, char *argv[])
 {
-  int success = TRUE;
+  ht_args_st *args = NULL;
 
   if (argv)
     {
       int ch;
       char *in_file_prefix = NULL;
       char *out_dir = NULL;
-      int option_index;
 
       while ((ch =
               getopt_long (argc, argv, "vVh?i:o:", ht_long_opts,
-                           &option_index)) != -1)
+                           NULL)) != -1)
         {
           switch (ch)
             {
@@ -177,14 +179,15 @@ parse_command_line (int argc, char *argv[])
           fprintf (stderr, "Using output directory %s\n", out_dir);
         }
 
+      args = malloc( sizeof(ht_args_st) );
+      args->in_file = in_file_prefix;
+      args->out_dir = out_dir;
+
       strcpy (commandlinearg[1], in_file_prefix);
       strcpy (commandlinearg[2], out_dir);
-
-      free (in_file_prefix);
-      free (out_dir);
     }
 
-  return success;
+  return args;
 }
 
 int
