@@ -1,14 +1,16 @@
-## Comment line
+EXTRA_DIST         = bootstrap
 
-bin_PROGRAMS = hydrotrend
+bin_PROGRAMS       = hydrotrend
 
 hydrotrend_SOURCES = \
-   hydrotrend.c      \
+   hydrotrend_main.c      \
+   hydrotrend_api.c \
+   hydrotrend_irf.c \
    hydroalloc_mem.c   \
    hydrocalqsnew.c    \
    hydrocheckinput.c   \
    hydroclimate.c      \
-   hydrocommandline.c	\
+   hydrotrend_cli.c	\
    hydroexpdist.c      \
    hydrofree_mem.c    \
    hydroglacial.c      \
@@ -43,6 +45,9 @@ hydrotrend_SOURCES = \
    hydroweather.c
 
 noinst_HEADERS = \
+   hydrotrend_api.h \
+   hydrotrend_irf.h \
+   hydrotrend_cli.h \
    hydroalloc_mem.h \
    hydroclimate.h \
    hydrodaysmonths.h \
