@@ -1,5 +1,5 @@
 /*
- *  hydrotrend_API.h
+ *  hydrotrend_api.h
  *  
  *
  *  Created by Albert Kettner on 2/5/09.
@@ -9,18 +9,6 @@
 
 #ifndef HYDROTREND_API_H_
 #define HYDROTREND_API_H_
-
-#include "hydrofree_mem.h"
-#include "hydroclimate.h"
-#include "hydroinout.h"
-#include "hydroparams.h"
-#include "hydrotimeser.h"
-#include "hydroalloc_mem.h"
-#include "hydroreadclimate.h"
-#include "hydrotrend.h"
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 
 typedef struct { } ht_state;
 
