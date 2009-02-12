@@ -9,6 +9,7 @@
 
 #include "hydrotrend_api.h"
 #include "hydrotrend_irf.h"
+#include <stdio.h>
 
 double
 ht_get_velocity (ht_state * s)
