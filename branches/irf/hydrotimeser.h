@@ -9,45 +9,45 @@
  *	--------		------------	----		-----	-----
  * 
  *-------------------------------------------------------------------------------------------*/
- 
-/*  Maxday = 365+50 = 415; amazon=3,900km at 1 m/s => 45 days */ 
-  
+
+/*  Maxday = 365+50 = 415; amazon=3,900km at 1 m/s => 45 days */
+
 #define  maxday  415
 #define  daysiy  365
-#define  wrapday  50	/* Same as maxshoulder in HydroClimate.h */
-int FLAindex[daysiy];
-long *daysievent;
-
+#define  wrapday  50            /* Same as maxshoulder in HydroClimate.h */
+int FLAindex[daysiy];
+long *daysievent;
+
 /*-------------------------------
  *  Daily suspended and bedload
- *-------------------------------*/ 
+ *-------------------------------*/
 double Cs[daysiy], **Csoutlet, Qb[daysiy], **Qboutlet, Qs[daysiy],
   Qspsi[daysiy], Qsglacier[daysiy], **Qsoutlet;
-
+
 /*---------------------------------------------------------
  *  Daily Temperature, Precipitation and Snow time series
- *---------------------------------------------------------*/ 
+ *---------------------------------------------------------*/
 double rainarea[daysiy], Ecanopy[daysiy];
-double Pdaily[daysiy], Tdaily[daysiy], **Snowelevday;
-
+double Pdaily[daysiy], Tdaily[daysiy], **Snowelevday;
+
 /*--------------------------------------------------------------------
  *  Arrays for each type of daily discharge (rain,snow,ice,total,GW)
- *--------------------------------------------------------------------*/ 
+ *--------------------------------------------------------------------*/
 double Qrain[maxday], Qice[maxday], Qnival[maxday], Qsumtot[maxday], **Qsum,
   Qss[maxday];
-
+
 /*--------------------------------------------------
  *  Arrays for carryover from one year to the next
- *--------------------------------------------------*/ 
+ *--------------------------------------------------*/
 double Qrainwrap[wrapday], Qicewrap[wrapday], Qnivalwrap[wrapday];
-double Qsswrap[wrapday], *Snowcarry;
-
+double Qsswrap[wrapday], *Snowcarry;
+
 /*-------------------------------------------
  *  Arrays for the groundwater storage pool
- *-------------------------------------------*/ 
+ *-------------------------------------------*/
 double gwstore[daysiy], Qicetogw[daysiy], Qnivaltogw[daysiy];
-double Egw[daysiy], Qexceedgw[daysiy];
-
+double Egw[daysiy], Qexceedgw[daysiy];
+
 /*
  *
  * Variable		Def.Location	Type	Units	Usage
@@ -82,5 +82,4 @@ double gwstore[daysiy], Qicetogw[daysiy], Qnivaltogw[daysiy];
  * rainarea[]	HydroTimeser.h	double	m^2	basin area over which rain falls
  * wrapday		HydroClimate.h	define	-	maximum number of shoulder days
  *
- */ 
-  
+ */
