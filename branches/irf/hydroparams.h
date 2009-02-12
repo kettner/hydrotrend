@@ -35,7 +35,6 @@
  *  Global Constants
  *--------------------*/
 #define	FLAflag	(9999)          /* used in FLAindex, indicates no freezing T's on a given day */
-#define TMLEN (100)             /* length of the time stamp */
 #define DAYSINYEAR (365)
 
 /*--------------------
@@ -49,192 +48,192 @@
 /*-------------------
  *  Time Parameters
  *-------------------*/
-int nepochs, ep;
-int yr, total_yr;
-int *nyears, *syear;
-char timestep[2];
+extern int ep, nepochs;
+extern int yr, total_yr;
+extern int *nyears, *syear;
+extern char timestep[2];
 
 /*---------------------------------
  *  Sediment Transport Parameters
  *---------------------------------*/
 #define	maxgrn	(10)            /* maximum number of grain sizes */
-int ngrain;                     /* number of grain sizes */
-double **grainpct;              /* % of each grain size */
+extern int ngrain;                     /* number of grain sizes */
+extern double **grainpct;              /* % of each grain size */
 
 /*--------------------
  *  Event Parameters
  *--------------------*/
-int eventcounter;               /* keeps track of the events per epoch */
-long *numberday;                /* parameter to store temperatly which day of the year the event occured */
-int eventsperyear;              /* number of events that occur per year */
-int *eventsnr;
-double *floodvalue;
-int floodcounter;
-int eventnrflag;                /* indicates is number of events is given or is Qpeak which triggers events is given */
+extern int eventcounter;               /* keeps track of the events per epoch */
+extern long *numberday;                /* parameter to store temperatly which day of the year the event occured */
+extern int eventsperyear;              /* number of events that occur per year */
+extern int *eventsnr;
+extern double *floodvalue;
+extern int floodcounter;
+extern int eventnrflag;                /* indicates is number of events is given or is Qpeak which triggers events is given */
 
 /*--------------------
  *  Delta Parameters
  *--------------------*/
-int noutlet;                    /* number of outlets */
-int minnoutlet;                 /* min number of outlets in a range */
-int maxnoutlet;                 /* max number of outlets in a range */
-double ***outletpct;            /* % of each outlet, HARDWIRED */
-double *sedfilter;              /* filter variable for the delta outlets */
-double **outletpcttotevents;    /* total average percentages per outlet */
-int *nroutlets;
-int outletmodelflag;            /* 1 if delta, 0 for no delta (no multiple outlets) */
-int nooutletpctflag;            /* indicator if Q fractions are given by user or not */
-int noutletflag;
-int steadyoutletpctflag;        /* indicator if Q fractions has to be kept the same or change per event */
-double **outletpctdummy;
+extern int noutlet;                    /* number of outlets */
+extern int minnoutlet;                 /* min number of outlets in a range */
+extern int maxnoutlet;                 /* max number of outlets in a range */
+extern double ***outletpct;            /* % of each outlet, HARDWIRED */
+extern double *sedfilter;              /* filter variable for the delta outlets */
+extern double **outletpcttotevents;    /* total average percentages per outlet */
+extern int *nroutlets;
+extern int outletmodelflag;            /* 1 if delta, 0 for no delta (no multiple outlets) */
+extern int nooutletpctflag;            /* indicator if Q fractions are given by user or not */
+extern int noutletflag;
+extern int steadyoutletpctflag;        /* indicator if Q fractions has to be kept the same or change per event */
+extern double **outletpctdummy;
 
 /*----------------------------
  *  Sediment Load Parameters
  *----------------------------*/
 #define	trneff (0.1)
 #define	anglerep (32.21)
-double *alphabed;
-double *C;
-int annualhyperpycnalflag;
-double Qshyperpycnal;
-double hyperpycnalvalue;
-double Cspeak;
-double Qspeak;
+extern double *alphabed;
+extern double *C;
+extern int annualhyperpycnalflag;
+extern double Qshyperpycnal;
+extern double hyperpycnalvalue;
+extern double Cspeak;
+extern double Qspeak;
 
 /*------------------------
  *  Hydraulic Parameters
  *------------------------*/
-double *depcof, *deppow;        /* d = (c * Q^f) */
-double *velcof, *velpow;        /* v = (k * Q^m)  */
-double *widcof, *widpow;        /* w = (a * Q^b) */
-double *avgvel;                 /* Avg. river vel. (m/s) */
-double *rslope;                 /* Riverbed avg. slope (deg) */
+extern double *depcof, *deppow;        /* d = (c * Q^f) */
+extern double *velcof, *velpow;        /* v = (k * Q^m)  */
+extern double *widcof, *widpow;        /* w = (a * Q^b) */
+extern double *avgvel;                 /* Avg. river vel. (m/s) */
+extern double *rslope;                 /* Riverbed avg. slope (deg) */
 
 /*----------------------
  *  Terrain Parameters
  *----------------------*/
-double elevbinsize;
-int *nhypts;                    /* size of hypsometry array per epoch */
-double *areabins;
-double *elevbins;
-double **hypsarea;
-double **hypselev;
-double *basinlength;            /* River basin length (meters) */
-double *maxalt;                 /* Now computed in hydroreadhypsom.c  */
-double *totalarea;              /* Now computed in hydroreadhypsom.c  */
+extern double elevbinsize;
+extern int *nhypts;                    /* size of hypsometry array per epoch */
+extern double *areabins;
+extern double *elevbins;
+extern double **hypsarea;
+extern double **hypselev;
+extern double *basinlength;            /* River basin length (meters) */
+extern double *maxalt;                 /* Now computed in hydroreadhypsom.c  */
+extern double *totalarea;              /* Now computed in hydroreadhypsom.c  */
 
 /*---------------------------------
  *  General Hydrologic Parameters
  *---------------------------------*/
-int *distbins;                  /* days to discharge a bin */
-int exceedflood;                /* flag for whether maxflood exceeded */
-int floodtry;
-double maxflood;                /* theoretical max flood size */
-double *Rvol;                   /* storage capacity of lake/reservoir */
-double *Ralt;                   /* alitude of the lake/reservoir */
-double *Rarea;                  /* drainage area above the reservoir */
-double *TE;                     /* Trapping efficiency */
-double *TEsubbasin;
-char *Rparamcheck;              /* indicator if alt. or drainage area is used as input */
-double alphac;                  /*  OBSOLETE ?? */
-double betac;                   /*  OBSOLETE ?? */
-double rhosed;    /***  HARDWIRE  ***/
-double rhowater;  /***  HARDWIRE  ***/
+extern int *distbins;                  /* days to discharge a bin */
+extern int exceedflood;                /* flag for whether maxflood exceeded */
+extern int floodtry;
+extern double maxflood;                /* theoretical max flood size */
+extern double *Rvol;                   /* storage capacity of lake/reservoir */
+extern double *Ralt;                   /* alitude of the lake/reservoir */
+extern double *Rarea;                  /* drainage area above the reservoir */
+extern double *TE;                     /* Trapping efficiency */
+extern double *TEsubbasin;
+extern char *Rparamcheck;              /* indicator if alt. or drainage area is used as input */
+extern double alphac;                  /*  OBSOLETE ?? */
+extern double betac;                   /*  OBSOLETE ?? */
+extern double rhosed;    /***  HARDWIRE  ***/
+extern double rhowater;  /***  HARDWIRE  ***/
 
 /*------------------------
  *  Rainfall Parameters
  *------------------------*/
-double *alphag;         /***  experimental added to the input file  ***/
-double *betag;         /***  experimental added to the input file  ***/
-double pcr;            /***  HARDWIRE  ***/
-double pmax;           /***  HARDWIRE  ***/
-double MPrain;
+extern double *alphag;         /***  experimental added to the input file  ***/
+extern double *betag;         /***  experimental added to the input file  ***/
+extern double pcr;            /***  HARDWIRE  ***/
+extern double pmax;           /***  HARDWIRE  ***/
+extern double MPrain;
 
 /*--------------------------
  *  Groundwater Parameters
  *--------------------------*/
-double *Ko;                     /* sat. hydr. cond. (mm/day) */
-double *alphass;
-double *betass;
-double gwinitial;               /* initial GW storage (m^3) */
-double gwlast;
-double *gwmin, *gwmax;          /* min/max storage (m^3) */
-double percentgw;               /* % of snow/ice melt to GW */
-double *alphagwe;               /* evaporation coeff */
-double *betagwe;                /* evaporation exponent */
-int evaporationdatafile;
+extern double *Ko;                     /* sat. hydr. cond. (mm/day) */
+extern double *alphass;
+extern double *betass;
+extern double gwinitial;               /* initial GW storage (m^3) */
+extern double gwlast;
+extern double *gwmin, *gwmax;          /* min/max storage (m^3) */
+extern double percentgw;               /* % of snow/ice melt to GW */
+extern double *alphagwe;               /* evaporation coeff */
+extern double *betagwe;                /* evaporation exponent */
+extern int evaporationdatafile;
 
 /*-----------------------------
  *  Snowmelt/Nival Parameters
  *-----------------------------*/
-double *dryevap;
-double Meltrate;
-double Msnowstart, Msnowend;
-double MPnival;
+extern double *dryevap;
+extern double Meltrate;
+extern double Msnowstart, Msnowend;
+extern double MPnival;
 
 /*---------------------------
  *  Glacier Melt Parameters
  *---------------------------*/
-int ELAindex;
-double bigg, smallg, lastarea, initiallastarea;
-double ela, lastela, initiallastela;
-double Gmass;
-double MPglacial;
-double bethaexpo, bethaglacier;
-double initialVolumelast, Volumeglacierarea;
-double glacierareakmreset, glacierareakmpotential;
+extern int ELAindex;
+extern double bigg, smallg, lastarea, initiallastarea;
+extern double ela, lastela, initiallastela;
+extern double Gmass;
+extern double MPglacial;
+extern double bethaexpo, bethaglacier;
+extern double initialVolumelast, Volumeglacierarea;
+extern double glacierareakmreset, glacierareakmpotential;
 
 /*----------------------------
  *  Random Number Parameters
  *----------------------------*/
 #define	maxran	2200
 #define	INIT_RAN_NUM_SEED (850)
-int nran;
-double *ranarray;
-double rmin, rmax;
+extern int nran;
+extern double *ranarray;
+extern double rmin, rmax;
 
 /*-------------------------------------
  *  Random Number Parameters sediment
  *-------------------------------------*/
-double *ranarraysediment;
-int nransediment;
+extern double *ranarraysediment;
+extern int nransediment;
 
 /*--------------------------
  *  Mass Check Parameters
  *--------------------------*/
 #define	masscheck (1e-5)        /* mass balance check (%) SHOULD BE 1e-5 */
-double maxerr;
-double totalmass;
+extern double maxerr;
+extern double totalmass;
 
 /*-------------------------
  *  Geographic Parameters
  *-------------------------*/
-double lat, lon;
-double alpha3, alpha4, alpha5;
-double alpha6, alpha7, alpha8;
-double alpha9, alpha10, alpha11;
-double k1, k2;
-int *Qsbarformulaflag;
+extern double lat, lon;
+extern double alpha3, alpha4, alpha5;
+extern double alpha6, alpha7, alpha8;
+extern double alpha9, alpha10, alpha11;
+extern double k1, k2;
+extern int *Qsbarformulaflag;
 
 /*-----------------------
  *  Rainfile parameters
  *-----------------------*/
-int raindatafile;
+extern int raindatafile;
 
 /*------------------------
  *  Lithology parameters
  *------------------------*/
-double *lithology;
+extern double *lithology;
 
 /*----------------------------
  *  Anthropogenic parameters
  *----------------------------*/
-double *anthro;
+extern double *anthro;
 
 /*---------------------------------------------
  *  Parameters to set Qsbarnew for each epoch
  *---------------------------------------------*/
-int setstartmeanQandQs;         /* loop counter for each epoch (count to 3) */
+extern int setstartmeanQandQs;         /* loop counter for each epoch (count to 3) */
 
 /*-------------------------------------------------
  *  Variables to set ASCII write option ON or OFF
@@ -242,23 +241,23 @@ int setstartmeanQandQs;         /* loop counter for each epoch (count to 3) */
 #define	MAXCHAR (5)
 #define	ON "ON"
 #define	OFF "OFF"
-char asciioutput[MAXCHAR];
+extern char asciioutput[MAXCHAR];
 
 /*---------------------------------------------------------
  *  Set the file name and directory parameters + security
  *---------------------------------------------------------*/
 #define	DUMMY "HYDRO"
 #define verbosearg "VERBOSE"
-char startname[80];
-char directory[100];
-char chrdump[80];
-char commandlinearg[2][20];
-int globalparflag;
-int lapserateflag;
-int verbose;
-double *Qgrandtotaltotoutlet, Qgrandtotaltot, **Qdummy, **Qgrandtotalperepoch;
-double Qsgrandtotaltot, *Qsgrandtotaltotoutlet, Qpeakmax, TEtot;
-double Qsoutletdummy;
-double **Qsbartotoutlet;
+extern char startname[80];
+extern char directory[100];
+extern char chrdump[80];
+extern char commandlinearg[2][20];
+extern int globalparflag;
+extern int lapserateflag;
+extern int verbose;
+extern double *Qgrandtotaltotoutlet, Qgrandtotaltot, **Qdummy, **Qgrandtotalperepoch;
+extern double Qsgrandtotaltot, *Qsgrandtotaltotoutlet, Qpeakmax, TEtot;
+extern double Qsoutletdummy;
+extern double **Qsbartotoutlet;
 
 #endif /*  */

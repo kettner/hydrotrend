@@ -48,6 +48,9 @@
  * title[]	        hydroinout.h	char	-	user specified text identifier
  *-------------------------------------------------------------------------------------------*/
 
+#if !defined( HYDROINOUT_H )
+#define HYDROINOUT_H
+
 #define	fnameinput			"HYDRO_INPUT/HYDRO.IN"
 #define	fnametrend1			".TRN1"
 #define	fnametrend2			".TRN2"
@@ -67,36 +70,40 @@
 #define	fidasc4				"ASCII.CS"
 #define	MAXCH				(300)
 
-FILE *fidinput;
-FILE *fidtrend1;
-FILE *fidtrend2;
-FILE *fidtrend3;
-FILE *fidstat;
-FILE *fiddistot;
-FILE **fiddis;
-FILE *fidconvdistot;
-FILE **fidconvdis;
-FILE *fidinputgw_r;
-FILE **fidhyps;
-FILE *fidlog;
-FILE *fidlapserate;
-FILE *outp, *outp1, *outp2, *outp3, *outp4;
+#include <stdio.h>
 
-char title[MAXCH];
-char moname[12][4];
-char ffnametrend1[MAXCH];
-char ffnametrend2[MAXCH];
-char ffnametrend3[MAXCH];
-char ffnamestat[MAXCH];
-char ffnamedis[MAXCH];
-char ffnamedistot[MAXCH];
-char ffnameconvdis[MAXCH];
-char ffnameconvdistot[MAXCH];
-char ffnamehyps[MAXCH];
-char ffnameinputgw_r[MAXCH];
-char ffnamelog[MAXCH];
-char ffidasc[MAXCH];
-char ffidasc1[MAXCH];
-char ffidasc2[MAXCH];
-char ffidasc3[MAXCH];
-char ffidasc4[MAXCH];
+extern FILE *fidinput;
+extern FILE *fidtrend1;
+extern FILE *fidtrend2;
+extern FILE *fidtrend3;
+extern FILE *fidstat;
+extern FILE *fiddistot;
+extern FILE **fiddis;
+extern FILE *fidconvdistot;
+extern FILE **fidconvdis;
+extern FILE *fidinputgw_r;
+extern FILE **fidhyps;
+extern FILE *fidlog;
+extern FILE *fidlapserate;
+extern FILE *outp, *outp1, *outp2, *outp3, *outp4;
+
+extern char title[MAXCH];
+extern char moname[12][4];
+extern char ffnametrend1[MAXCH];
+extern char ffnametrend2[MAXCH];
+extern char ffnametrend3[MAXCH];
+extern char ffnamestat[MAXCH];
+extern char ffnamedis[MAXCH];
+extern char ffnamedistot[MAXCH];
+extern char ffnameconvdis[MAXCH];
+extern char ffnameconvdistot[MAXCH];
+extern char ffnamehyps[MAXCH];
+extern char ffnameinputgw_r[MAXCH];
+extern char ffnamelog[MAXCH];
+extern char ffidasc[MAXCH];
+extern char ffidasc1[MAXCH];
+extern char ffidasc2[MAXCH];
+extern char ffidasc3[MAXCH];
+extern char ffidasc4[MAXCH];
+
+#endif
