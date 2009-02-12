@@ -1,9 +1,8 @@
-AC_INIT(hydrotrend_main.c)
+AC_INIT([hydrotrend],3.0.5,[kettner@colorado.edu])
 
-#PROGRAM=hydrotrend
-#VERSION=3.0.5
-
-AM_INIT_AUTOMAKE(hydrotrend,3.0.5)
+AC_CONFIG_AUX_DIR([config])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE([1.9.6])
 
 AC_PROG_CC
 AC_PROG_CPP
