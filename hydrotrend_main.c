@@ -10,6 +10,8 @@
 #include "hydrotrend_api.h"
 #include "hydrotrend_cli.h"
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int fprint_current_time( FILE* file, char* label );
 int fprint_header( FILE* fp );
@@ -82,6 +84,8 @@ fprint_footer( FILE* fp )
   }
   return n;
 }
+
+#define TMLEN (100) /* length of the time stamp */
 
 int
 fprint_current_time( FILE* fp, char* label )
