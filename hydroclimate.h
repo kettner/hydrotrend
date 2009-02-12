@@ -69,38 +69,46 @@
  *  
  *-------------------------------------------------------------------------------------------*/
 
+#if !defined( HYDROCLIMATE_H )
+#define HYDROCLIMATE_H
+
 #include <stdio.h>
+
 #define nmonth		12
 #define Tmaxstd		3.0
 #define Pmaxstd		3.0
 #define maxshoulder	50      /* same as wrapday in HydroTimeSeries.h */
 
-int nelevbins, shouldern;
+extern int nelevbins, shouldern;
 
-double Eiceannual, Enivalannual, *ELAchange;
-double *ELAstart, Ewetannual;
-double glacierarea, glacierelev, *lapserate, MEtotal;
-double Minput, Moutput, MQprevious, MQnext, Pannual;
-double *Pchange, *Pmassbal, *Pexponent;
-double Pmonth[nmonth];
-double **Pnominal, **Pnomstd;
-double *Prange;
-double *Pstart, *Pstd;
-double Qbedannual, *Qbedannualoutlet, *Qgrandtotal, ***Qgrandtotaloutlet, Qpeak,
+extern double Eiceannual, Enivalannual, *ELAchange;
+extern double *ELAstart, Ewetannual;
+extern double glacierarea, glacierelev, *lapserate, MEtotal;
+extern double Minput, Moutput, MQprevious, MQnext, Pannual;
+extern double *Pchange, *Pmassbal, *Pexponent;
+extern double Pmonth[nmonth];
+extern double **Pnominal, **Pnomstd;
+extern double *Prange;
+extern double *Pstart, *Pstd;
+extern double Qbedannual, *Qbedannualoutlet, *Qgrandtotal, ***Qgrandtotaloutlet, Qpeak,
   *Qpeakevents, *Qpeakperoutlet, **Qpeakperoutletall, Qtotal, **Qtotaloutlet,
   *Qtotaloutletannual, ***Qbar, *Qbartotal, *Qicebartotal, *Qpeakall,
   **Qpeakallevents, *Qicetotal, *Qsglaciertotal;
-double *Qsgrandtotal, *Qsgrandtotaldelta, **Qsgrandtotaloutlet,
+extern double *Qsgrandtotal, *Qsgrandtotaldelta, **Qsgrandtotaloutlet,
   **Csgrandtotaloutlet, *Qsbarnew, *Qsbarnew1, Qsannual, *Qsannualoutlet,
   *Csannualoutlet, *Qsbartot, *Qsglacierbar, *Qsbar, *Qsmean, *Qsglaciersmean,
   **Coutlettotal;
-double *baseflowtot, Csannual, *Csgrandtotal, *totpercentageQ;
-double shoulderright[maxshoulder], shoulderleft, shouldermain;
-double Snowremains;
-double Tannual, *Tchange;
-double **Televday, Tmonth[nmonth], **Tnominal;
-double **Tnomstd, *Tstart, *Tstd;
-double **Qpeakfloodtemp;
-double *Qsglaciersgrandtotal, *Qspsigrandtotal;
-double Qsglacierannual, Qspsiannual;
-double *GlacierMstorage, *GlacierMinput, *fractionglaciersediment;
+extern double *baseflowtot, Csannual, *Csgrandtotal, *totpercentageQ;
+extern double shoulderright[maxshoulder], shoulderleft, shouldermain;
+extern double Snowremains;
+extern double Tannual, *Tchange;
+extern double **Televday, Tmonth[nmonth], **Tnominal;
+extern double **Tnomstd, *Tstart, *Tstd;
+extern double **Qpeakfloodtemp;
+extern double *Qsglaciersgrandtotal, *Qspsigrandtotal;
+extern double Qsglacierannual, Qspsiannual;
+extern double *GlacierMstorage, *GlacierMinput, *fractionglaciersediment;
+
+#endif
+
+

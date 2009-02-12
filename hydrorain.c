@@ -42,6 +42,40 @@
 #include "hydrotimeser.h"
 #include <stdlib.h>
 
+int FLAindex[daysiy];
+long *daysievent;
+
+/*-------------------------------
+ *  Daily suspended and bedload
+ *-------------------------------*/
+double Cs[daysiy], **Csoutlet, Qb[daysiy], **Qboutlet, Qs[daysiy],
+  Qspsi[daysiy], Qsglacier[daysiy], **Qsoutlet;
+
+/*---------------------------------------------------------
+ *  Daily Temperature, Precipitation and Snow time series
+ *---------------------------------------------------------*/
+double rainarea[daysiy], Ecanopy[daysiy];
+double Pdaily[daysiy], Tdaily[daysiy], **Snowelevday;
+
+/*--------------------------------------------------------------------
+ *  Arrays for each type of daily discharge (rain,snow,ice,total,GW)
+ *--------------------------------------------------------------------*/
+double Qrain[maxday], Qice[maxday], Qnival[maxday], Qsumtot[maxday], **Qsum,
+  Qss[maxday];
+
+/*--------------------------------------------------
+ *  Arrays for carryover from one year to the next
+ *--------------------------------------------------*/
+double Qrainwrap[wrapday], Qicewrap[wrapday], Qnivalwrap[wrapday];
+double Qsswrap[wrapday], *Snowcarry;
+
+/*-------------------------------------------
+ *  Arrays for the groundwater storage pool
+ *-------------------------------------------*/
+double gwstore[daysiy], Qicetogw[daysiy], Qnivaltogw[daysiy];
+double Egw[daysiy], Qexceedgw[daysiy];
+
+
 /*----------------------
  *  Start of HydroRain
  *----------------------*/

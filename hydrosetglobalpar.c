@@ -19,6 +19,40 @@
 #include "hydroalloc_mem.h"
 #include "hydroreadclimate.h"
 
+FILE *fidinput;
+FILE *fidtrend1;
+FILE *fidtrend2;
+FILE *fidtrend3;
+FILE *fidstat;
+FILE *fiddistot;
+FILE **fiddis;
+FILE *fidconvdistot;
+FILE **fidconvdis;
+FILE *fidinputgw_r;
+FILE **fidhyps;
+FILE *fidlog;
+FILE *fidlapserate;
+FILE *outp, *outp1, *outp2, *outp3, *outp4;
+
+char title[MAXCH];
+char moname[12][4];
+char ffnametrend1[MAXCH];
+char ffnametrend2[MAXCH];
+char ffnametrend3[MAXCH];
+char ffnamestat[MAXCH];
+char ffnamedis[MAXCH];
+char ffnamedistot[MAXCH];
+char ffnameconvdis[MAXCH];
+char ffnameconvdistot[MAXCH];
+char ffnamehyps[MAXCH];
+char ffnameinputgw_r[MAXCH];
+char ffnamelog[MAXCH];
+char ffidasc[MAXCH];
+char ffidasc1[MAXCH];
+char ffidasc2[MAXCH];
+char ffidasc3[MAXCH];
+char ffidasc4[MAXCH];
+
 /*---------------------
  *  Start the program
  *---------------------*/

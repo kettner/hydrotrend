@@ -25,6 +25,36 @@
 #include "hydroreadclimate.h"
 #include "hydrodaysmonths.h"
 
+int nelevbins, shouldern;
+
+double Eiceannual, Enivalannual, *ELAchange;
+double *ELAstart, Ewetannual;
+double glacierarea, glacierelev, *lapserate, MEtotal;
+double Minput, Moutput, MQprevious, MQnext, Pannual;
+double *Pchange, *Pmassbal, *Pexponent;
+double Pmonth[nmonth];
+double **Pnominal, **Pnomstd;
+double *Prange;
+double *Pstart, *Pstd;
+double Qbedannual, *Qbedannualoutlet, *Qgrandtotal, ***Qgrandtotaloutlet, Qpeak,
+  *Qpeakevents, *Qpeakperoutlet, **Qpeakperoutletall, Qtotal, **Qtotaloutlet,
+  *Qtotaloutletannual, ***Qbar, *Qbartotal, *Qicebartotal, *Qpeakall,
+  **Qpeakallevents, *Qicetotal, *Qsglaciertotal;
+double *Qsgrandtotal, *Qsgrandtotaldelta, **Qsgrandtotaloutlet,
+  **Csgrandtotaloutlet, *Qsbarnew, *Qsbarnew1, Qsannual, *Qsannualoutlet,
+  *Csannualoutlet, *Qsbartot, *Qsglacierbar, *Qsbar, *Qsmean, *Qsglaciersmean,
+  **Coutlettotal;
+double *baseflowtot, Csannual, *Csgrandtotal, *totpercentageQ;
+double shoulderright[maxshoulder], shoulderleft, shouldermain;
+double Snowremains;
+double Tannual, *Tchange;
+double **Televday, Tmonth[nmonth], **Tnominal;
+double **Tnomstd, *Tstart, *Tstd;
+double **Qpeakfloodtemp;
+double *Qsglaciersgrandtotal, *Qspsigrandtotal;
+double Qsglacierannual, Qspsiannual;
+double *GlacierMstorage, *GlacierMinput, *fractionglaciersediment;
+
 /*-------------------------
  *  Start of HydroClimate
  *-------------------------*/
@@ -126,3 +156,4 @@ hydroclimate (gw_rainfall_etc * gw_rain)
 
   return (err);
 }                               /* end of HydroClimate */
+
