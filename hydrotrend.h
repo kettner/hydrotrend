@@ -14,10 +14,6 @@
 #define HYDROTREND_H_
 #include "hydroreadclimate.h"
 
-#define HT_MAJOR_VERSION (3)
-#define HT_MINOR_VERSION (0)
-#define HT_MICRO_VERSION (5)
-
 int hydrocommandline (int *argc, char **argv);
 void hydrosetparams ();
 int hydrosecurityinputcheck ();
