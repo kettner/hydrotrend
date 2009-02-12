@@ -42,10 +42,7 @@ libhydrotrend_la_SOURCES = \
    hydrosnow.c      \
    hydrosumflow.c   \
    hydroswap.c   \
-   hydroweather.c \
-   hydrotimeser.c
-
-#libhydrotrend_a_SOURCES = $(libhydrotrend_la_SOURCES)
+   hydroweather.c
 
 hydrotrend_SOURCES = \
    hydrotrend_main.c
@@ -72,6 +69,4 @@ include_HEADERS = \
    hydrotrend_cli.h
 
 INCLUDES = -I$(top_srcdir)
-
-LDADD = -lm
 
