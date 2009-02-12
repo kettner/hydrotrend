@@ -260,16 +260,5 @@ double *Qgrandtotaltotoutlet, Qgrandtotaltot, **Qdummy, **Qgrandtotalperepoch;
 double Qsgrandtotaltot, *Qsgrandtotaltotoutlet, Qpeakmax, TEtot;
 double Qsoutletdummy;
 double **Qsbartotoutlet;
-typedef struct
-{
-  long day;
-  long n_days;
-  double *q;
-  double *velocity;
-  double *width;
-  double *depth;
-  double *qs;
-  double *qb;
-} ht_state;
 
 #endif /*  */
