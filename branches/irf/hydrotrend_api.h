@@ -10,6 +10,10 @@
 #ifndef HYDROTREND_API_H_
 #define HYDROTREND_API_H_
 
+#define HT_MAJOR_VERSION (3)
+#define HT_MINOR_VERSION (0)
+#define HT_MICRO_VERSION (5)
+
 typedef struct { } ht_state;
 
 ht_state *ht_initialize (char* prefix, char* dir);
