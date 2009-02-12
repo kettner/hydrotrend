@@ -13,16 +13,14 @@
  * 
  *-------------------------------------------------------------------------------------------*/
 
+#include "hydrotrend_cli.h"
+#include "hydrotrend_api.h"
+#include "hydroparams.h"
+
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <getopt.h>
-#include "hydroclimate.h"
-#include "hydroinout.h"
-#include "hydroparams.h"
-#include "hydroalloc_mem.h"
-#include "hydrotrend.h"
-
-#include "hydrotrend_cli.h"
 
 #define MAXLENGTH (80)
 
