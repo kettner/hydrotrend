@@ -62,7 +62,7 @@ ht_run_until (ht_state * s, double time)
 ht_state *
 ht_initialize ( char *prefix, char *out_dir )
 {
-  ht_state *s = initialize (prefix, out_dir);
+  ht_state *s = (ht_state*) initialize (prefix, out_dir);
   return s;
 }
 
