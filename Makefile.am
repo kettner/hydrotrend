@@ -1,9 +1,9 @@
 EXTRA_DIST         = bootstrap
 
 bin_PROGRAMS       = hydrotrend
+lib_LTLIBRARIES    = libhydrotrend.la
 
-hydrotrend_SOURCES = \
-   hydrotrend_main.c      \
+libhydrotrend_la_SOURCES = \
    hydrotrend_api.c \
    hydrotrend_irf.c \
    hydroalloc_mem.c   \
@@ -42,12 +42,19 @@ hydrotrend_SOURCES = \
    hydrosnow.c      \
    hydrosumflow.c   \
    hydroswap.c   \
-   hydroweather.c
+   hydroweather.c \
+   hydrotimeser.c
+
+#libhydrotrend_a_SOURCES = $(libhydrotrend_la_SOURCES)
+
+hydrotrend_SOURCES = \
+   hydrotrend_main.c
+
+hydrotrend_DEPENDENCIES = libhydrotrend.la
+hydrotrend_LDADD        = -lhydrotrend
 
 noinst_HEADERS = \
-   hydrotrend_api.h \
    hydrotrend_irf.h \
-   hydrotrend_cli.h \
    hydroalloc_mem.h \
    hydroclimate.h \
    hydrodaysmonths.h \
@@ -59,6 +66,10 @@ noinst_HEADERS = \
    hydrotrend.h \
    hydrotimeser.h \
    hydrofree_mem.h
+
+include_HEADERS = \
+   hydrotrend_api.h \
+   hydrotrend_cli.h
 
 INCLUDES = -I$(top_srcdir)
 
