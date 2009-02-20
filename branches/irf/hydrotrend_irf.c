@@ -47,7 +47,7 @@ int
 ht_save_state (state * s)
 {
 
-  int err;
+  int err = 0;
   long day;
   long start = (ep * nyears[ep] * daysiy) + (yr - syear[ep]) * daysiy;
 
