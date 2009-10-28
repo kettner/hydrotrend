@@ -25,6 +25,7 @@
 #define MAXLENGTH (80)
 
 #define HT_DEFAULT_PREFIX  "HYDRO"
+#define HT_DEFAULT_IN_DIR  "./HYDRO_IN"
 #define HT_DEFAULT_OUT_DIR "HYDRO_OUT"
 
 #define TRUE  (1)
@@ -42,8 +43,9 @@ static struct option ht_long_opts[] = {
   {"brief", no_argument, &verbose_flag, 0},
   {"version", no_argument, &version_flag, 1},
   {"help", no_argument, &help_flag, 1},
-  {"in-file", required_argument, NULL, 'i'},
-  {"out-dir", required_argument, NULL, 'o'},
+  {"prefix", required_argument, NULL, 'p'},
+  {"in-dir", required_argument, NULL, 'S'},
+  {"out-dir", required_argument, NULL, 'D'},
   {NULL, 0, NULL, 0}
 };
 
@@ -54,8 +56,9 @@ static char *help_msg[] = {
   "  --brief              Be terse",
   "  -v or --version      Print version number and exit",
   "  -?,-h or --help      Print this information and exit",
-  "  -i, --in-file=PREFIX Use PREFIX.IN as input file",
-  "  -o, --out-dir=DIR    Put output in directory DIR",
+  "  -p, --prefix=PREFIX  Use PREFIX.IN as input file",
+  "  -S, --in-dir=DIR     Path to input file(s)",
+  "  -D, --out-dir=DIR    Put output in directory DIR",
   NULL
 };
 
@@ -78,18 +81,22 @@ parse_command_line (int argc, char *argv[])
     {
       int ch;
       char *in_file_prefix = NULL;
+      char *in_dir = NULL;
       char *out_dir = NULL;
 
       while ((ch =
-              getopt_long (argc, argv, "vVh?i:o:", ht_long_opts,
+              getopt_long (argc, argv, "vVh?p:D:S:", ht_long_opts,
                            NULL)) != -1)
         {
           switch (ch)
             {
-            case 'i':
+            case 'p':
               in_file_prefix = strdup (optarg);
               break;
-            case 'o':
+            case 'S':
+              in_dir = strdup (optarg);
+              break;
+            case 'D':
               out_dir = strdup (optarg);
               break;
             case 'v':
@@ -105,7 +112,7 @@ parse_command_line (int argc, char *argv[])
             case 0:
               break;
             default:
-              fprintf (stderr, "Error: Unknown option %d\n", ch);
+              fprintf (stderr, "Error: Unknown option %c\n", ch);
               exit (EXIT_FAILURE);
             }
         }
@@ -150,14 +157,17 @@ parse_command_line (int argc, char *argv[])
             }
         }
       if (!out_dir)
-        out_dir = strdup (HT_DEFAULT_OUT_DIR);
+        out_dir = NULL;
+        //out_dir = strdup (HT_DEFAULT_OUT_DIR);
 
+      if (!in_dir)
+        in_dir = strdup (HT_DEFAULT_IN_DIR);
 
       if (verbose_flag)
         verbose = 1;
       else
         verbose = 0;
-
+/*
       if (!is_valid_str (in_file_prefix) || !is_valid_str (out_dir))
         {
           fprintf (stderr, "  HydroTrend ERROR: Incorrect command line \n");
@@ -170,19 +180,27 @@ parse_command_line (int argc, char *argv[])
           to_upper_str (in_file_prefix);
           to_upper_str (out_dir);
         }
-
+*/
       if (verbose)
         {
           fprintf (stderr, "Using input file %s.IN\n", in_file_prefix);
-          fprintf (stderr, "Using output directory %s\n", out_dir);
+          fprintf (stderr, "Using input directory %s\n", in_dir);
+          if (out_dir)
+            fprintf (stderr, "Using output directory %s\n", out_dir);
+          else
+            fprintf (stderr, "Using output directory specified in input file\n");
         }
 
       args = malloc( sizeof(ht_args_st) );
       args->in_file = in_file_prefix;
+      args->in_dir = in_dir;
       args->out_dir = out_dir;
 
       strcpy (commandlinearg[1], in_file_prefix);
-      strcpy (commandlinearg[2], out_dir);
+      if (out_dir)
+        strcpy (commandlinearg[2], out_dir);
+      else
+        strcpy (commandlinearg[2], '\0');
     }
 
   return args;
