@@ -4,6 +4,7 @@
 typedef struct
 {
    char *in_file;
+   char *in_dir;
    char *out_dir;
 }
 ht_args_st;

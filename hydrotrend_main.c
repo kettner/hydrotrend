@@ -20,7 +20,8 @@ int fprint_footer( FILE* fp );
 int
 main (int argc, char **argv)
 {
-  char *in_file = NULL;
+  char *in_prefix = NULL;
+  char *in_dir = NULL;
   char *out_dir = NULL;
 
   /*-----------------------------------------------------------------
@@ -35,7 +36,8 @@ main (int argc, char **argv)
         exit (EXIT_FAILURE);
       }
 
-    in_file = args->in_file;
+    in_prefix = args->in_file;
+    in_dir = args->in_dir;
     out_dir = args->out_dir;
 
     free( args );
@@ -47,7 +49,7 @@ main (int argc, char **argv)
   {
     ht_state *s = NULL;
 
-    s = ht_initialize ( in_file, out_dir );
+    s = ht_initialize (in_dir, in_prefix, out_dir );
 
     ht_run_until (s, 10.5);
 
@@ -57,8 +59,10 @@ main (int argc, char **argv)
   fprint_current_time( stdout, "Stop" );
   fprint_footer ( stdout );
 
-  free( in_file );
-  free( out_dir );
+  free( in_prefix );
+  free( in_dir );
+  if (out_dir)
+    free (out_dir);
 
   return EXIT_SUCCESS;
 }
