@@ -51,7 +51,7 @@
 #if !defined( HYDROINOUT_H )
 #define HYDROINOUT_H
 
-#define	fnameinput			"HYDRO_INPUT/HYDRO.IN"
+#define	FNAMEINPUT			"HYDRO_INPUT/HYDRO.IN"
 #define	fnametrend1			".TRN1"
 #define	fnametrend2			".TRN2"
 #define	fnametrend3			".TRN3"
