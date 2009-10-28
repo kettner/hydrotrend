@@ -16,7 +16,7 @@ typedef struct
 state *ht_state_new (long n_days);
 state *ht_state_destroy (state * s);
 
-state * initialize ( char *in_file_prefix , char *out_dir );
+state * initialize (char* in_dir, char *in_file_prefix , char *out_dir );
 state * run ( state * s, double time );
 state * finalize ( state * s);
 

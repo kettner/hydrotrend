@@ -77,9 +77,10 @@ ht_save_state (state * s)
 }
 
 state *
-initialize ( char *in_file_prefix , char *out_dir )
+initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 {
   state *s = NULL;
+  char* in_file;
 
         /*---------------------
 	 *  Start the program
@@ -128,12 +129,30 @@ initialize ( char *in_file_prefix , char *out_dir )
     if (verbose)
       //printf ("Reading input data from: %s.IN... \n", commandlinearg[1]);
       printf ("Reading input data from: %s.IN... \n", in_file_prefix );
-    err = hydroreadinput ();
+
+    { /* build the input file name */
+      in_file = malloc (strlen (in_dir) + strlen ("/") +
+                        strlen (in_file_prefix) + strlen (".IN"));
+      in_file[0] = '\0';
+      strcat (in_file, in_dir);
+      strcat (in_file, "/");
+      strcat (in_file, in_file_prefix);
+      strcat (in_file, ".IN");
+    }
+
+    err = hydroreadinput (in_file);
     if (err)
       {
         fprintf (stderr, " ERROR in HydroReadInput: HydroTrend Aborted \n\n");
         exit (1);
       }
+    if (out_dir!=NULL)
+    { /* Override output directory if it was specified on the command line. */
+      if (strlen (out_dir)>98)
+        fprintf (stderr, "Error: output directory is too long: %s", out_dir);
+      strncpy (directory, out_dir, 98);
+      strcat (directory, "/");
+    }
 
                 /*--------------------
 		 *  Allowcate memory
@@ -165,8 +184,9 @@ initialize ( char *in_file_prefix , char *out_dir )
 		 *  and set maxalt and totalarea.
 		 *---------------------------------*/
     if (verbose)
-      printf ("Reading hypsometric data from: HYDRO.HYPS... \n");
-    err = hydroreadhypsom ();
+      printf ("Reading hypsometric data from: %s/%s.HYPS... \n",
+              in_dir, in_file_prefix);
+    err = hydroreadhypsom (in_dir, in_file_prefix);
     if (err)
       {
         fprintf (stderr, " ERROR in HydroReadHypsom: HydroTrend Aborted \n\n");
