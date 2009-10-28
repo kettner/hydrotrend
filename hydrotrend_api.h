@@ -16,7 +16,7 @@
 
 typedef struct { } ht_state;
 
-ht_state *ht_initialize (char* prefix, char* dir);
+ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 ht_state *ht_finalize (ht_state * s);
 ht_state *ht_run_until (ht_state * s, double time);
 
