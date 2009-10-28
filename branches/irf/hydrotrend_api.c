@@ -10,6 +10,8 @@
 #include "hydrotrend_api.h"
 #include "hydrotrend_irf.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 double
 ht_get_velocity (ht_state * s)
@@ -47,7 +49,7 @@ ht_get_sediment_discharge (ht_state * s)
 }
 
 double
-ht_get_bedload (ht_state * s)
+ht_get_bedload_flux (ht_state * s)
 {
   state* _s = (state*)s;
   return _s->qb[_s->day];
@@ -60,9 +62,9 @@ ht_run_until (ht_state * s, double time)
 }
 
 ht_state *
-ht_initialize ( char *prefix, char *out_dir )
+ht_initialize (char* in_dir, char *prefix, char *out_dir )
 {
-  ht_state *s = (ht_state*) initialize (prefix, out_dir);
+  ht_state *s = (ht_state*) initialize (in_dir, prefix, out_dir);
   return s;
 }
 
