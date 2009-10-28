@@ -21,7 +21,7 @@
  *  Start of HydroReadHypsom
  *----------------------------*/
 int
-hydroreadhypsom ()
+hydroreadhypsom (char* path, char* in_file_prefix)
 {
 
 /*-------------------
@@ -42,7 +42,8 @@ hydroreadhypsom ()
   fidhyps = allocate_1d_F (nepochs);
   for (ep = 0; ep < nepochs; ep++)
     {
-      sprintf (dummystring, "%s%d", fnamehyps, ep);
+      sprintf (dummystring, "%s/%s%d", path, in_file_prefix, ep);
+      //sprintf (dummystring, "%s/%s%d", path, fnamehyps, ep);
       strcpy (ffnamehyps, dummystring);
       strcat (ffnamehyps, fnamehypsext);
       if ((fidhyps[ep] = fopen (ffnamehyps, "r")) == NULL)
