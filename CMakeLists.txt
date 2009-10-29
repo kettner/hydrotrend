@@ -69,6 +69,36 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         RENAME hydrotrend
         COMPONENT hydrotrend)
 
+########### Python bindings ###############
+
+# You may need to use -DCMAKE_INCLUDE_PATH and -DCMAKE_LIBRARY_PATH
+# to find the correct libraries/include paths
+find_package (SWIG REQUIRED)
+include (${SWIG_USE_FILE})
+
+find_package (PythonLibs 2.6 EXACT)
+include_directories (${PYTHON_INCLUDE_PATH})
+include_directories (${CMAKE_CURRENT_SOURCE_DIR})
+
+set (CMAKE_SWIG_FLAGS "")
+
+#set_source_files_properties (deltas_mod.i PROPERTIES CPLUSPLUS ON) 
+#set_source_files_properties (deltas_mod.i PROPERTIES SWIG_FLAGS "-includeall")
+#swig_add_module (hydrotrend_mod python hydrotrend_mod.i hydrotrend_api.c)
+swig_add_module (hydrotrend_mod python hydrotrend_mod.i ${hydrotrend_lib_SRCS})
+swig_link_libraries (hydrotrend_mod ${PYTHON_LIBRARIES})
+
+#add_library( _deltas_mod deltas_mod_wrap.c ndelta4.c deltas_api.c )
+#target_link_libraries( deltas_mod _deltas_mod)
+
+message ("Python include path " ${PYTHON_INCLUDE_PATH})
+message ("Python libs " ${PYTHON_LIBRARIES})
+message ("Python lib path " ${PYTHON_LIBRARY_PATH})
+
+install (FILES ${CMAKE_BINARY_DIR}/hydrotrend_mod.py
+               ${CMAKE_BINARY_DIR}/_hydrotrend_mod.so
+         DESTINATION lib/hydrotrend-python COMPONENT hydrotrend)
+
 ########### Install files ###############
 
 install(FILES  hydrotrend_api.h hydrotrend_cli.h
