@@ -26,42 +26,49 @@
 /*---------------------------
  *  Start of HydroShuffle.c
  *---------------------------*/
-int hydroshuffle(int dvals[31],int mnth)
+int
+hydroshuffle (int dvals[31], int mnth)
 {
 
-float hydroran3(long *idum);
-float dumflt;
-double dummy_double;
-int yy, zz, ii, err;
+  float hydroran3 (long *idum);
+  float dumflt;
+  double dummy_double;
+  int yy, zz, ii, err;
 
 /*------------------------
  *  Initialize variables
  *------------------------*/
-err   = 0;
-for( ii=0; ii<daysim[mnth]; ii++ )
-      dvals[ii] = ii+1;
+  err = 0;
+  for (ii = 0; ii < daysim[mnth]; ii++)
+    dvals[ii] = ii + 1;
 
 /*---------------------------------
  *  shuffle the days of the month
  *---------------------------------*/
-if ( yr == syear[ep] && mnth == 0)
-   rnseed3 = -INIT_RAN_NUM_SEED; 
+  if (yr == syear[ep] && mnth == 0)
+    rnseed3 = -INIT_RAN_NUM_SEED;
 
-for( ii=0; ii<daysim[mnth]; ii++ ) {
-   dumflt = hydroran3(&rnseed3);				/* get a uniform random number [0:1] */
-   if( 0 > dumflt || dumflt > 1 ){
-      fprintf( stderr,"A function in HydroRan2 failed in HydroShuffle.c \n");
-      fprintf( stderr," \t dumflt = %f: \t setting value to 0.5, ii = %d \n", dumflt, ii);
-      dumflt=0.5;
-   }
+  for (ii = 0; ii < daysim[mnth]; ii++)
+    {
+      dumflt = hydroran3 (&rnseed3);    /* get a uniform random number [0:1] */
+      if (0 > dumflt || dumflt > 1)
+        {
+          fprintf (stderr,
+                   "A function in HydroRan2 failed in HydroShuffle.c \n");
+          fprintf (stderr,
+                   " \t dumflt = %f: \t setting value to 0.5, ii = %d \n",
+                   dumflt, ii);
+          dumflt = 0.5;
+        }
 
-   dummy_double = dumflt*(float)daysim[mnth];
-   yy = (int)rnd(dummy_double);                 /* scale to a random day */
-   if( yy == 0 ) yy += 1;
-   zz = dvals[yy-1];				/* swap random day with day ii */
-   dvals[yy-1] = dvals[ii];
-   dvals[ii] = zz;
-}
+      dummy_double = dumflt * (float) daysim[mnth];
+      yy = (int) rnd (dummy_double);    /* scale to a random day */
+      if (yy == 0)
+        yy += 1;
+      zz = dvals[yy - 1];       /* swap random day with day ii */
+      dvals[yy - 1] = dvals[ii];
+      dvals[ii] = zz;
+    }
 
-return(err);
-} /* end of HydroShuffle.c */
+  return (err);
+}                               /* end of HydroShuffle.c */
