@@ -14,6 +14,26 @@
 #include <string.h>
 
 double
+ht_get_current_time (ht_state * s)
+{
+  state* _s = (state*)s;
+  return _s->day;
+}
+
+double
+ht_get_start_time (ht_state * s)
+{
+  return 0;
+}
+
+double
+ht_get_end_time (ht_state * s)
+{
+  state* _s = (state*)s;
+  return _s->n_days;
+}
+
+double
 ht_get_velocity (ht_state * s)
 {
   state* _s = (state*)s;
