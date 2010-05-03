@@ -20,6 +20,9 @@ ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 ht_state *ht_finalize (ht_state * s);
 ht_state *ht_run_until (ht_state * s, double time);
 
+double ht_get_current_time (ht_state * s);
+double ht_get_start_time (ht_state * s);
+double ht_get_end_time (ht_state * s);
 double ht_get_velocity (ht_state * s);
 double ht_get_width (ht_state * s);
 double ht_get_depth (ht_state * s);
