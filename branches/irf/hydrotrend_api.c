@@ -33,6 +33,44 @@ ht_get_end_time (ht_state * s)
   return _s->n_days;
 }
 
+const char* exchange_items[] =
+{
+  "VELOCITY",
+  "WIDTH",
+  "DEPTH",
+  "WATER_DISCHARGE",
+  "SEDIMENT_DISCHARGE",
+  "BEDLOAD_FLUX",
+  "NULL"
+};
+
+const const char**
+ht_get_exchange_items (void)
+{
+  return exchange_items;
+}
+
+double
+ht_get_value (ht_state * s, char* value)
+{
+  if (strcasecmp (value, "velocity")==0)
+    return ht_get_velocity (s);
+  else if (strcasecmp (value, "width")==0)
+    return ht_get_width (s);
+  else if (strcasecmp (value, "depth")==0)
+    return ht_get_depth (s);
+  else if (strcasecmp (value, "water_discharge")==0)
+    return ht_get_water_discharge (s);
+  else if (strcasecmp (value, "sediment_discharge")==0)
+    return ht_get_sediment_discharge (s);
+  else if (strcasecmp (value, "bedload_flux")==0)
+    return ht_get_bedload_flux (s);
+  else
+    fprintf (stderr, "ERROR: %s: Bad value string.", value);
+
+  return 0.;
+}
+
 double
 ht_get_velocity (ht_state * s)
 {
