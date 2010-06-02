@@ -20,6 +20,9 @@ ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 ht_state *ht_finalize (ht_state * s);
 ht_state *ht_run_until (ht_state * s, double time);
 
+const const char** ht_get_exchange_items (void);
+double ht_get_value (ht_state * s, char* value);
+
 double ht_get_current_time (ht_state * s);
 double ht_get_start_time (ht_state * s);
 double ht_get_end_time (ht_state * s);
