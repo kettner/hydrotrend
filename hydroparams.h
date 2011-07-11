@@ -251,7 +251,7 @@ extern char asciioutput[MAXCHAR];
 extern char startname[80];
 extern char directory[100];
 extern char chrdump[80];
-extern char commandlinearg[2][20];
+extern char commandlinearg[2][2048];
 extern int globalparflag;
 extern int lapserateflag;
 extern int verbose;
