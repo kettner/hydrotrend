@@ -196,11 +196,11 @@ parse_command_line (int argc, char *argv[])
       args->in_dir = in_dir;
       args->out_dir = out_dir;
 
-      strcpy (commandlinearg[1], in_file_prefix);
+      strcpy (commandlinearg[0], in_file_prefix);
       if (out_dir)
-        strcpy (commandlinearg[2], out_dir);
+        strcpy (commandlinearg[1], out_dir);
       else
-        strcpy (commandlinearg[2], '\0');
+        commandlinearg[1][0] = '\0';
     }
 
   return args;
