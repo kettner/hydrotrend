@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mkdir -p @CMAKE_CURRENT_BINARY_DIR@/output && \
+cd @CMAKE_CURRENT_BINARY_DIR@ && \
+@HYDROTREND_EXE@ -V  --prefix=HYDRO \
+  --in-dir=@CMAKE_CURRENT_SOURCE_DIR@/input  \
+  --out-dir=@CMAKE_CURRENT_BINARY_DIR@/output && \
+diff @CMAKE_CURRENT_SOURCE_DIR@/output/HYDROASCII.Q output/HYDROASCII.Q
+
