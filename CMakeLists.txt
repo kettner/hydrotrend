@@ -2,6 +2,19 @@ cmake_minimum_required(VERSION 2.6)
 
 project( hydrotrend )
 
+include (CTest)
+
+ENABLE_TESTING()
+
+set (HYDROTREND_EXE run_hydrotrend)
+
+add_test (HYDROTREND_VERSION ${HYDROTREND_EXE} --version)
+add_test (HYDROTREND_HELP ${HYDROTREND_EXE} --help)
+add_test (HYDROTREND_TEST_WITHOUT_ARGS
+          ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_without_args.sh)
+add_test (HYDROTREND_TEST_WITH_ARGS
+          ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_with_args.sh)
+
 add_subdirectory( data )
 
 ########### libhydrotrend ###############
