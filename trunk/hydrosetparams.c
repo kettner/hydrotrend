@@ -213,7 +213,7 @@ char asciioutput[MAXCHAR];
 char startname[80];
 char directory[100];
 char chrdump[80];
-char commandlinearg[2][20];
+char commandlinearg[2][2048];
 int globalparflag;
 int lapserateflag;
 int verbose;
