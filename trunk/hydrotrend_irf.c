@@ -24,6 +24,8 @@ state_new (long n_days)
   s->depth = malloc1d (s->n_days, double);
   s->qs = malloc1d (s->n_days, double);
   s->qb = malloc1d (s->n_days, double);
+  s->prec = malloc1d (s->n_days, double);
+  s->temp = malloc1d (s->n_days, double);
 
   return s;
 }
@@ -37,6 +39,8 @@ state_destroy (state * s)
   free (s->depth);
   free (s->qs);
   free (s->qb);
+  free (s->prec);
+  free (s->temp);
 
   free (s);
 
@@ -71,6 +75,8 @@ ht_save_state (state * s)
       s->depth[start + day] = (depcof[ep] * pow (Qsumtot[day], deppow[ep]));
       s->qs[start + day] = Qs[day];
       s->qb[start + day] = Qb[day];
+      s->prec[start + day] = Pdaily[day];
+      s->temp[start + day] = Tdaily[day];
     }
 
   return (err);
@@ -1192,6 +1198,7 @@ finalize (state * s)
       fclose (outp2);
       fclose (outp3);
       fclose (outp4);
+      fclose (outp5);
     }
   if (outletmodelflag == 1)
     for (p = 0; p < maxnoutlet; p++)

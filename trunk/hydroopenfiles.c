@@ -184,6 +184,18 @@ hydroopenfiles ()
                    ffidasc4);
           err = 1;
         }
+      
+      strcpy (ffidasc5, startname);
+      strcat (ffidasc5, fidasc5);
+      if (verbose)
+        printf ("Opening %s... \n", ffidasc5);
+      if ((outp5 = fopen (ffidasc5, "w")) == NULL)
+      {
+        fprintf (stderr,
+                 "  HydroOpenFiles ERROR: Unable to open the discharge file %s \n",
+                 ffidasc5);
+        err = 1;
+      }
     }
   return (err);
 }                               /* end of HydroOpenFiles */
