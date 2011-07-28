@@ -41,6 +41,8 @@ const char* exchange_items[] =
   "WATER_DISCHARGE",
   "SEDIMENT_DISCHARGE",
   "BEDLOAD_FLUX",
+  "PRECIPITATION",
+  "TEMPERATURE",
   "NULL"
 };
 
@@ -65,6 +67,10 @@ ht_get_value (ht_state * s, char* value)
     return ht_get_sediment_discharge (s);
   else if (strcasecmp (value, "bedload_flux")==0)
     return ht_get_bedload_flux (s);
+  else if (strcasecmp (value, "precipitation")==0)//A.KETTNER JULY 28TH, 2011
+    return ht_get_precipitation (s);              //A.KETTNER JULY 28TH, 2011
+  else if (strcasecmp (value, "temperature")==0)  //A.KETTNER JULY 28TH, 2011
+    return ht_get_temperature (s);                //A.KETTNER JULY 28TH, 2011
   else
     fprintf (stderr, "ERROR: %s: Bad value string.", value);
 
@@ -112,7 +118,21 @@ ht_get_bedload_flux (ht_state * s)
   state* _s = (state*)s;
   return _s->qb[_s->day];
 }
+  //A.KETTNER JULY 28TH, 2011
+double
+ht_get_precipitation (ht_state * s)
+{
+  state* _s = (state*)s;
+  return _s->prec[_s->day];
+}
 
+double
+ht_get_temperature (ht_state * s)
+{
+  state* _s = (state*)s;
+  return _s->temp[_s->day];
+}
+  //END //A.KETTNER JULY 28TH, 2011
 ht_state *
 ht_run_until (ht_state * s, double time)
 {

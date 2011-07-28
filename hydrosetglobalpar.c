@@ -32,7 +32,7 @@ FILE *fidinputgw_r;
 FILE **fidhyps;
 FILE *fidlog;
 FILE *fidlapserate;
-FILE *outp, *outp1, *outp2, *outp3, *outp4;
+FILE *outp, *outp1, *outp2, *outp3, *outp4, *outp5;
 
 char title[MAXCH];
 char moname[12][4];
@@ -52,6 +52,8 @@ char ffidasc1[MAXCH];
 char ffidasc2[MAXCH];
 char ffidasc3[MAXCH];
 char ffidasc4[MAXCH];
+char ffidasc5[MAXCH];
+
 
 /*---------------------
  *  Start the program

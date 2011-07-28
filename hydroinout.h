@@ -68,6 +68,7 @@
 #define	fidasc2				"ASCII.QS"
 #define	fidasc3				"ASCII.QB"
 #define	fidasc4				"ASCII.CS"
+#define	fidasc5				"ASCII.TEMP_PREC"
 #define	MAXCH				(300)
 
 #include <stdio.h>
@@ -85,7 +86,7 @@ extern FILE *fidinputgw_r;
 extern FILE **fidhyps;
 extern FILE *fidlog;
 extern FILE *fidlapserate;
-extern FILE *outp, *outp1, *outp2, *outp3, *outp4;
+extern FILE *outp, *outp1, *outp2, *outp3, *outp4, *outp5;
 
 extern char title[MAXCH];
 extern char moname[12][4];
@@ -105,5 +106,5 @@ extern char ffidasc1[MAXCH];
 extern char ffidasc2[MAXCH];
 extern char ffidasc3[MAXCH];
 extern char ffidasc4[MAXCH];
-
+extern char ffidasc5[MAXCH];
 #endif

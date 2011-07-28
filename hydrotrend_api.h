@@ -32,5 +32,6 @@ double ht_get_depth (ht_state * s);
 double ht_get_water_discharge (ht_state * s);
 double ht_get_sediment_discharge (ht_state * s);
 double ht_get_bedload_flux (ht_state * s);
-
+double ht_get_precipitation (ht_state * s);
+double ht_get_temperature (ht_state * s);
 #endif

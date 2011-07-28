@@ -11,6 +11,8 @@ typedef struct
   double *depth;
   double *qs;
   double *qb;
+  double *temp;
+  double *prec;
 } state;
 
 state *ht_state_new (long n_days);
