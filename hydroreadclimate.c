@@ -37,13 +37,13 @@
 /*-----------------------
  *  Function Definition
  *-----------------------*/ 
-void Read_Rainfall_Etc (gw_rainfall_etc * gw_rain);
+void Read_Rainfall_Etc (gw_rainfall_etc * gw_rain, char* in_dir, char* in_file_prefix);
 
 /*---------------------------
  *  Start of HydroReadInput
  *---------------------------*/ 
   int
-hydroreadclimate (gw_rainfall_etc * gw_rain)
+hydroreadclimate (gw_rainfall_etc * gw_rain, char* in_dir, char* in_file_prefix)
 {
   
 /*-------------------
@@ -63,7 +63,7 @@ hydroreadclimate (gw_rainfall_etc * gw_rain)
 /*-------------------------------
  * Read Rainfall input FOR NOW
  *-------------------------------*/ 
-    Read_Rainfall_Etc (gw_rain);
+    Read_Rainfall_Etc (gw_rain, in_dir, in_file_prefix);
   return (err);
 }                              /* end hydroreadclimate.c */
 
@@ -76,7 +76,7 @@ hydroreadclimate (gw_rainfall_etc * gw_rain)
  *  Function Read_Rainfall_Etc
  *------------------------------*/ 
   void
-Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
+Read_Rainfall_Etc (gw_rainfall_etc * gw_rain, char* in_dir, char* in_file_prefix)
 {
   
 /*-------------------
@@ -85,12 +85,16 @@ Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
 #define HOURSINDAY  (24.0) 
   int k, count, i;
   long n;
-  char line[200];
+  char line[200], fnameinputgw_r[400], dummystring[200];
   double dummyT, dummyR, dummyT2, dummyTtot, dummyRtot, dummydouble;
   
 /*------------------------
  *  Open rain input file
  *------------------------*/ 
+      sprintf (dummystring, "%s/%s", in_dir, in_file_prefix);
+      strcpy (fnameinputgw_r, dummystring);
+      strcat (fnameinputgw_r, fnameclimateext);
+
     if ((fidinputgw_r = fopen (fnameinputgw_r, "r")) == NULL)
     {
       fprintf (stderr,
@@ -111,7 +115,7 @@ Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
 /*--------------------
  *  Strip off header
  *--------------------*/ 
-        for (k = 0; k < 6; k++)
+        for (k = 0; k < 5; k++)
         fgets (line, sizeof (line), fidinputgw_r);
       
 /*---------------------------------
@@ -119,6 +123,7 @@ Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
  *---------------------------------*/ 
         fgets (line, sizeof (line), fidinputgw_r);
       sscanf (line, "%ld %ld", &gw_rain->n_steps, &gw_rain->dt);
+printf ("%ld, %ld\n",gw_rain->n_steps, gw_rain->dt);
       
 /*---------------------------------------------------
  *  Check number of years to run with actually rain
@@ -166,7 +171,7 @@ Read_Rainfall_Etc (gw_rainfall_etc * gw_rain)
                 {
                   fgets (line, sizeof (line), fidinputgw_r);
                   count = sscanf (line, "%lf %lf", &dummyR, &dummyT);
-                  printf ("%lf, %lf\n", dummyR, dummyT);
+                  //printf ("%lf, %lf\n", dummyR, dummyT);
                   if (count != 2)
                     {
                       n = (n + 1) * (k + 1) * (i + 1);
