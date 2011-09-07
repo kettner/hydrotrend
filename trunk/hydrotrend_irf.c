@@ -205,7 +205,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 		 *---------------------------------------------*/
     if (verbose)
       printf ("Reading live climate data files... \n");
-    err = hydroreadclimate (gw_rain);
+    err = hydroreadclimate (gw_rain, in_dir, in_file_prefix);
     if (err)
       {
         fprintf (stderr, " ERROR in HydroReadClimate: HydroTrend Aborted \n\n");
