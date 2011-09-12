@@ -1,27 +1,27 @@
 
-01/28/08
+09/12/11
 
-Make sure that the ASCII input files called "configure.in" and
-"Makefile.am" have been converted with dos2unix.  End-of-line
-characters will be of DOS type if any of these files are edited
-edited with a Windows-based editor.  Source code files whose
-names end in ".c" or ".h" seem to be okay.
+With this you should be able to compile HydroTrend:
 
-Comment out the KSH line in Makefile.am.
+1) Install cmake on your linux machine if you haven't installed it yet (http://www.cmake.org/cmake/resources/software.html)
 
-Run these commands:
+2) Than, in the hydrotrend root directory (hydrotrend-trunk-rxxx) make a '_build' folder (mkdir _build).
 
-(1) touch README AUTHORS COPYING NEWS ChangeLog
-(2) aclocal  (creates aclocal.m4)
-(3) autoconf (creates configure from configure.in)
-(4) automake --add-missing   (creates makefile.in from makefile.am)
-(5) /bin/bash configure  (creates Makefile)
-(6) make
+3) cd to the _build dir.
 
-Note:  To recompile after changes to source code, try:
-       (1) rm *.o
-       (2) make
+4) in the _build directory type the command: cmake ./..
+
+5) Once that is finished, use the command in the same directory: make
+
+6) cd ../data
+
+7) cp -r input/ HYDRO_IN
+
+8) mkdir HYDRO_OUTPUT
+
+9) ../_build/run_hydrotrend -V (the -V (verbose) will generate some more information to your terminal, if you don't like that you can run it without the -V)
 
 
-S. Peckham & A.J. Kettner
+
+Feel free to contact me if you are having problems compiling the code: Albert Kettner (Kettner@colorado.edu)
 
