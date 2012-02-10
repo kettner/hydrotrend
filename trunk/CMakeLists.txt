@@ -46,6 +46,7 @@ set( hydrotrend_lib_SRCS
    hydrorandomsediment.c
    hydroreadclimate.c
    hydroreadevaporation.c
+   hydroreadearthquake.c
    hydroreadhypsom.c
    hydroreadinput.c
    hydrosecurityinputcheck.c

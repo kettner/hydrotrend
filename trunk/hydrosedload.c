@@ -89,7 +89,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
 /*-------------------
  *  Local Variables
  *-------------------*/
-  int err, i, p, kk, y;
+  int err, i, p, kk, y, set_event;
   long j;
   double A, H, RQbar, Hr;
   double Tbar, Tmean, Tend, Tdummy;
@@ -102,6 +102,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
   double *Coutletannual;
   float dumflt;
   double massdummy;
+  double decay_multiplier;
 
 /*------------------------
  *  Initialize Variables
@@ -112,7 +113,6 @@ hydrosedload (gw_rainfall_etc * gw_rain)
   Qshyperpycnal = 0.0;
   Qspeak = 0.0;
   Cspeak = 0.0;
-
   A = (totalarea[ep] / 1e6);    /****  FORMULA USES AREA in km^2  ****/
   H = maxalt[ep];
 
@@ -250,7 +250,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
           Qsoutletdummy += Qsbartotoutlet[ep][p];
         }
     }
-
+  
 /*--------------------------------------------
  *	Compute the bedload transport factor
  *--------------------------------------------*/
@@ -294,8 +294,32 @@ hydrosedload (gw_rainfall_etc * gw_rain)
             Qsgrandtotaloutlet[ep][p] = 0.0;
             Csgrandtotaloutlet[ep][p] = 0.0;
           }
+      start_decay_year = 0;
+      end_decay_year = 0;
+      
     }
 
+  /*-------------------------------------------------
+   *	Compute the decay function given the duration
+   *  This is done for the quake sub routine
+   *-------------------------------------------------*/
+  for (kk = 0; kk < quakeeventcounter[ep]; kk++)
+    if (quakeeventyear[ep][kk] == yr && quakeeventenergy[ep][kk] > quakethresholdenergy){
+      if (quakeeventenergy[ep][kk] > quakethresholdenergy_max){
+        quakeeventenergy[ep][kk] = quakethresholdenergy_max;
+      }
+      start_decay_year = yr;
+      end_decay_year = yr+quakeeventduration[ep][kk];
+      set_event = kk;
+    }
+  if(yr >= start_decay_year && yr <= end_decay_year && start_decay_year != end_decay_year){
+    max_quake_erosion = ((5.3 * quakeeventenergy[ep][set_event])/quakeeventdistance[ep][set_event]) * (exp(quakeeventdistance[ep][set_event]/quakedampingfactor)); 
+    decay_multiplier = 1+(((end_decay_year - yr) * (max_quake_erosion-1)) / (end_decay_year - start_decay_year));
+  }
+  else
+    decay_multiplier = 1;
+  
+  
     /*-----------------------------------
      *  Generate the random number, C
      *  (Can be normal or uniform.)
@@ -335,33 +359,26 @@ hydrosedload (gw_rainfall_etc * gw_rain)
       if (setstartmeanQandQs < 4)
         {
           if ((100 * glacierarea / totalarea[ep]) > 1.0)
-            {
-              Qspsi[i] =
-                Psi[i] * pow ((Qsumtot[i]) / (Qbartotal[ep]),
-                              C[yr - syear[ep]]);
-              Qs[i] = Qspsi[i];
-            }
+          {
+            Qspsi[i] = decay_multiplier * Psi[i] * pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]);
+            Qs[i] = Qspsi[i];
+          }
           else
-            {
-              Qs[i] =
-                Psi[i] * pow ((Qsumtot[i]) / (Qbartotal[ep]),
-                              C[yr - syear[ep]]);
-              Qspsi[i] = Qs[i];
-            }
-
+          {
+            Qs[i] = decay_multiplier * Psi[i] * pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]);
+            Qspsi[i] = Qs[i];
+          }
         }
       if (setstartmeanQandQs == 4)
         {
           if ((100 * glacierarea / totalarea[ep]) > 1.0)
             {
-                /*----------------------------------------------------------------
+        /*----------------------------------------------------------------
 		 *  Calculate the PSI part of the suspended sediment per day
 		 *----------------------------------------------------------------*/
-              Qspsi[i] =
-                (Psi[i] * Qsbarnew[ep] *
-                 pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]));
-
-                /*--------------------------------------------------
+              Qspsi[i] = (decay_multiplier * Psi[i] * Qsbarnew[ep] * pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]));
+              
+        /*--------------------------------------------------
 		 *  Calculate the total suspended sediment per day
 		 *--------------------------------------------------*/
               Qs[i] = Qspsi[i];
@@ -371,9 +388,7 @@ hydrosedload (gw_rainfall_etc * gw_rain)
                 /*---------------------------------------------------------------------------
 		 *  Calculate the PSI part (= total part) of the suspended sediment per day
 		 *---------------------------------------------------------------------------*/
-              Qs[i] =
-                (Psi[i] * Qsbarnew[ep] *
-                 pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]));
+              Qs[i] = (decay_multiplier * Psi[i] * Qsbarnew[ep] * pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]));
               Qspsi[i] = Qs[i];
             }
 
@@ -555,8 +570,8 @@ hydrosedload (gw_rainfall_etc * gw_rain)
                 Qsoutlet[i][p] = 0.0;
             }                   /* end for outlets */
         }
-    }                           /* end for loop over days */
-
+    }  /* end for loop over days */
+//  printf(", %lf\n",Qsannual);
   Qsgrandtotal[ep] += Qsannual;
   Csgrandtotal[ep] += Csannual;
   Qspsigrandtotal[ep] += Qspsiannual;

@@ -53,15 +53,17 @@ ht_save_state (state * s)
 
   int err = 0;
   long day;
-  long start = (ep * nyears[ep] * daysiy) + (yr - syear[ep]) * daysiy;
+//  long start = (ep * nyears[ep] * daysiy) + (yr - syear[ep]) * daysiy;
+  long start = (yr - syear[0]) * daysiy;
 
   if (start + daysiy > s->n_days)
     {
-      //fprintf( stderr, "ERROR: hydro_save_ht_state: %ld > %ld\n", start+daysiy, s->n_days );
+      fprintf( stderr, "ERROR: hydro_save_ht_state: %ld > %ld\n", start+daysiy, s->n_days );
       fprintf (stderr, "%d\n", ep);
       fprintf (stderr, "%d\n", nyears[ep]);
       fprintf (stderr, "%d\n", yr);
       fprintf (stderr, "%d\n", daysiy);
+      fprintf (stderr, "%d\n", syear[ep]);
       fflush (stderr);
 
       exit (-1);
@@ -213,6 +215,21 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
         exit (1);
       }
 
+
+    /*---------------------------------------------
+     *  Read earthquake file if its their.
+     *---------------------------------------------*/
+    if (verbose)
+      printf ("Reading live earthquake data files... \n");
+    err = hydroreadearthquake (in_dir, in_file_prefix);
+    if (err)
+    {
+      fprintf (stderr, " ERROR in HydroReadEarthquake: HydroTrend Aborted \n\n");
+      fprintf (fidlog, " ERROR in HydroReadEarthquake: HydroTrend Aborted \n\n");
+      exit (1);
+    }
+    
+    
                 /*--------------------------------
 		 *  Set the hardwired parameters
 		 *--------------------------------*/
@@ -225,7 +242,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
         exit (1);
       }
 
-                /*------------------------------------------
+        /*------------------------------------------
 		 *  Set global values for those parameters
 		 *  which doesn't have any input
 		 *------------------------------------------*/
@@ -324,6 +341,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
         for (setstartmeanQandQs = 0; setstartmeanQandQs < 5;
              setstartmeanQandQs++)
           {
+
             yr = syear[ep];
             if (setstartmeanQandQs == 0)
               {
@@ -682,7 +700,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
                                  " ERROR in HydroWeather: HydroTrend Aborted \n\n");
                         exit (1);
                       }
-
+ 
                                                 /*-------------------------------------------------
 						 *  Calculate elev grid and T, for each elevation
 						 *-------------------------------------------------*/
@@ -698,6 +716,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
                         exit (1);
                       }
 
+                    
                                                 /*-------------------------------------------------
 						 *  Calculate ice accumulation/melt for each day.
 						 *  This is done before HydroRain or HydroSnow to
