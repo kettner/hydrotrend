@@ -19,6 +19,7 @@ void hydrosetparams ();
 int hydrosecurityinputcheck ();
 int hydroreadinput (char* file);
 int hydroreadhypsom (char* path, char* prefix);
+int hydroreadearthquake (char* path, char* prefix);
 int hydroreadclimate (gw_rainfall_etc* gw_rain, char* in_dir, char* in_file_prefix);
 int hydrosetglobalpar ();
 int hydrocheckinput ();

@@ -92,6 +92,22 @@ double *basinlength;            /* River basin length (meters) */
 double *maxalt;                 /* Now computed in hydroreadhypsom.c  */
 double *totalarea;              /* Now computed in hydroreadhypsom.c  */
 
+/*-------------------------
+ *  Earthquake Parameters
+ *-------------------------*/
+int *earthquakedatafile;      /* flag to indicate if there are earthquake files*/
+int *quakeeventcounter;
+int **quakeeventyear;         /*read in from file*/
+int start_decay_year;
+int end_decay_year;
+double max_quake_erosion;         /* maximum erosion factor that can occur, set below*/
+double quakethresholdenergy;      /* below this threshold quake will not be taken into account, set below)*/
+double quakethresholdenergy_max;  /* max mag earthquake we are taking into account*/
+double quakedampingfactor;        /* */
+double **quakeeventenergy;       /*read in from file*/
+double **quakeeventdistance;      /*read in from file*/
+double **quakeeventduration;     /*read in from file*/
+
 /*---------------------------------
  *  General Hydrologic Parameters
  *---------------------------------*/
@@ -249,5 +265,8 @@ hydrosetparams ()
   bethaexpo = 1.38;             /* volume-surface area exponent glaciers */
   bethaglacier = 31.11716;      /* volume-surface area multiplier glaciers */
   hyperpycnalvalue = 40.0;      /* (in kg/m3) rough value; above this value and river will go hyperpycnal */
+  quakethresholdenergy = 6.0;   /* Below this value, quake will not be taken into account*/
+  quakethresholdenergy_max = 9.0; /* above this value, quake will same as 9.0 */
+  quakedampingfactor = 80.0;     /* If the distance is larger than x km, than the earth quake doesn't have any impact anymore */
   return;
 }                               /* end of HydroSetParams */

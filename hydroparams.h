@@ -122,6 +122,22 @@ extern double *basinlength;            /* River basin length (meters) */
 extern double *maxalt;                 /* Now computed in hydroreadhypsom.c  */
 extern double *totalarea;              /* Now computed in hydroreadhypsom.c  */
 
+/*-------------------------
+ *  Earthquake Parameters
+ *-------------------------*/
+extern int *earthquakedatafile;      /* flag to indicate if there are earthquake files*/
+extern int *quakeeventcounter;
+extern int **quakeeventyear;         /*read in from file*/
+extern int start_decay_year;
+extern int end_decay_year;
+extern double max_quake_erosion;      /*the maximum erosion multiply factor value, a constant */
+extern double quakethresholdenergy;   /*threshold, below quake will not be taken into account*/
+extern double quakethresholdenergy_max;  /* max mag earthquake we are taking into account*/
+extern double quakedampingfactor;        /* */
+extern double **quakeeventenergy;       /*read in from file*/
+extern double **quakeeventdistance;      /*read in from file*/
+extern double **quakeeventduration;     /*read in from file*/
+
 /*---------------------------------
  *  General Hydrologic Parameters
  *---------------------------------*/

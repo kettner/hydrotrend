@@ -61,6 +61,7 @@
 #define	fnamehyps			"HYDRO_INPUT/HYDRO"
 #define fnameclimateext     ".CLIMATE"
 #define fnamehypsext		".HYPS"
+#define fnamequakeext       ".QUAKE"
 #define	fnamelog			".LOG"
 #define	fnamelapserate		"HYDRO_PROGRAM_FILES/HYDRO_LAPSERATE.LUT"
 //#define	fnameinputgw_r		"HYDRO_INPUT/HYDRO.CLIMATE"
@@ -85,6 +86,7 @@ extern FILE *fidconvdistot;
 extern FILE **fidconvdis;
 extern FILE *fidinputgw_r;
 extern FILE **fidhyps;
+extern FILE **fidquake;
 extern FILE *fidlog;
 extern FILE *fidlapserate;
 extern FILE *outp, *outp1, *outp2, *outp3, *outp4, *outp5;
@@ -100,6 +102,7 @@ extern char ffnamedistot[MAXCH];
 extern char ffnameconvdis[MAXCH];
 extern char ffnameconvdistot[MAXCH];
 extern char ffnamehyps[MAXCH];
+extern char ffnamequake[MAXCH];
 extern char ffnameinputgw_r[MAXCH];
 extern char ffnamelog[MAXCH];
 extern char ffidasc[MAXCH];
