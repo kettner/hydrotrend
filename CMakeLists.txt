@@ -6,6 +6,7 @@ include (CTest)
 
 ENABLE_TESTING()
 
+set (HYDROTREND_VERSION 3.0)
 set (HYDROTREND_EXE run_hydrotrend)
 
 add_test (HYDROTREND_VERSION ${HYDROTREND_EXE} --version)
@@ -16,6 +17,9 @@ add_test (HYDROTREND_TEST_WITH_ARGS
           ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_with_args.sh)
 
 add_subdirectory( data )
+
+configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
+                ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
 ########### libhydrotrend ###############
 
@@ -91,33 +95,39 @@ find_package (SWIG REQUIRED)
 include (${SWIG_USE_FILE})
 
 find_package (PythonLibs 2.6 EXACT)
-include_directories (${PYTHON_INCLUDE_PATH})
-include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
-set (CMAKE_SWIG_FLAGS "")
+if (DEFINED PYTHONLIBS_FOUND)
+  include_directories (${PYTHON_INCLUDE_PATH})
+  include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
-#set_source_files_properties (deltas_mod.i PROPERTIES CPLUSPLUS ON) 
-#set_source_files_properties (deltas_mod.i PROPERTIES SWIG_FLAGS "-includeall")
-#swig_add_module (hydrotrend_mod python hydrotrend_mod.i hydrotrend_api.c)
-swig_add_module (hydrotrend_mod python hydrotrend_mod.i ${hydrotrend_lib_SRCS})
-swig_link_libraries (hydrotrend_mod ${PYTHON_LIBRARIES})
+  set (CMAKE_SWIG_FLAGS "")
 
-#add_library( _deltas_mod deltas_mod_wrap.c ndelta4.c deltas_api.c )
-#target_link_libraries( deltas_mod _deltas_mod)
+  #set_source_files_properties (deltas_mod.i PROPERTIES CPLUSPLUS ON) 
+  #set_source_files_properties (deltas_mod.i PROPERTIES SWIG_FLAGS "-includeall")
+  #swig_add_module (hydrotrend_mod python hydrotrend_mod.i hydrotrend_api.c)
 
-message ("Python include path " ${PYTHON_INCLUDE_PATH})
-message ("Python libs " ${PYTHON_LIBRARIES})
-message ("Python lib path " ${PYTHON_LIBRARY_PATH})
+  swig_add_module (hydrotrend_mod python hydrotrend_mod.i ${hydrotrend_lib_SRCS})
+  swig_link_libraries (hydrotrend_mod ${PYTHON_LIBRARIES})
 
-install (FILES ${CMAKE_BINARY_DIR}/hydrotrend_mod.py
-               ${CMAKE_BINARY_DIR}/_hydrotrend_mod.so
-         DESTINATION lib/hydrotrend-python COMPONENT hydrotrend)
+  #add_library( _deltas_mod deltas_mod_wrap.c ndelta4.c deltas_api.c )
+  #target_link_libraries( deltas_mod _deltas_mod)
+
+  message ("Python include path " ${PYTHON_INCLUDE_PATH})
+  message ("Python libs " ${PYTHON_LIBRARIES})
+  message ("Python lib path " ${PYTHON_LIBRARY_PATH})
+
+  install (FILES ${CMAKE_BINARY_DIR}/hydrotrend_mod.py
+                 ${CMAKE_BINARY_DIR}/_hydrotrend_mod.so
+           DESTINATION lib/hydrotrend-python COMPONENT hydrotrend)
+
+endif (DEFINED PYTHONLIBS_FOUND)
 
 ########### Install files ###############
 
 install(FILES  hydrotrend_api.h hydrotrend_cli.h
         DESTINATION include
         COMPONENT hydrotrend)
+install(FILES  hydrotrend.pc DESTINATION lib/pkgconfig  COMPONENT hydrotrend)
 
 ########### Configuration Information ###############
 
