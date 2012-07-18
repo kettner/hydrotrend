@@ -14,20 +14,20 @@
 #include <string.h>
 
 double
-ht_get_current_time (ht_state * s)
+BMI_Get_current_time (void * s )
 {
   state* _s = (state*)s;
   return _s->day;
 }
 
 double
-ht_get_start_time (ht_state * s)
+BMI_Get_start_time (void * s)
 {
   return 0;
 }
 
 double
-ht_get_end_time (ht_state * s)
+BMI_Get_end_time (void * s)
 {
   state* _s = (state*)s;
   return _s->n_days;
@@ -50,6 +50,12 @@ const const char**
 ht_get_exchange_items (void)
 {
   return exchange_items;
+}
+
+const char **
+BMI_Get_output_var_names (void * s)
+{
+ return exchange_items;
 }
 
 double
@@ -133,10 +139,12 @@ ht_get_temperature (ht_state * s)
   return _s->temp[_s->day];
 }
   //END //A.KETTNER JULY 28TH, 2011
-ht_state *
-ht_run_until (ht_state * s, double time)
+//ht_state *
+//ht_run_until (ht_state * s, double time)
+void
+BMI_Update_until (void * s, double time)
 {
-  return (ht_state*) run ( (state*)s, time );
+  (ht_state*) run ( (state*)s, time );
 }
 
 ht_state *
@@ -146,10 +154,124 @@ ht_initialize (char* in_dir, char *prefix, char *out_dir )
   return s;
 }
 
-ht_state *
-ht_finalize (ht_state * s)
+
+#include <string.h>
+
+char *
+__str_strip (char *str) {
+  char * end;
+
+  while (isspace (*str))
+    str++;
+
+  end = str + strlen (str)-1;
+
+  while (end > str && isspace (*end))
+    end--;
+
+  *(end+1) = '\0';
+
+  return str;
+}
+
+void *
+BMI_Initialize (const char * file)
 {
-  finalize ( (state*)s);
-  return NULL;
+  ht_state * self = NULL;
+
+  FILE * fp = fopen (file, "r");
+
+  if (fp)
+  {
+    char args[2048];
+    char *in_dir = NULL;
+    char *prefix = NULL;
+    char *out_dir = NULL;
+
+    if (fgets (args, 2048, fp)==args) {
+      in_dir = __str_strip (strdup (args));
+    }
+    if (fgets (args, 2048, fp)==args) {
+      prefix = __str_strip (strdup (args));
+    }
+    if (fgets (args, 2048, fp)==args) {
+      out_dir = __str_strip (strdup (args));
+    }
+
+    if (in_dir && prefix && out_dir) {
+      self = (void *)initialize (in_dir, prefix, out_dir);
+    }
+  }
+
+  return (void *)self;
+}
+
+//ht_state *
+//ht_finalize (ht_state * s)
+void
+BMI_Finalize (void * s)
+{
+  finalize ((state*)s);
+}
+
+#include <stdlib.h>
+
+int *
+BMI_Get_grid_shape (void * s, const char * val_s, int * n_dim)
+{
+  int * shape = (int *) malloc (sizeof (double));
+  *n_dim = 1;
+  shape[0] = 1;
+  return shape;
+}
+
+double *
+BMI_Get_grid_spacing (void * s, const char * val_s, int * n_dim)
+{
+  double * spacing = (double *) malloc (sizeof (double));
+  *n_dim = 1;
+  spacing[0] = 1.;
+  return spacing;
+}
+
+double *
+BMI_Get_grid_lower_left_corner (void * s, const char * val_s, int * n_dim)
+{
+  double * corner = (double *) malloc (sizeof (double));
+  *n_dim = 1;
+  corner[0] = 0.;
+  return corner;
+}
+
+double *
+BMI_Get_double (void * s, const char * val_s, int * n_dim, int ** shape)
+{
+  double * val = (double*)malloc (sizeof (double));
+
+  *shape = BMI_Get_grid_shape (s, val_s, n_dim);
+ 
+  if (strcasecmp (val_s, "velocity")==0)
+    *val = ht_get_velocity (s);
+  else if (strcasecmp (val_s, "width")==0)
+    *val = ht_get_width (s);
+  else if (strcasecmp (val_s, "depth")==0)
+    *val = ht_get_depth (s);
+  else if (strcasecmp (val_s, "water_discharge")==0)
+    *val = ht_get_water_discharge (s);
+  else if (strcasecmp (val_s, "sediment_discharge")==0)
+    *val = ht_get_sediment_discharge (s);
+  else if (strcasecmp (val_s, "bedload_flux")==0)
+    *val = ht_get_bedload_flux (s);
+  else if (strcasecmp (val_s, "precipitation")==0)
+    *val = ht_get_precipitation (s);
+  else if (strcasecmp (val_s, "temperature")==0)
+    *val = ht_get_temperature (s);
+  else {
+    fprintf (stderr, "ERROR: %s: Bad value string.", val_s);
+    free (val);
+    val = NULL;
+  }
+
+  return val;
 }
 

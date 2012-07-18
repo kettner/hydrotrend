@@ -51,9 +51,9 @@ main (int argc, char **argv)
 
     s = ht_initialize (in_dir, in_prefix, out_dir );
 
-    ht_run_until (s, 10.5);
+    BMI_Update_until (s, 10.5);
 
-    ht_finalize (s);
+    BMI_Finalize (s);
   }
 
   fprint_current_time( stdout, "Stop" );
