@@ -91,26 +91,19 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
 
 # You may need to use -DCMAKE_INCLUDE_PATH and -DCMAKE_LIBRARY_PATH
 # to find the correct libraries/include paths
-find_package (SWIG REQUIRED)
-include (${SWIG_USE_FILE})
-
+find_package (SWIG)
 find_package (PythonLibs 2.6 EXACT)
 
-if (DEFINED PYTHONLIBS_FOUND)
+if (PYTHONLIBS_FOUND AND SWIG_FOUND)
+  include (${SWIG_USE_FILE})
+
   include_directories (${PYTHON_INCLUDE_PATH})
   include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
   set (CMAKE_SWIG_FLAGS "")
 
-  #set_source_files_properties (deltas_mod.i PROPERTIES CPLUSPLUS ON) 
-  #set_source_files_properties (deltas_mod.i PROPERTIES SWIG_FLAGS "-includeall")
-  #swig_add_module (hydrotrend_mod python hydrotrend_mod.i hydrotrend_api.c)
-
   swig_add_module (hydrotrend_mod python hydrotrend_mod.i ${hydrotrend_lib_SRCS})
   swig_link_libraries (hydrotrend_mod ${PYTHON_LIBRARIES})
-
-  #add_library( _deltas_mod deltas_mod_wrap.c ndelta4.c deltas_api.c )
-  #target_link_libraries( deltas_mod _deltas_mod)
 
   message ("Python include path " ${PYTHON_INCLUDE_PATH})
   message ("Python libs " ${PYTHON_LIBRARIES})
@@ -120,7 +113,7 @@ if (DEFINED PYTHONLIBS_FOUND)
                  ${CMAKE_BINARY_DIR}/_hydrotrend_mod.so
            DESTINATION lib/hydrotrend-python COMPONENT hydrotrend)
 
-endif (DEFINED PYTHONLIBS_FOUND)
+endif (PYTHONLIBS_FOUND AND SWIG_FOUND)
 
 ########### Install files ###############
 
