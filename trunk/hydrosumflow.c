@@ -235,10 +235,11 @@ hydrosumflow ()
  *  This is done after the
  *  precipitation balance!!
  *---------------------------*/
-  for (ii = 0; ii < daysiy; ii++)
+/*  for (ii = 0; ii < daysiy; ii++)
     if (Qsumtot[ii] < 0.1)
       Qsumtot[ii] = 0.1;
-
+ //This is a very bad fix, Qsumtot should be able to produce 0m3/s flow. Zero water discharge might cause some errors in the sediment routine, which are now fixed as well.
+*/
 /*-----------------------------------------------
  *  Check the precipitation input balance (m^3)
  *-----------------------------------------------
