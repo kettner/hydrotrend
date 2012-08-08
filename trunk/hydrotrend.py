@@ -25,13 +25,13 @@ class Hydrotrend (object):
 
   def run (self, time):
     if self._state is not None:
-      hydrotrend_mod.ht_run_until (self._state, time)
+      hydrotrend_mod.BMI_Update_until (self._state, time)
     else:
       raise NotInitializedError ('Trying to run uninitialized model')
     
   def finalize (self):
     if self._state is not None:
-      self._state = hydrotrend_mod.ht_finalize (self._state)
+      self._state = hydrotrend_mod.BMI_Finalize (self._state)
     else:
       raise NotInitializedError ('Trying to finalize uninitialized model')
 

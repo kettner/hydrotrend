@@ -21,6 +21,8 @@ add_subdirectory( data )
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
                 ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
+option (WITH_PYTHON_BINDINGS "Build Python bindings" OFF)
+
 ########### libhydrotrend ###############
 
 set( hydrotrend_lib_SRCS
@@ -94,7 +96,7 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
 find_package (SWIG)
 find_package (PythonLibs 2.6 EXACT)
 
-if (PYTHONLIBS_FOUND AND SWIG_FOUND)
+if (WITH_PYTHON_BINDINGS AND PYTHONLIBS_FOUND AND SWIG_FOUND)
   include (${SWIG_USE_FILE})
 
   include_directories (${PYTHON_INCLUDE_PATH})
@@ -113,7 +115,7 @@ if (PYTHONLIBS_FOUND AND SWIG_FOUND)
                  ${CMAKE_BINARY_DIR}/_hydrotrend_mod.so
            DESTINATION lib/hydrotrend-python COMPONENT hydrotrend)
 
-endif (PYTHONLIBS_FOUND AND SWIG_FOUND)
+endif (WITH_PYTHON_BINDINGS AND PYTHONLIBS_FOUND AND SWIG_FOUND)
 
 ########### Install files ###############
 

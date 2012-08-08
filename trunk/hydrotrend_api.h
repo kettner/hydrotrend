@@ -23,8 +23,8 @@ void BMI_Finalize (void *);
 const char **BMI_Get_output_var_names (void *);
 
 ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
-ht_state *ht_finalize (ht_state * s);
-ht_state *ht_run_until (ht_state * s, double time);
+//ht_state *ht_finalize (ht_state * s);
+//ht_state *ht_run_until (ht_state * s, double time);
 
 const const char** ht_get_exchange_items (void);
 double ht_get_value (ht_state * s, char* value);
