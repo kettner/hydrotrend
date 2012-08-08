@@ -311,6 +311,7 @@ hydrosedload (gw_rainfall_etc * gw_rain){
                 Qspsi[i] = 0.0;
                 Qs[i] = 0.0;
             }
+            
             else{
                 if ((100 * glacierarea / totalarea[ep]) > 1.0){
                     Qspsi[i] = decay_multiplier * Psi[i] * pow ((Qsumtot[i]) / (Qbartotal[ep]), C[yr - syear[ep]]);
