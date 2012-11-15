@@ -6,8 +6,12 @@ include (CTest)
 
 ENABLE_TESTING()
 
-set (HYDROTREND_VERSION 3.0)
+set (BUILD_SHARED_LIBS ON)
+
+set (HYDROTREND_VERSION 3.1)
 set (HYDROTREND_EXE run_hydrotrend)
+
+configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
 add_test (HYDROTREND_VERSION ${HYDROTREND_EXE} --version)
 add_test (HYDROTREND_HELP ${HYDROTREND_EXE} --help)
@@ -119,7 +123,10 @@ endif (WITH_PYTHON_BINDINGS AND PYTHONLIBS_FOUND AND SWIG_FOUND)
 
 ########### Install files ###############
 
-install(FILES  hydrotrend_api.h hydrotrend_cli.h
+install(FILES  hydrotrend_cli.h
+        DESTINATION include
+        COMPONENT hydrotrend)
+install(FILES  hydrotrend_api.h RENAME bmi_hydrotrend.h
         DESTINATION include
         COMPONENT hydrotrend)
 install(FILES  hydrotrend.pc DESTINATION lib/pkgconfig  COMPONENT hydrotrend)
