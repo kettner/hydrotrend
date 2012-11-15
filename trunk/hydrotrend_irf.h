@@ -1,6 +1,7 @@
 #if !defined( HYDROTREND_IRF_H )
 #define HYDROTREND_IRF_H
 
+
 typedef struct
 {
   long day;
@@ -14,6 +15,8 @@ typedef struct
   double *temp;
   double *prec;
 } state;
+
+//typedef struct state ht_state;
 
 state *ht_state_new (long n_days);
 state *ht_state_destroy (state * s);
