@@ -7,43 +7,66 @@
  *
  */
 
-#include "hydrotrend_api.h"
 #include "hydrotrend_irf.h"
+#include "hydrotrend_api.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-double
-BMI_Get_current_time (void * s )
+typedef state _BMI_Model;
+
+int
+BMI_Get_current_time (BMI_Model * s, double * time)
 {
   state* _s = (state*)s;
-  return _s->day;
+  *time = _s->day;
+  return BMI_SUCCESS;
 }
 
-double
-BMI_Get_start_time (void * s)
+int
+BMI_Get_start_time (BMI_Model * s, double * time)
 {
-  return 0;
+  *time = 0;
+  return BMI_SUCCESS;
 }
 
-double
-BMI_Get_end_time (void * s)
+int
+BMI_Get_end_time (BMI_Model * s, double * time)
 {
   state* _s = (state*)s;
-  return _s->n_days;
+  *time  = _s->n_days;
+  return BMI_SUCCESS;
 }
 
-const char* exchange_items[] =
+int
+BMI_Get_time_units (BMI_Model *s, char *units)
 {
-  "VELOCITY",
-  "WIDTH",
-  "DEPTH",
-  "WATER_DISCHARGE",
-  "SEDIMENT_DISCHARGE",
-  "BEDLOAD_FLUX",
-  "PRECIPITATION",
-  "TEMPERATURE",
-  "NULL"
+  if (s && units) {
+    strcpy (units, "d");
+    return BMI_SUCCESS;
+  }
+  else
+    return BMI_FAILURE;
+}
+
+int
+BMI_Get_component_name (BMI_Model * s, char *name)
+{
+  strcpy (name, "HydroTrend");
+  return BMI_SUCCESS;
+}
+
+#define OUTPUT_VAR_NAME_COUNT (8)
+const char* exchange_items[OUTPUT_VAR_NAME_COUNT] =
+{
+  "channel_outflow_end_water__speed",
+  "channel_outflow_end__bankfull_width",
+  "channel_outflow_end_water__depth",
+  "channel_outflow_end_water__discharge",
+  "channel_outflow_end_suspended_sediment__discharge",
+  "channel_outflow_end_bed_load_sediment__mass_flow_rate",
+  "mean_over_domain_of_water__precipitation_rate",
+  "mean_over_domain_of_air__temperature",
 };
 
 const const char**
@@ -52,35 +75,101 @@ ht_get_exchange_items (void)
   return exchange_items;
 }
 
-const char **
-BMI_Get_output_var_names (void * s)
+int
+BMI_Get_output_var_name_count (BMI_Model * s, int *output_var_count)
 {
- return exchange_items;
+  if (output_var_count) {
+    *output_var_count = OUTPUT_VAR_NAME_COUNT;
+    return BMI_SUCCESS;
+  }
+  return BMI_FAILURE;
+}
+
+int
+BMI_Get_output_var_names (BMI_Model * s, char **names)
+{
+  int rtn = BMI_FAILURE;
+  if (names) {
+    int i;
+    for (i=0; i<OUTPUT_VAR_NAME_COUNT; i++)
+      strncpy (names[i], exchange_items[i], BMI_VAR_NAME_MAX);
+    rtn = BMI_SUCCESS;
+  }
+  return rtn;
+}
+
+int
+BMI_Get_input_var_name_count (BMI_Model * s, int *input_var_count)
+{
+  if (input_var_count) {
+    *input_var_count = 0;
+    return BMI_SUCCESS;
+  }
+  return BMI_FAILURE;
+}
+
+int
+BMI_Get_input_var_names (BMI_Model * s, char **names)
+{
+  return -BMI_FAILURE;
 }
 
 double
 ht_get_value (ht_state * s, char* value)
 {
-  if (strcasecmp (value, "velocity")==0)
+  if (strcasecmp (value, "channel_outflow_end_water__speed")==0)
     return ht_get_velocity (s);
-  else if (strcasecmp (value, "width")==0)
+  else if (strcasecmp (value, "channel_outflow_end__bankfull_width")==0)
     return ht_get_width (s);
-  else if (strcasecmp (value, "depth")==0)
+  else if (strcasecmp (value, "channel_outflow_end_water__depth")==0)
     return ht_get_depth (s);
-  else if (strcasecmp (value, "water_discharge")==0)
+  else if (strcasecmp (value, "channel_outflow_end_water__discharge")==0)
     return ht_get_water_discharge (s);
-  else if (strcasecmp (value, "sediment_discharge")==0)
+  else if (strcasecmp (value, "channel_outflow_end_suspended_sediment__discharge")==0)
     return ht_get_sediment_discharge (s);
-  else if (strcasecmp (value, "bedload_flux")==0)
+  else if (strcasecmp (value, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
     return ht_get_bedload_flux (s);
-  else if (strcasecmp (value, "precipitation")==0)//A.KETTNER JULY 28TH, 2011
+  else if (strcasecmp (value, "mean_over_domain_of_water__precipitation_rate")==0)//A.KETTNER JULY 28TH, 2011
     return ht_get_precipitation (s);              //A.KETTNER JULY 28TH, 2011
-  else if (strcasecmp (value, "temperature")==0)  //A.KETTNER JULY 28TH, 2011
+  else if (strcasecmp (value, "mean_over_domain_of_air__temperature")==0)  //A.KETTNER JULY 28TH, 2011
     return ht_get_temperature (s);                //A.KETTNER JULY 28TH, 2011
   else
     fprintf (stderr, "ERROR: %s: Bad value string.", value);
 
   return 0.;
+}
+
+int
+BMI_Get_var_type (BMI_Model * s, const char *name, BMI_Var_type *type)
+{
+  if (type) {
+    *type = BMI_VAR_TYPE_DOUBLE;
+    return BMI_SUCCESS;
+  }
+  else
+    return  BMI_FAILURE;
+}
+
+int
+BMI_Get_var_rank (BMI_Model * s, const char *name, int *rank)
+{
+  if (rank) {
+    *rank = 0;
+    return BMI_SUCCESS;
+  }
+  else
+    return  BMI_FAILURE;
+}
+
+int
+BMI_Get_var_point_count (BMI_Model * s, const char *name, int *count)
+{
+  if (count) {
+    *count = 1;
+    return BMI_SUCCESS;
+  }
+  else
+    return  BMI_FAILURE;
 }
 
 double
@@ -141,10 +230,22 @@ ht_get_temperature (ht_state * s)
   //END //A.KETTNER JULY 28TH, 2011
 //ht_state *
 //ht_run_until (ht_state * s, double time)
-void
-BMI_Update_until (void * s, double time)
+int
+BMI_Update_until (BMI_Model * s, double time)
 {
-  (ht_state*) run ( (state*)s, time );
+  run ( (state*)s, time );
+  return BMI_SUCCESS;
+}
+
+int
+BMI_Update (BMI_Model * s)
+{
+  double day;
+
+  BMI_Get_current_time (s, &day);
+  run ( (state*)s, day+1 );
+
+  return BMI_SUCCESS;
 }
 
 ht_state *
@@ -174,104 +275,138 @@ __str_strip (char *str) {
   return str;
 }
 
-void *
-BMI_Initialize (const char * file)
+int
+BMI_Initialize (const char * file, BMI_Model ** handle)
 {
-  ht_state * self = NULL;
+  int rtn = BMI_FAILURE;
 
-  FILE * fp = fopen (file, "r");
-
-  if (fp)
-  {
-    char args[2048];
+  if (handle) {
+    ht_state * self = NULL;
     char *in_dir = NULL;
     char *prefix = NULL;
     char *out_dir = NULL;
 
-    if (fgets (args, 2048, fp)==args) {
-      in_dir = __str_strip (strdup (args));
+    if (file) {
+      FILE * fp = fopen (file, "r");
+
+      if (fp) {
+        char args[2048];
+
+        if (fgets (args, 2048, fp)==args) {
+          in_dir = __str_strip (strdup (args));
+        }
+        if (fgets (args, 2048, fp)==args) {
+          prefix = __str_strip (strdup (args));
+        }
+        if (fgets (args, 2048, fp)==args) {
+          out_dir = __str_strip (strdup (args));
+        }
+      }
     }
-    if (fgets (args, 2048, fp)==args) {
-      prefix = __str_strip (strdup (args));
-    }
-    if (fgets (args, 2048, fp)==args) {
-      out_dir = __str_strip (strdup (args));
+    else {
+      in_dir = strdup ("/scratch/huttone/cca-projects/cem/0.1/internal/share/hydrotrend/input");
+      prefix = strdup ("HYDRO");
+      out_dir = strdup ("/scratch/huttone/cca-projects/cem/0.1/internal");
     }
 
     if (in_dir && prefix && out_dir) {
-      self = (void *)initialize (in_dir, prefix, out_dir);
+      self = (ht_state *)initialize (in_dir, prefix, out_dir);
+    }
+
+    if (self) {
+      *handle = self;
+      rtn = BMI_SUCCESS;
     }
   }
 
-  return (void *)self;
+  return rtn;
 }
 
 //ht_state *
 //ht_finalize (ht_state * s)
-void
-BMI_Finalize (void * s)
+int
+BMI_Finalize (BMI_Model * s)
 {
   finalize ((state*)s);
+  return BMI_SUCCESS;
 }
 
 #include <stdlib.h>
 
-int *
-BMI_Get_grid_shape (void * s, const char * val_s, int * n_dim)
+int
+BMI_Get_grid_shape (BMI_Model * s, const char * val_s, int * shape)
 {
-  int * shape = (int *) malloc (sizeof (double));
-  *n_dim = 1;
-  shape[0] = 1;
-  return shape;
+  int rtn = BMI_FAILURE;
+
+  if (shape) {
+    shape[0] = 1;
+    rtn = BMI_SUCCESS;
+  }
+  return rtn;
 }
 
-double *
-BMI_Get_grid_spacing (void * s, const char * val_s, int * n_dim)
+int
+BMI_Get_grid_spacing (BMI_Model * s, const char * val_s, double * spacing)
 {
-  double * spacing = (double *) malloc (sizeof (double));
-  *n_dim = 1;
-  spacing[0] = 1.;
-  return spacing;
+  int rtn = BMI_FAILURE;
+
+  if (spacing) {
+    spacing[0] = 1;
+    rtn = BMI_SUCCESS;
+  }
+  return rtn;
 }
 
-double *
-BMI_Get_grid_lower_left_corner (void * s, const char * val_s, int * n_dim)
+int
+BMI_Get_grid_origin (BMI_Model * s, const char * val_s, double *origin)
 {
-  double * corner = (double *) malloc (sizeof (double));
-  *n_dim = 1;
-  corner[0] = 0.;
-  return corner;
+  int rtn = BMI_FAILURE;
+
+  if (origin) {
+    origin[0] = 1;
+    rtn = BMI_SUCCESS;
+  }
+  return rtn;
 }
 
-double *
-BMI_Get_double (void * s, const char * val_s, int * n_dim, int ** shape)
+int
+BMI_Get_double (BMI_Model *s, const char * val_s, double *dest)
 {
-  double * val = (double*)malloc (sizeof (double));
+  int rtn = BMI_FAILURE;
 
-  *shape = BMI_Get_grid_shape (s, val_s, n_dim);
- 
-  if (strcasecmp (val_s, "velocity")==0)
-    *val = ht_get_velocity (s);
-  else if (strcasecmp (val_s, "width")==0)
-    *val = ht_get_width (s);
-  else if (strcasecmp (val_s, "depth")==0)
-    *val = ht_get_depth (s);
-  else if (strcasecmp (val_s, "water_discharge")==0)
-    *val = ht_get_water_discharge (s);
-  else if (strcasecmp (val_s, "sediment_discharge")==0)
-    *val = ht_get_sediment_discharge (s);
-  else if (strcasecmp (val_s, "bedload_flux")==0)
-    *val = ht_get_bedload_flux (s);
-  else if (strcasecmp (val_s, "precipitation")==0)
-    *val = ht_get_precipitation (s);
-  else if (strcasecmp (val_s, "temperature")==0)
-    *val = ht_get_temperature (s);
-  else {
-    fprintf (stderr, "ERROR: %s: Bad value string.", val_s);
-    free (val);
-    val = NULL;
+  if (dest) {
+    double val;
+
+    if (strcasecmp (val_s, "channel_outflow_end_water__speed")==0)
+      val = ht_get_velocity (s);
+    else if (strcasecmp (val_s, "channel_outflow_end__bankfull_width")==0)
+      val = ht_get_width (s);
+    else if (strcasecmp (val_s, "channel_outflow_end_water__depth")==0)
+      val = ht_get_depth (s);
+    else if (strcasecmp (val_s, "channel_outflow_end_water__discharge")==0)
+      val = ht_get_water_discharge (s);
+    else if (strcasecmp (val_s, "channel_outflow_end_suspended_sediment__discharge")==0)
+      val = ht_get_sediment_discharge (s);
+    else if (strcasecmp (val_s, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
+      val = ht_get_bedload_flux (s);
+    else if (strcasecmp (val_s, "mean_over_domain_of_water__precipitation_rate")==0)
+      val = ht_get_precipitation (s);
+    else if (strcasecmp (val_s, "mean_over_domain_of_air__temperature")==0)
+      val = ht_get_temperature (s);
+    else {
+      return BMI_FAILURE;
+    }
+
+    dest[0] = val;
+    rtn = BMI_SUCCESS;
   }
 
-  return val;
+  return rtn;
+}
+
+int
+BMI_Get_double_ptr (BMI_Model *s, const char *name, double **dest)
+{
+  return -BMI_FAILURE;
 }
 
