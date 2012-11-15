@@ -60,7 +60,7 @@ BMI_Get_component_name (BMI_Model * s, char *name)
 const char* exchange_items[OUTPUT_VAR_NAME_COUNT] =
 {
   "channel_outflow_end_water__speed",
-  "channel_outflow_end__bankfull_width",
+  "channel_outflow_end__width",
   "channel_outflow_end_water__depth",
   "channel_outflow_end_water__discharge",
   "channel_outflow_end_suspended_sediment__discharge",
@@ -117,21 +117,21 @@ BMI_Get_input_var_names (BMI_Model * s, char **names)
 double
 ht_get_value (ht_state * s, char* value)
 {
-  if (strcasecmp (value, "channel_outflow_end_water__speed")==0)
+  if (strcmp (value, "channel_outflow_end_water__speed")==0)
     return ht_get_velocity (s);
-  else if (strcasecmp (value, "channel_outflow_end__bankfull_width")==0)
+  else if (strcmp (value, "channel_outflow_end__width")==0)
     return ht_get_width (s);
-  else if (strcasecmp (value, "channel_outflow_end_water__depth")==0)
+  else if (strcmp (value, "channel_outflow_end_water__depth")==0)
     return ht_get_depth (s);
-  else if (strcasecmp (value, "channel_outflow_end_water__discharge")==0)
+  else if (strcmp (value, "channel_outflow_end_water__discharge")==0)
     return ht_get_water_discharge (s);
-  else if (strcasecmp (value, "channel_outflow_end_suspended_sediment__discharge")==0)
+  else if (strcmp (value, "channel_outflow_end_suspended_sediment__discharge")==0)
     return ht_get_sediment_discharge (s);
-  else if (strcasecmp (value, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
+  else if (strcmp (value, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
     return ht_get_bedload_flux (s);
-  else if (strcasecmp (value, "mean_over_domain_of_water__precipitation_rate")==0)//A.KETTNER JULY 28TH, 2011
+  else if (strcmp (value, "mean_over_domain_of_water__precipitation_rate")==0)//A.KETTNER JULY 28TH, 2011
     return ht_get_precipitation (s);              //A.KETTNER JULY 28TH, 2011
-  else if (strcasecmp (value, "mean_over_domain_of_air__temperature")==0)  //A.KETTNER JULY 28TH, 2011
+  else if (strcmp (value, "mean_over_domain_of_air__temperature")==0)  //A.KETTNER JULY 28TH, 2011
     return ht_get_temperature (s);                //A.KETTNER JULY 28TH, 2011
   else
     fprintf (stderr, "ERROR: %s: Bad value string.", value);
@@ -377,21 +377,21 @@ BMI_Get_double (BMI_Model *s, const char * val_s, double *dest)
   if (dest) {
     double val;
 
-    if (strcasecmp (val_s, "channel_outflow_end_water__speed")==0)
+    if (strcmp (val_s, "channel_outflow_end_water__speed")==0)
       val = ht_get_velocity (s);
-    else if (strcasecmp (val_s, "channel_outflow_end__bankfull_width")==0)
+    else if (strcmp (val_s, "channel_outflow_end__width")==0)
       val = ht_get_width (s);
-    else if (strcasecmp (val_s, "channel_outflow_end_water__depth")==0)
+    else if (strcmp (val_s, "channel_outflow_end_water__depth")==0)
       val = ht_get_depth (s);
-    else if (strcasecmp (val_s, "channel_outflow_end_water__discharge")==0)
+    else if (strcmp (val_s, "channel_outflow_end_water__discharge")==0)
       val = ht_get_water_discharge (s);
-    else if (strcasecmp (val_s, "channel_outflow_end_suspended_sediment__discharge")==0)
+    else if (strcmp (val_s, "channel_outflow_end_suspended_sediment__discharge")==0)
       val = ht_get_sediment_discharge (s);
-    else if (strcasecmp (val_s, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
+    else if (strcmp (val_s, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
       val = ht_get_bedload_flux (s);
-    else if (strcasecmp (val_s, "mean_over_domain_of_water__precipitation_rate")==0)
+    else if (strcmp (val_s, "mean_over_domain_of_water__precipitation_rate")==0)
       val = ht_get_precipitation (s);
-    else if (strcasecmp (val_s, "mean_over_domain_of_air__temperature")==0)
+    else if (strcmp (val_s, "mean_over_domain_of_air__temperature")==0)
       val = ht_get_temperature (s);
     else {
       return BMI_FAILURE;
