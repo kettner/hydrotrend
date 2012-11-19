@@ -9,6 +9,7 @@
  */  
   
 #include <stdio.h>
+#include <string.h>
 #include "hydroinout.h"
 #include "hydroparams.h"
 #define NROWS (500)
@@ -20,7 +21,17 @@
   int
 hydrosecurityinputcheck () 
 {
-  
+
+    /*-------------------
+     *  Local Variables
+     *-------------------*/ 
+    int k, err;
+    
+    
+    /*-----------------------
+     *  Set local Variables
+     *-----------------------*/ 
+    err = 0;
 
 return (err);
 
