@@ -38,17 +38,25 @@
   int
 hydroreadevaporation ()
 {
-  
+  
+
 /*-------------------
  *  Local Variables
  *-------------------*/ 
   int k, err;
-  
+  
+
 /*-----------------------
  *  Set local Variables
  *-----------------------*/ 
     err = 0;
-  return;
-}                              /* end Read_Evaporation */
+  
 
-
+
+return (err);
+
+}                              /* end Read_Evaporation */
+
+
+
+
