@@ -22,18 +22,7 @@
 hydrosecurityinputcheck () 
 {
 
-    /*-------------------
-     *  Local Variables
-     *-------------------*/ 
-    int k, err;
-    
-    
-    /*-----------------------
-     *  Set local Variables
-     *-----------------------*/ 
-    err = 0;
-
-return (err);
+return 0;
 
 }                              /* end of HydroSecurityInputCheck */
 
