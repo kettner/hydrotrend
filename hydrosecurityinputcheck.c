@@ -20,7 +20,11 @@
   int
 hydrosecurityinputcheck () 
 {
-  return;
-}                              /* end of HydroSecurityInputCheck */
+  
 
-
+return (err);
+
+}                              /* end of HydroSecurityInputCheck */
+
+
+
