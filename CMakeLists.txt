@@ -2,9 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project( hydrotrend )
 
-include (CTest)
-
-ENABLE_TESTING()
+option (WITH_PYTHON_BINDINGS "Build Python bindings" OFF)
+option (WITH_CTEST "Use CTest to build tests" OFF)
 
 set (BUILD_SHARED_LIBS ON)
 
@@ -13,19 +12,23 @@ set (HYDROTREND_EXE run_hydrotrend)
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
+if (WITH_CTEST)
+
+include (CTest)
+ENABLE_TESTING()
+
 add_test (HYDROTREND_VERSION ${HYDROTREND_EXE} --version)
 add_test (HYDROTREND_HELP ${HYDROTREND_EXE} --help)
 add_test (HYDROTREND_TEST_WITHOUT_ARGS
           ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_without_args.sh)
 add_test (HYDROTREND_TEST_WITH_ARGS
           ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_with_args.sh)
+endif (WITH_CTEST)
 
 add_subdirectory( data )
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
                 ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
-
-option (WITH_PYTHON_BINDINGS "Build Python bindings" OFF)
 
 ########### libhydrotrend ###############
 
