@@ -21,8 +21,8 @@ add_test (HYDROTREND_VERSION ${HYDROTREND_EXE} --version)
 add_test (HYDROTREND_HELP ${HYDROTREND_EXE} --help)
 add_test (HYDROTREND_TEST_WITHOUT_ARGS
           ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_without_args.sh)
-add_test (HYDROTREND_TEST_WITH_ARGS
-          ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_with_args.sh)
+#add_test (HYDROTREND_TEST_WITH_ARGS
+#          ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_with_args.sh)
 endif (WITH_CTEST)
 
 add_subdirectory( data )
