@@ -1,0 +1,11 @@
+date: Wed Feb 13 15:47:11 MST 2013
+revision:  87
+run by: hutton.colorado.edu     # uname -n
+operating system: Darwin 11.4.2 # uname -sr
+hardware: i386                  # uname -p
+source code: https://csdms.colorado.edu/svn/hydrotrend/trunk
+URL of data files: http://csdms.colorado.edu/pub/users/huttone/hydrotrend/data/2013-02-13.darwin/
+fetch command: wget -e robots=off -r --no-parent -nH --cut-dirs=6 http://csdms.colorado.edu/pub/users/huttone/hydrotrend/data/2013-02-13.darwin/
+run command: hydrotrend -V --prefix=HYDRO --in-dir=./input --out-dir=./output
+comments:
+
