@@ -1,0 +1,11 @@
+date: Wed Feb 13 15:33:17 MST 2013
+revision:  87
+run by: beach                         # uname -n
+operating system: Linux 2.6.18-92.el5 # uname -sr
+hardware: x86_64                      # uname -p
+source code: https://csdms.colorado.edu/svn/hydrotrend/trunk
+URL of data files: http://csdms.colorado.edu/pub/users/huttone/hydrotrend/data/2013-02-13.linux/
+fetch command: wget -e robots=off -r --no-parent -nH --cut-dirs=6 http://csdms.colorado.edu/pub/users/huttone/hydrotrend/data/2013-02-13.linux/
+run command: hydrotrend -V --prefix=HYDRO --in-dir=./input --out-dir=./output
+comments:
+
