@@ -51,9 +51,9 @@ main (int argc, char **argv)
 
     s = ht_initialize (in_dir, in_prefix, out_dir );
 
-    BMI_Update_until (s, 10.5);
+    BMI_HYDROTREND_Update_until (s, 10.5);
 
-    BMI_Finalize (s);
+    BMI_HYDROTREND_Finalize (s);
   }
 
   fprint_current_time( stdout, "Stop" );
