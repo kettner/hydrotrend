@@ -65,8 +65,8 @@ const char* exchange_items[OUTPUT_VAR_NAME_COUNT] =
   "channel_outflow_end_water__discharge",
   "channel_outflow_end_suspended_sediment__discharge",
   "channel_outflow_end_bed_load_sediment__mass_flow_rate",
-  "mean_over_domain_of_water__precipitation_rate",
-  "mean_over_domain_of_air__temperature",
+  "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate",
+  "air__mean_over_domain_of_temperature",
 };
 
 const const char**
@@ -129,9 +129,9 @@ ht_get_value (ht_state * s, char* value)
     return ht_get_sediment_discharge (s);
   else if (strcmp (value, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
     return ht_get_bedload_flux (s);
-  else if (strcmp (value, "mean_over_domain_of_water__precipitation_rate")==0)//A.KETTNER JULY 28TH, 2011
+  else if (strcmp (value, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate")==0)//A.KETTNER JULY 28TH, 2011
     return ht_get_precipitation (s);              //A.KETTNER JULY 28TH, 2011
-  else if (strcmp (value, "mean_over_domain_of_air__temperature")==0)  //A.KETTNER JULY 28TH, 2011
+  else if (strcmp (value, "air__mean_over_domain_of_temperature")==0)  //A.KETTNER JULY 28TH, 2011
     return ht_get_temperature (s);                //A.KETTNER JULY 28TH, 2011
   else
     fprintf (stderr, "ERROR: %s: Bad value string.", value);
@@ -395,9 +395,9 @@ BMI_HYDROTREND_Get_double (BMI_Model *s, const char * val_s, double *dest)
       val = ht_get_sediment_discharge (s);
     else if (strcmp (val_s, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
       val = ht_get_bedload_flux (s);
-    else if (strcmp (val_s, "mean_over_domain_of_water__precipitation_rate")==0)
+    else if (strcmp (val_s, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate")==0)
       val = ht_get_precipitation (s);
-    else if (strcmp (val_s, "mean_over_domain_of_air__temperature")==0)
+    else if (strcmp (val_s, "air__mean_over_domain_of_temperature")==0)
       val = ht_get_temperature (s);
     else {
       return BMI_FAILURE;
