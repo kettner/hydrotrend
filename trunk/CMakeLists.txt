@@ -74,7 +74,8 @@ set( hydrotrend_lib_SRCS
    hydroswap.c
    hydroweather.c)
 
-add_library( hydrotrend ${hydrotrend_lib_SRCS} )
+add_library(hydrotrend ${hydrotrend_lib_SRCS} )
+add_library(hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
 
 target_link_libraries( hydrotrend m )
 
@@ -84,12 +85,12 @@ export(TARGETS hydrotrend FILE hydrotrend-exports.cmake)
 
 ########### hydrotrend main program ###############
 
-SET(hydrotrend_SRCS
-   hydrotrend_main.c)
+set(hydrotrend_SRCS hydrotrend_main.c)
+#SET(hydrotrend_SRCS ${hydrotrend_lib_SRCS} hydrotrend_main.c)
 
 add_executable(run_hydrotrend ${hydrotrend_SRCS})
 
-target_link_libraries(run_hydrotrend hydrotrend)
+target_link_libraries(run_hydrotrend hydrotrend-static)
 
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         DESTINATION bin
