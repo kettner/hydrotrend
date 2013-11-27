@@ -90,7 +90,7 @@ set(hydrotrend_SRCS hydrotrend_main.c)
 
 add_executable(run_hydrotrend ${hydrotrend_SRCS})
 
-target_link_libraries(run_hydrotrend hydrotrend-static)
+target_link_libraries(run_hydrotrend hydrotrend-static m)
 
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         DESTINATION bin
