@@ -56,15 +56,17 @@ BMI_HYDROTREND_Get_component_name (BMI_Model * s, char *name)
   return BMI_SUCCESS;
 }
 
-#define OUTPUT_VAR_NAME_COUNT (8)
+#define OUTPUT_VAR_NAME_COUNT (10)
 const char* exchange_items[OUTPUT_VAR_NAME_COUNT] =
 {
   "channel_outflow_end_water__speed",
   "channel_outflow_end__width",
   "channel_outflow_end_water__depth",
   "channel_outflow_end_water__discharge",
+  "channel_inflow_end_water__discharge",
   "channel_outflow_end_suspended_sediment__discharge",
   "channel_outflow_end_bed_load_sediment__mass_flow_rate",
+  "channel_inflow_end_bed_load_sediment__mass_flow_rate",
   "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate",
   "air__mean_over_domain_of_temperature",
 };
@@ -123,11 +125,13 @@ ht_get_value (ht_state * s, char* value)
     return ht_get_width (s);
   else if (strcmp (value, "channel_outflow_end_water__depth")==0)
     return ht_get_depth (s);
-  else if (strcmp (value, "channel_outflow_end_water__discharge")==0)
+  else if (strcmp(value, "channel_outflow_end_water__discharge") == 0 ||
+           strcmp(value, "channel_inflow_end_water__discharge"))
     return ht_get_water_discharge (s);
   else if (strcmp (value, "channel_outflow_end_suspended_sediment__discharge")==0)
     return ht_get_sediment_discharge (s);
-  else if (strcmp (value, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
+  else if (strcmp(value, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0 ||
+           strcmp(value, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0)
     return ht_get_bedload_flux (s);
   else if (strcmp (value, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate")==0)//A.KETTNER JULY 28TH, 2011
     return ht_get_precipitation (s);              //A.KETTNER JULY 28TH, 2011
