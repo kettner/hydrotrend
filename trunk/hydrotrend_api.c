@@ -393,11 +393,13 @@ BMI_HYDROTREND_Get_double (BMI_Model *s, const char * val_s, double *dest)
       val = ht_get_width (s);
     else if (strcmp (val_s, "channel_outflow_end_water__depth")==0)
       val = ht_get_depth (s);
-    else if (strcmp (val_s, "channel_outflow_end_water__discharge")==0)
+    else if (strcmp(val_s, "channel_outflow_end_water__discharge") == 0 ||
+             strcmp(val_s, "channel_inflow_end_water__discharge") == 0)
       val = ht_get_water_discharge (s);
     else if (strcmp (val_s, "channel_outflow_end_suspended_sediment__discharge")==0)
       val = ht_get_sediment_discharge (s);
-    else if (strcmp (val_s, "channel_outflow_end_bed_load_sediment__mass_flow_rate")==0)
+    else if (strcmp(val_s, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0 ||
+             strcmp(val_s, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0)
       val = ht_get_bedload_flux (s);
     else if (strcmp (val_s, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate")==0)
       val = ht_get_precipitation (s);
