@@ -1,12 +1,12 @@
 /*
- */  
-  
+ */
+
 /*----------------------------
  *  Start of HydroPrintTable
- *----------------------------*/ 
-  int
-hydroprinttable () 
-{
-} /* end of HydroPrintTable.c */ 
+ *----------------------------*/
 
-  
+int
+hydroprinttable (void)
+{
+  return 0;
+} /* end of HydroPrintTable.c */
