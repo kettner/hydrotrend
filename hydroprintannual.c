@@ -92,7 +92,7 @@ hydroprintannual ()
                "%%---- \t ------ \t ------ \t -------\t -------\t ------ \t ---    \t -----  \t ------ \n");
     }
 
-/*                  "Year \t Avg.   \t Total  \t ELA_inp\t Glacier\t Glacier\t Flood   \t Basefl \t Volume \n"
+/*                  "Year \t Avg.   \t Total  \t ELA_inp\t Glacier\t Glacier\t Flood   \t Basefl \t Volume \n" */
 /*                   1234 \t 123456 \t 123456 \t 123456 \t 123456 \t 123456 \t 123456  \t 123456 \t 123456 */
   fprintf (fidtrend1,
            "%d   \t %.2f   \t %.2f   \t %.1f   \t %.1f   \t %.1f   \t\t %d    \t\t %.1f \t %e \n",
