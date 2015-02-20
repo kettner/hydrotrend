@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
 
 typedef state _BMI_Model;
 
@@ -71,7 +73,7 @@ const char* exchange_items[OUTPUT_VAR_NAME_COUNT] =
   "air__mean_over_domain_of_temperature",
 };
 
-const const char**
+const char**
 ht_get_exchange_items (void)
 {
   return exchange_items;
