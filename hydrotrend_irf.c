@@ -5,8 +5,14 @@
 #include "hydrotrend.h"
 #include "hydroclimate.h"
 #include "hydroinout.h"
+#include "hydrofree_mem.h"
+
 #include <stdlib.h>
 #include <string.h>
+
+
+extern int hydrorandomsediment(void);
+
 
 state *
 state_new (long n_days)
