@@ -146,14 +146,16 @@ ht_get_value (ht_state * s, char* value)
 }
 
 int
-BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, BMI_Var_type *type)
+BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, char *type)
 {
   if (type) {
-    *type = BMI_VAR_TYPE_DOUBLE;
+    strncpy(type, "double", 2048);
     return BMI_SUCCESS;
   }
-  else
+  else {
+    type[0] = '\0';
     return  BMI_FAILURE;
+  }
 }
 
 int

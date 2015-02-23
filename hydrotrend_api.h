@@ -26,19 +26,6 @@ typedef ht_state BMI_Model;
 #define BMI_HYDROTREND_VAR_NAME_MAX (2048)
 #define BMI_HYDROTREND_UNIT_NAME_MAX (2048)
 
-typedef enum {
-  BMI_VAR_TYPE_UNKNOWN = 0,
-  BMI_VAR_TYPE_CHAR,
-  BMI_VAR_TYPE_UNSIGNED_CHAR,
-  BMI_VAR_TYPE_INT,
-  BMI_VAR_TYPE_LONG,
-  BMI_VAR_TYPE_UNSIGNED_INT,
-  BMI_VAR_TYPE_UNSIGNED_LONG,
-  BMI_VAR_TYPE_FLOAT,
-  BMI_VAR_TYPE_DOUBLE,
-  BMI_VAR_TYPE_COUNT
-}
-BMI_Var_type;
 
 typedef enum {
   BMI_GRID_TYPE_UNKNOWN = 0,
@@ -61,7 +48,7 @@ int BMI_HYDROTREND_Get_output_var_name_count (BMI_Model * s, int *output_var_cou
 int BMI_HYDROTREND_Get_input_var_names (BMI_Model * s, char **names);
 int BMI_HYDROTREND_Get_input_var_name_count (BMI_Model * s, int *input_var_count);
 
-int BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, BMI_Var_type *type);
+int BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, char *type);
 int BMI_HYDROTREND_Get_var_rank (BMI_Model * s, const char *name, int *rank);
 int BMI_HYDROTREND_Get_var_stride (BMI_Model * s, const char *name, int *stride);
 int BMI_HYDROTREND_Get_var_point_count (BMI_Model * s, const char *name, int *count);
