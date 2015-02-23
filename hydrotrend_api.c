@@ -170,14 +170,14 @@ BMI_HYDROTREND_Get_var_rank (BMI_Model * s, const char *name, int *rank)
 }
 
 int
-BMI_HYDROTREND_Get_var_point_count (BMI_Model * s, const char *name, int *count)
+BMI_HYDROTREND_Get_var_size (BMI_Model * s, const char *name, int *size)
 {
-  if (count) {
-    *count = 1;
+  if (size) {
+    *size = 1;
     return BMI_SUCCESS;
   }
   else
-    return  BMI_FAILURE;
+    return BMI_FAILURE;
 }
 
 int

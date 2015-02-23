@@ -51,7 +51,7 @@ int BMI_HYDROTREND_Get_input_var_name_count (BMI_Model * s, int *input_var_count
 int BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, char *type);
 int BMI_HYDROTREND_Get_var_rank (BMI_Model * s, const char *name, int *rank);
 int BMI_HYDROTREND_Get_var_stride (BMI_Model * s, const char *name, int *stride);
-int BMI_HYDROTREND_Get_var_point_count (BMI_Model * s, const char *name, int *count);
+int BMI_HYDROTREND_Get_var_size (BMI_Model * s, const char *name, int *size);
 
 ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 //ht_state *ht_finalize (ht_state * s);
