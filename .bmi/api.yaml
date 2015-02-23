@@ -3,7 +3,7 @@ prefix: BMI_HYDROTREND
 build:
   brew:
     formula: csdms/models/hydrotrend
-include:
+includes:
   - "#include <bmi_hydrotrend.h>"
 cflags:
   pkgconfig: hydrotrend
