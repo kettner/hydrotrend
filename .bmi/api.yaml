@@ -9,3 +9,4 @@ cflags:
   pkgconfig: hydrotrend
 libs:
   pkgconfig: hydrotrend
+grids: uniform_rectilinear
