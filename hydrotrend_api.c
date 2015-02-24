@@ -15,10 +15,8 @@
 #include <ctype.h>
 
 
-typedef state _BMI_Model;
-
 int
-BMI_HYDROTREND_Get_current_time (BMI_Model * s, double * time)
+BMI_HYDROTREND_Get_current_time (void * s, double * time)
 {
   state* _s = (state*)s;
   *time = _s->day;
@@ -26,14 +24,14 @@ BMI_HYDROTREND_Get_current_time (BMI_Model * s, double * time)
 }
 
 int
-BMI_HYDROTREND_Get_start_time (BMI_Model * s, double * time)
+BMI_HYDROTREND_Get_start_time (void * s, double * time)
 {
   *time = 0;
   return BMI_SUCCESS;
 }
 
 int
-BMI_HYDROTREND_Get_end_time (BMI_Model * s, double * time)
+BMI_HYDROTREND_Get_end_time (void * s, double * time)
 {
   state* _s = (state*)s;
   *time  = _s->n_days;
@@ -41,7 +39,7 @@ BMI_HYDROTREND_Get_end_time (BMI_Model * s, double * time)
 }
 
 int
-BMI_HYDROTREND_Get_time_units (BMI_Model *s, char *units)
+BMI_HYDROTREND_Get_time_units (void *s, char *units)
 {
   if (s && units) {
     strcpy (units, "d");
@@ -52,7 +50,7 @@ BMI_HYDROTREND_Get_time_units (BMI_Model *s, char *units)
 }
 
 int
-BMI_HYDROTREND_Get_component_name (BMI_Model * s, char *name)
+BMI_HYDROTREND_Get_component_name (void * s, char *name)
 {
   strcpy (name, "HydroTrend");
   return BMI_SUCCESS;
@@ -80,7 +78,7 @@ ht_get_exchange_items (void)
 }
 
 int
-BMI_HYDROTREND_Get_output_var_name_count (BMI_Model * s, int *output_var_count)
+BMI_HYDROTREND_Get_output_var_name_count (void * s, int *output_var_count)
 {
   if (output_var_count) {
     *output_var_count = OUTPUT_VAR_NAME_COUNT;
@@ -90,7 +88,7 @@ BMI_HYDROTREND_Get_output_var_name_count (BMI_Model * s, int *output_var_count)
 }
 
 int
-BMI_HYDROTREND_Get_output_var_names (BMI_Model * s, char **names)
+BMI_HYDROTREND_Get_output_var_names (void * s, char **names)
 {
   int rtn = BMI_FAILURE;
   if (names) {
@@ -103,7 +101,7 @@ BMI_HYDROTREND_Get_output_var_names (BMI_Model * s, char **names)
 }
 
 int
-BMI_HYDROTREND_Get_input_var_name_count (BMI_Model * s, int *input_var_count)
+BMI_HYDROTREND_Get_input_var_name_count (void * s, int *input_var_count)
 {
   if (input_var_count) {
     *input_var_count = 0;
@@ -113,7 +111,7 @@ BMI_HYDROTREND_Get_input_var_name_count (BMI_Model * s, int *input_var_count)
 }
 
 int
-BMI_HYDROTREND_Get_input_var_names (BMI_Model * s, char **names)
+BMI_HYDROTREND_Get_input_var_names (void * s, char **names)
 {
   return -BMI_FAILURE;
 }
@@ -146,7 +144,7 @@ ht_get_value (ht_state * s, char* value)
 }
 
 int
-BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, char *type)
+BMI_HYDROTREND_Get_var_type (void * s, const char *name, char *type)
 {
   if (type) {
     strncpy(type, "double", 2048);
@@ -159,7 +157,7 @@ BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, char *type)
 }
 
 int
-BMI_HYDROTREND_Get_var_rank (BMI_Model * s, const char *name, int *rank)
+BMI_HYDROTREND_Get_var_rank (void * s, const char *name, int *rank)
 {
   if (rank) {
     *rank = 0;
@@ -170,7 +168,7 @@ BMI_HYDROTREND_Get_var_rank (BMI_Model * s, const char *name, int *rank)
 }
 
 int
-BMI_HYDROTREND_Get_var_size (BMI_Model * s, const char *name, int *size)
+BMI_HYDROTREND_Get_var_size (void * s, const char *name, int *size)
 {
   if (size) {
     *size = 1;
@@ -181,7 +179,7 @@ BMI_HYDROTREND_Get_var_size (BMI_Model * s, const char *name, int *size)
 }
 
 int
-BMI_HYDROTREND_Get_var_stride (BMI_Model * s, const char *name, int *stride)
+BMI_HYDROTREND_Get_var_stride (void * s, const char *name, int *stride)
 {
   return -BMI_FAILURE;
 }
@@ -245,14 +243,14 @@ ht_get_temperature (ht_state * s)
 //ht_state *
 //ht_run_until (ht_state * s, double time)
 int
-BMI_HYDROTREND_Update_until (BMI_Model * s, double time)
+BMI_HYDROTREND_Update_until (void * s, double time)
 {
   run ( (state*)s, time );
   return BMI_SUCCESS;
 }
 
 int
-BMI_HYDROTREND_Update (BMI_Model * s)
+BMI_HYDROTREND_Update (void * s)
 {
   double day;
 
@@ -290,7 +288,7 @@ __str_strip (char *str) {
 }
 
 int
-BMI_HYDROTREND_Initialize (const char * file, BMI_Model ** handle)
+BMI_HYDROTREND_Initialize (const char * file, void ** handle)
 {
   int rtn = BMI_FAILURE;
 
@@ -328,10 +326,13 @@ BMI_HYDROTREND_Initialize (const char * file, BMI_Model ** handle)
     }
 
     if (self) {
-      *handle = self;
+      *handle = (void*)self;
       rtn = BMI_SUCCESS;
     }
   }
+
+  if (rtn == BMI_FAILURE && handle)
+    *handle = NULL;
 
   return rtn;
 }
@@ -339,7 +340,7 @@ BMI_HYDROTREND_Initialize (const char * file, BMI_Model ** handle)
 //ht_state *
 //ht_finalize (ht_state * s)
 int
-BMI_HYDROTREND_Finalize (BMI_Model * s)
+BMI_HYDROTREND_Finalize (void * s)
 {
   finalize ((state*)s);
   return BMI_SUCCESS;
@@ -348,7 +349,7 @@ BMI_HYDROTREND_Finalize (BMI_Model * s)
 #include <stdlib.h>
 
 int
-BMI_HYDROTREND_Get_grid_shape (BMI_Model * s, const char * val_s, int * shape)
+BMI_HYDROTREND_Get_grid_shape (void * s, const char * val_s, int * shape)
 {
   int rtn = BMI_FAILURE;
 
@@ -360,7 +361,7 @@ BMI_HYDROTREND_Get_grid_shape (BMI_Model * s, const char * val_s, int * shape)
 }
 
 int
-BMI_HYDROTREND_Get_grid_spacing (BMI_Model * s, const char * val_s, double * spacing)
+BMI_HYDROTREND_Get_grid_spacing (void * s, const char * val_s, double * spacing)
 {
   int rtn = BMI_FAILURE;
 
@@ -372,7 +373,7 @@ BMI_HYDROTREND_Get_grid_spacing (BMI_Model * s, const char * val_s, double * spa
 }
 
 int
-BMI_HYDROTREND_Get_grid_origin (BMI_Model * s, const char * val_s, double *origin)
+BMI_HYDROTREND_Get_grid_origin (void * s, const char * val_s, double *origin)
 {
   int rtn = BMI_FAILURE;
 
@@ -384,7 +385,7 @@ BMI_HYDROTREND_Get_grid_origin (BMI_Model * s, const char * val_s, double *origi
 }
 
 int
-BMI_HYDROTREND_Get_value (BMI_Model *s, const char * val_s, void *dest)
+BMI_HYDROTREND_Get_value (void *s, const char * val_s, void *dest)
 {
   int rtn = BMI_FAILURE;
 
@@ -421,7 +422,7 @@ BMI_HYDROTREND_Get_value (BMI_Model *s, const char * val_s, void *dest)
 }
 
 int
-BMI_HYDROTREND_Get_value_ptr (BMI_Model *s, const char *name, void **dest)
+BMI_HYDROTREND_Get_value_ptr (void *s, const char *name, void **dest)
 {
   *dest = NULL;
   return -BMI_FAILURE;

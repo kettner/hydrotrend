@@ -16,7 +16,7 @@
 
 typedef struct { } ht_state;
 
-typedef ht_state BMI_Model;
+//typedef ht_state void;
 //typedef state ht_state;
 
 #define BMI_SUCCESS (0)
@@ -37,21 +37,22 @@ typedef enum {
 }
 BMI_Grid_type;
 
-int BMI_HYDROTREND_Initialize (const char *, BMI_Model **);
-int BMI_HYDROTREND_Update_until (BMI_Model *, double);
-int BMI_HYDROTREND_Update (BMI_Model * s);
-int BMI_HYDROTREND_Finalize (BMI_Model *);
 
-int BMI_HYDROTREND_Get_component_name (BMI_Model * s, char *name);
-int BMI_HYDROTREND_Get_output_var_names (BMI_Model * s, char **names);
-int BMI_HYDROTREND_Get_output_var_name_count (BMI_Model * s, int *output_var_count);
-int BMI_HYDROTREND_Get_input_var_names (BMI_Model * s, char **names);
-int BMI_HYDROTREND_Get_input_var_name_count (BMI_Model * s, int *input_var_count);
+int BMI_HYDROTREND_Initialize (const char *, void **);
+int BMI_HYDROTREND_Update_until (void *, double);
+int BMI_HYDROTREND_Update (void * s);
+int BMI_HYDROTREND_Finalize (void *);
 
-int BMI_HYDROTREND_Get_var_type (BMI_Model * s, const char *name, char *type);
-int BMI_HYDROTREND_Get_var_rank (BMI_Model * s, const char *name, int *rank);
-int BMI_HYDROTREND_Get_var_stride (BMI_Model * s, const char *name, int *stride);
-int BMI_HYDROTREND_Get_var_size (BMI_Model * s, const char *name, int *size);
+int BMI_HYDROTREND_Get_component_name (void * s, char *name);
+int BMI_HYDROTREND_Get_output_var_names (void * s, char **names);
+int BMI_HYDROTREND_Get_output_var_name_count (void * s, int *output_var_count);
+int BMI_HYDROTREND_Get_input_var_names (void * s, char **names);
+int BMI_HYDROTREND_Get_input_var_name_count (void * s, int *input_var_count);
+
+int BMI_HYDROTREND_Get_var_type (void * s, const char *name, char *type);
+int BMI_HYDROTREND_Get_var_rank (void * s, const char *name, int *rank);
+int BMI_HYDROTREND_Get_var_stride (void * s, const char *name, int *stride);
+int BMI_HYDROTREND_Get_var_size (void * s, const char *name, int *size);
 
 ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 //ht_state *ht_finalize (ht_state * s);
@@ -60,17 +61,17 @@ ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 const char** ht_get_exchange_items (void);
 double ht_get_value (ht_state * s, char* value);
 
-int BMI_HYDROTREND_Get_value (BMI_Model * s, const char * val_s, void *dest);
-int BMI_HYDROTREND_Get_value_ptr (BMI_Model *s, const char *name, void **dest);
+int BMI_HYDROTREND_Get_value (void * s, const char * val_s, void *dest);
+int BMI_HYDROTREND_Get_value_ptr (void *s, const char *name, void **dest);
 
-int BMI_HYDROTREND_Get_grid_shape (BMI_Model * s, const char * val_s, int * shape);
-int BMI_HYDROTREND_Get_grid_spacing (BMI_Model * s, const char * val_s, double * spacing);
-int BMI_HYDROTREND_Get_grid_origin (BMI_Model * s, const char * val_s, double * origin);
+int BMI_HYDROTREND_Get_grid_shape (void * s, const char * val_s, int * shape);
+int BMI_HYDROTREND_Get_grid_spacing (void * s, const char * val_s, double * spacing);
+int BMI_HYDROTREND_Get_grid_origin (void * s, const char * val_s, double * origin);
 
-int BMI_HYDROTREND_Get_current_time (BMI_Model *, double *);
-int BMI_HYDROTREND_Get_start_time (BMI_Model *, double *);
-int BMI_HYDROTREND_Get_end_time (BMI_Model *, double *);
-int BMI_HYDROTREND_Get_time_units (BMI_Model *s, char *units);
+int BMI_HYDROTREND_Get_current_time (void *, double *);
+int BMI_HYDROTREND_Get_start_time (void *, double *);
+int BMI_HYDROTREND_Get_end_time (void *, double *);
+int BMI_HYDROTREND_Get_time_units (void *s, char *units);
 
 #define NO_BMI_HYDROTREND_SET_DOUBLE
 #define NO_BMI_HYDROTREND_GET_GRID_CONNECTIVITY
