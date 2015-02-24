@@ -60,8 +60,8 @@ ht_state *ht_initialize (char* in_dir, char* prefix, char* dir);
 const char** ht_get_exchange_items (void);
 double ht_get_value (ht_state * s, char* value);
 
-int BMI_HYDROTREND_Get_double (BMI_Model * s, const char * val_s, double *dest);
-int BMI_HYDROTREND_Get_double_ptr (BMI_Model *s, const char *name, double **dest);
+int BMI_HYDROTREND_Get_value (BMI_Model * s, const char * val_s, void *dest);
+int BMI_HYDROTREND_Get_value_ptr (BMI_Model *s, const char *name, void **dest);
 
 int BMI_HYDROTREND_Get_grid_shape (BMI_Model * s, const char * val_s, int * shape);
 int BMI_HYDROTREND_Get_grid_spacing (BMI_Model * s, const char * val_s, double * spacing);

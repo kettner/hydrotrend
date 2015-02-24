@@ -384,7 +384,7 @@ BMI_HYDROTREND_Get_grid_origin (BMI_Model * s, const char * val_s, double *origi
 }
 
 int
-BMI_HYDROTREND_Get_double (BMI_Model *s, const char * val_s, double *dest)
+BMI_HYDROTREND_Get_value (BMI_Model *s, const char * val_s, void *dest)
 {
   int rtn = BMI_FAILURE;
 
@@ -413,7 +413,7 @@ BMI_HYDROTREND_Get_double (BMI_Model *s, const char * val_s, double *dest)
       return BMI_FAILURE;
     }
 
-    dest[0] = val;
+    *((double*)dest) = val;
     rtn = BMI_SUCCESS;
   }
 
@@ -421,8 +421,9 @@ BMI_HYDROTREND_Get_double (BMI_Model *s, const char * val_s, double *dest)
 }
 
 int
-BMI_HYDROTREND_Get_double_ptr (BMI_Model *s, const char *name, double **dest)
+BMI_HYDROTREND_Get_value_ptr (BMI_Model *s, const char *name, void **dest)
 {
+  *dest = NULL;
   return -BMI_FAILURE;
 }
 
