@@ -27,17 +27,6 @@ typedef struct { } ht_state;
 #define BMI_HYDROTREND_UNIT_NAME_MAX (2048)
 
 
-typedef enum {
-  BMI_GRID_TYPE_UNKNOWN = 0,
-  BMI_GRID_TYPE_UNIFORM,
-  BMI_GRID_TYPE_RECTILINEAR,
-  BMI_GRID_TYPE_STRUCTURED,
-  BMI_GRID_TYPE_UNSTRUCTURED,
-  BMI_GRID_TYPE_COUNT
-}
-BMI_Grid_type;
-
-
 int BMI_HYDROTREND_Initialize (const char *, void **);
 int BMI_HYDROTREND_Update_until (void *, double);
 int BMI_HYDROTREND_Update (void * s);
