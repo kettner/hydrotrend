@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+_name: Run Parameters
 run_duration:
   description: Simulation run time
   value:
@@ -10,6 +11,7 @@ run_duration:
       min: 0
       max: 1000000
 ---
+_name: Temperature
 starting_mean_annual_temperature:
   name: Starting mean annual temperature
   description: Mean annual temperature at the start of the simulation
@@ -307,6 +309,7 @@ december_temperature_standard_deviation:
       max: 100.0
     units: deg C
 ---
+_name: Precipitation
 total_annual_precipitation:
   name: Total annual precipitation
   description: Mean total annual precipitation
@@ -604,6 +607,7 @@ december_precipitation_standard_deviation:
       max: 100.0
     units: mm
 ---
+_name: Basin
 bqrt_lithology_factor:
   name: Lithology factor
   description: Lithology factor for BQRT equation
@@ -703,6 +707,7 @@ reservoir_area:
       max: 100000.0
     units: km^2
 ---
+_name: River Mouth
 river_velocity_coefficient:
   name: River velocity coefficient
   description: River mouth velocity coefficient k in v=kQ^m
@@ -791,6 +796,7 @@ delta_gradient:
       max: 1.0
     units: '-'
 ---
+_name: Groundwater
 groundwater_storage_max:
   name: Maximum groundwater storage
   description: Maximum groundwater storage
