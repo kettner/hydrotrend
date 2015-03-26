@@ -78,6 +78,7 @@ set(hydrotrend_lib_SRCS
 add_library(bmi_hydrotrend ${hydrotrend_lib_SRCS})
 add_library(bmi_hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
 install(TARGETS bmi_hydrotrend DESTINATION lib)
+install(TARGETS bmi_hydrotrend-static DESTINATION lib)
 install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 
 ########### hydrotrend main program ###############
