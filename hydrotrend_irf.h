@@ -1,6 +1,9 @@
-#if !defined( HYDROTREND_IRF_H )
+#if !defined(HYDROTREND_IRF_H)
 #define HYDROTREND_IRF_H
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
 typedef struct
 {
@@ -16,13 +19,14 @@ typedef struct
   double *prec;
 } state;
 
-//typedef struct state ht_state;
 
-state *ht_state_new (long n_days);
-state *ht_state_destroy (state * s);
+extern state * hydro_initialize (char* in_dir, char *in_file_prefix,
+                                 char *out_dir);
+extern state * hydro_run (state * s, double time);
+extern state * hydro_finalize (state * s);
 
-state * initialize (char* in_dir, char *in_file_prefix , char *out_dir );
-state * run ( state * s, double time );
-state * finalize ( state * s);
+#if defined(__cplusplus)
+}
+#endif
 
 #endif
