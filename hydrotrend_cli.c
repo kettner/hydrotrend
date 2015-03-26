@@ -14,8 +14,8 @@
  *-------------------------------------------------------------------------------------------*/
 
 #include "hydrotrend_cli.h"
-#include "hydrotrend_api.h"
 #include "hydroparams.h"
+#include "bmi_hydrotrend.h"
 
 #include <string.h>
 #include <stdlib.h>

@@ -7,7 +7,6 @@
  *
  */
 
-#include "hydrotrend_api.h"
 #include "hydrotrend_cli.h"
 #include <time.h>
 #include <stdio.h>
