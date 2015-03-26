@@ -91,7 +91,7 @@ ht_save_state (state * s)
 }
 
 state *
-initialize (char* in_dir, char* in_file_prefix, char* out_dir)
+hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 {
   state *s = NULL;
   char* in_file;
@@ -1135,14 +1135,14 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 }
 
 state *
-run ( state * s, double time )
+hydro_run ( state * s, double time )
 {
   s->day = time;
   return s;
 }
 
 state*
-finalize (state * s)
+hydro_finalize (state * s)
 {
   int p, err;
   /*---------------------------------
@@ -1244,4 +1244,101 @@ finalize (state * s)
   state_destroy (s);
 
   return NULL;
+}
+
+double *
+hydro_get_velocity_ptr (state * self)
+{
+  return self->velocity + self->day;
+}
+
+double
+hydro_get_velocity (state * self)
+{
+  return *hydro_get_velocity_ptr(s);
+}
+
+double *
+hydro_get_width_ptr (state * self)
+{
+  return self->width + self->day;
+}
+
+double
+hydro_get_width (state * self)
+{
+  return *hydro_get_width(self);
+}
+
+double *
+hydro_get_depth_ptr (state * self)
+{
+  return (self)->width + self->day;
+}
+
+double
+hydro_get_depth (state * self)
+{
+  return *hydro_get_depth(self);
+}
+
+double *
+hydro_get_water_discharge_ptr (state * self)
+{
+  return self->q + self->day;
+}
+
+double
+hydro_get_water_discharge (state * self)
+{
+  return *hydro_get_water_discharge_ptr(self);
+}
+
+double *
+hydro_get_sediment_discharge_ptr (state * self)
+{
+  return self->qs + self->day;
+}
+
+double
+hydro_get_sediment_discharge (state * self)
+{
+  return *hydro_get_sediment_discharge_ptr (self);
+}
+
+double *
+hydro_get_bedload_flux_ptr (state * self)
+{
+  return self->qb + self->day;
+}
+
+double
+hydro_get_bedload_flux (state * self)
+{
+  return *hydro_get_bedload_flux_ptr (self);
+}
+
+//A.KETTNER JULY 28TH, 2011
+double *
+hydro_get_precipitation_ptr (state * self)
+{
+  return self->prec + self->day;
+}
+
+double
+hydro_get_precipitation (state * self)
+{
+  return *hydro_get_precipitation_ptr (self);
+}
+
+double *
+hydro_get_temperature_ptr (state * self)
+{
+  return self->temp + self->day;
+}
+
+double
+hydro_get_temperature (state * self)
+{
+  return *hydro_get_temperature_ptr (self);
 }
