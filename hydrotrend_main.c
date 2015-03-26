@@ -13,6 +13,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "hydrotrend_irf.h"
+#include "bmi_hydrotrend.h"
+
+
 int fprint_current_time( FILE* file, char* label );
 int fprint_header( FILE* fp );
 int fprint_footer( FILE* fp );
@@ -47,13 +51,14 @@ main (int argc, char **argv)
   fprint_current_time ( stdout, "Start" );
 
   {
-    ht_state *s = NULL;
+    BMI_Model * model = (BMI_Model*)malloc(sizeof(BMI_Model));
 
-    s = ht_initialize (in_dir, in_prefix, out_dir );
+    register_bmi_hydrotrend(model);
 
-    BMI_HYDROTREND_Update_until (s, 10.5);
+    model->self = hydro_initialize(in_dir, in_prefix, out_dir);
 
-    BMI_HYDROTREND_Finalize (s);
+    model->update_until(model->self, 10.5);
+    model->finalize(model->self);
   }
 
   fprint_current_time( stdout, "Stop" );
