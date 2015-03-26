@@ -1,4 +1,5 @@
 language: c
+register: register_bmi_hydrotrend
 build:
   - mkdir -p _build
   - cd _build
