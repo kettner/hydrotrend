@@ -905,7 +905,7 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 						 *------------------------------------------*/
                     if (verbose)
                       printf ("Calling ht_save_state... \n");
-                    err = ht_save_state (s);
+                    err = _ht_save_state (s);
                     if (err)
                       {
                         fprintf (stderr,
@@ -1255,7 +1255,7 @@ hydro_get_velocity_ptr (state * self)
 double
 hydro_get_velocity (state * self)
 {
-  return *hydro_get_velocity_ptr(s);
+  return *hydro_get_velocity_ptr(self);
 }
 
 double *
@@ -1267,7 +1267,7 @@ hydro_get_width_ptr (state * self)
 double
 hydro_get_width (state * self)
 {
-  return *hydro_get_width(self);
+  return *hydro_get_width_ptr(self);
 }
 
 double *
@@ -1279,7 +1279,7 @@ hydro_get_depth_ptr (state * self)
 double
 hydro_get_depth (state * self)
 {
-  return *hydro_get_depth(self);
+  return *hydro_get_depth_ptr(self);
 }
 
 double *
