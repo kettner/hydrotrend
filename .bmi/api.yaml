@@ -1,12 +1,13 @@
 language: c
-prefix: BMI_HYDROTREND
 build:
-  brew:
-    formula: csdms/models/hydrotrend
+  - mkdir -p _build
+  - cd _build
+  - cmake .. -DCMAKE_INSTALL_PREFIX=$CSDMS_PREFIX
+  - make
+  - make install
 includes:
-  - "#include <bmi_hydrotrend.h>"
+  - "#include <hydrotrend/bmi_hydrotrend.h>"
 cflags:
   pkgconfig: hydrotrend
 libs:
   pkgconfig: hydrotrend
-grids: uniform_rectilinear
