@@ -14,8 +14,8 @@
 extern int hydrorandomsediment(void);
 
 
-state *
-state_new (long n_days)
+static state *
+_state_new (long n_days)
 {
   state *s;
 
@@ -36,8 +36,8 @@ state_new (long n_days)
   return s;
 }
 
-state *
-state_destroy (state * s)
+static state *
+_state_destroy (state * s)
 {
   free (s->q);
   free (s->velocity);
@@ -53,8 +53,8 @@ state_destroy (state * s)
   return NULL;
 }
 
-int
-ht_save_state (state * s)
+static int
+_ht_save_state (state * s)
 {
 
   int err = 0;
@@ -300,7 +300,7 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
       long total_days = 0;
       for (ep = 0; ep < nepochs; ep++)
         total_days += nyears[ep] * daysiy;
-      s = state_new (total_days);
+      s = _state_new (total_days);
     }
                 /*--------------------------
 		 *  Run each epoch of data
@@ -1241,7 +1241,7 @@ hydro_finalize (state * s)
   fprintf (stderr, "\nHydroTrend 3.0 finished. \n\n");
   fclose (fidlog);
 
-  state_destroy (s);
+  _state_destroy (s);
 
   return NULL;
 }
