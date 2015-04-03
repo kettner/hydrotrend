@@ -61,19 +61,18 @@ get_input_var_names(void *self, char **names)
 }
 
 
-#define OUTPUT_VAR_NAME_COUNT (11)
+#define OUTPUT_VAR_NAME_COUNT (10)
 static const char *output_var_names[OUTPUT_VAR_NAME_COUNT] = {
-    "air__mean_over_domain_of_temperature",
-    "channel_outflow_end_suspended_sediment__mass_flow_rate",
-    "channel_outflow_end_water__speed",
-    "channel_inflow_end_bed_load_sediment__mass_flow_rate",
-    "channel_outflow_end_water__discharge",
-    "channel_outflow_end__width",
-    "channel_outflow_end_water__depth",
-    "channel_inflow_end_water__discharge",
-    "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate",
-    "channel_outflow_end_bed_load_sediment__mass_flow_rate",
-    "channel_outflow_end__bankfull_width"
+    "atmosphere_bottom_air__domain_mean_of_temperature",
+    "channel_exit_water_sediment~suspended__mass_flow_rate",
+    "channel_exit_water__speed",
+    "channel_entrance_water_sediment~bedload__mass_flow_rate", // Repeat. Maybe remove.
+    "channel_exit_water__volume_flow_rate",
+    "channel_exit_x-section_top__width",
+    "channel_exit_water__mean_of_depth",
+    "channel_entrance_water__volume_flow_rate", // Repeat. Maybe remove.
+    "atmosphere_water__domain_mean_of_precipitation_leq-volume_flux",
+    "channel_exit_water_sediment~bedload__mass_flow_rate"
 };
 
 
@@ -283,27 +282,25 @@ get_grid_size(void *self, int id, int *size)
 static int
 get_var_grid(void *self, const char *name, int *grid)
 {
-    if (strcmp(name, "air__mean_over_domain_of_temperature") == 0) {
+    if (strcmp(name, "atmosphere_bottom_air__domain_mean_of_temperature") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end_suspended_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~suspended__mass_flow_rate") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end_water__speed") == 0) {
+    } else if (strcmp(name, "channel_exit_water__speed") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_entrance_water_sediment~bedload__mass_flow_rate") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_exit_water__volume_flow_rate") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end__width") == 0) {
+    } else if (strcmp(name, "channel_exit_x-section_top__width") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end_water__depth") == 0) {
+    } else if (strcmp(name, "channel_exit_water__mean_of_depth") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_inflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_entrance_water__volume_flow_rate") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate") == 0) {
+    } else if (strcmp(name, "atmosphere_water__domain_mean_of_precipitation_leq-volume_flux") == 0) {
         *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0) {
-        *grid = 0;
-    } else if (strcmp(name, "channel_outflow_end__bankfull_width") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~bedload__mass_flow_rate") == 0) {
         *grid = 0;
     } else {
         *grid = -1; return BMI_FAILURE;
@@ -315,27 +312,25 @@ get_var_grid(void *self, const char *name, int *grid)
 static int
 get_var_type(void *self, const char *name, char *type)
 {
-    if (strcmp(name, "air__mean_over_domain_of_temperature") == 0) {
+    if (strcmp(name, "atmosphere_bottom_air__domain_mean_of_temperature") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_suspended_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~suspended__mass_flow_rate") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_water__speed") == 0) {
+    } else if (strcmp(name, "channel_exit_water__speed") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_entrance_water_sediment~bedload__mass_flow_rate") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_exit_water__volume_flow_rate") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end__width") == 0) {
+    } else if (strcmp(name, "channel_exit_x-section_top__width") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_water__depth") == 0) {
+    } else if (strcmp(name, "channel_exit_water__mean_of_depth") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_inflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_entrance_water__volume_flow_rate") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate") == 0) {
+    } else if (strcmp(name, "atmosphere_water__domain_mean_of_precipitation_leq-volume_flux") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0) {
-        strncpy(type, "double", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end__bankfull_width") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~bedload__mass_flow_rate") == 0) {
         strncpy(type, "double", BMI_MAX_UNITS_NAME);
     } else {
         type[0] = '\0'; return BMI_FAILURE;
@@ -347,28 +342,26 @@ get_var_type(void *self, const char *name, char *type)
 static int
 get_var_units(void *self, const char *name, char *units)
 {
-    if (strcmp(name, "air__mean_over_domain_of_temperature") == 0) {
+    if (strcmp(name, "atmosphere_bottom_air__domain_mean_of_temperature") == 0) {
         strncpy(units, "degree_Celsius", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_suspended_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~suspended__mass_flow_rate") == 0) {
         strncpy(units, "kg / s", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_water__speed") == 0) {
+    } else if (strcmp(name, "channel_exit_water__speed") == 0) {
         strncpy(units, "m / s", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_entrance_water_sediment~bedload__mass_flow_rate") == 0) {
         strncpy(units, "kg / s", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_exit_water__volume_flow_rate") == 0) {
         strncpy(units, "m^3 / s", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end__width") == 0) {
+    } else if (strcmp(name, "channel_exit_x-section_top__width") == 0) {
         strncpy(units, "m", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_water__depth") == 0) {
+    } else if (strcmp(name, "channel_exit_water__mean_of_depth") == 0) {
         strncpy(units, "m", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_inflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_entrance_water__volume_flow_rate") == 0) {
         strncpy(units, "m^3 / s", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate") == 0) {
+    } else if (strcmp(name, "atmosphere_water__domain_mean_of_precipitation_leq-volume_flux") == 0) {
         strncpy(units, "m / d", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~bedload__mass_flow_rate") == 0) {
         strncpy(units, "kg / s", BMI_MAX_UNITS_NAME);
-    } else if (strcmp(name, "channel_outflow_end__bankfull_width") == 0) {
-        strncpy(units, "m", BMI_MAX_UNITS_NAME);
     } else {
         units[0] = '\0'; return BMI_FAILURE;
     }
@@ -379,27 +372,25 @@ get_var_units(void *self, const char *name, char *units)
 static int
 get_var_itemsize(void *self, const char *name, int *itemsize)
 {
-    if (strcmp(name, "air__mean_over_domain_of_temperature") == 0) {
+    if (strcmp(name, "atmosphere_bottom_air__domain_mean_of_temperature") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end_suspended_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~suspended__mass_flow_rate") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end_water__speed") == 0) {
+    } else if (strcmp(name, "channel_exit_water__speed") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_entrance_water_sediment~bedload__mass_flow_rate") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_exit_water__volume_flow_rate") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end__width") == 0) {
+    } else if (strcmp(name, "channel_exit_x-section_top__width") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end_water__depth") == 0) {
+    } else if (strcmp(name, "channel_exit_water__mean_of_depth") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_inflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_entrance_water__volume_flow_rate") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate") == 0) {
+    } else if (strcmp(name, "atmosphere_water__domain_mean_of_precipitation_leq-volume_flux") == 0) {
         *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0) {
-        *itemsize = sizeof(double);
-    } else if (strcmp(name, "channel_outflow_end__bankfull_width") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~bedload__mass_flow_rate") == 0) {
         *itemsize = sizeof(double);
     } else {
         *itemsize = 0; return BMI_FAILURE;
@@ -431,28 +422,26 @@ get_var_nbytes(void *self, const char *name, int *nbytes)
 static int
 get_value_ptr(void *self, const char *name, void **dest)
 {
-    if (strcmp(name, "air__mean_over_domain_of_temperature") == 0) {
+    if (strcmp(name, "atmosphere_bottom_air__domain_mean_of_temperature") == 0) {
         *dest = hydro_get_temperature_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end_suspended_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~suspended__mass_flow_rate") == 0) {
         *dest = hydro_get_sediment_discharge_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end_water__speed") == 0) {
+    } else if (strcmp(name, "channel_exit_water__speed") == 0) {
         *dest = hydro_get_velocity_ptr(self);
-    } else if (strcmp(name, "channel_inflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_entrance_water_sediment~bedload__mass_flow_rate") == 0) {
         *dest = hydro_get_bedload_flux_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_exit_water__volume_flow_rate") == 0) {
         *dest = hydro_get_water_discharge_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end__width") == 0) {
+    } else if (strcmp(name, "channel_exit_x-section_top__width") == 0) {
         *dest = hydro_get_width_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end_water__depth") == 0) {
+    } else if (strcmp(name, "channel_exit_water__mean_of_depth") == 0) {
         *dest = hydro_get_depth_ptr(self);
-    } else if (strcmp(name, "channel_inflow_end_water__discharge") == 0) {
+    } else if (strcmp(name, "channel_entrance_water__volume_flow_rate") == 0) {
         *dest = hydro_get_water_discharge_ptr(self);
-    } else if (strcmp(name, "atmosphere_water__mean_over_domain_of_liquid_equivalent_precipitation_rate") == 0) {
+    } else if (strcmp(name, "atmosphere_water__domain_mean_of_precipitation_leq-volume_flux") == 0) {
         *dest = hydro_get_precipitation_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end_bed_load_sediment__mass_flow_rate") == 0) {
+    } else if (strcmp(name, "channel_exit_water_sediment~bedload__mass_flow_rate") == 0) {
         *dest = hydro_get_bedload_flux_ptr(self);
-    } else if (strcmp(name, "channel_outflow_end__bankfull_width") == 0) {
-        *dest = hydro_get_width_ptr(self);
     } else {
         *dest = NULL; return BMI_FAILURE;
     }
