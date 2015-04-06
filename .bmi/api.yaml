@@ -1,3 +1,4 @@
+name: Hydrotrend
 language: c
 register: register_bmi_hydrotrend
 build:
