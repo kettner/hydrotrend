@@ -257,20 +257,24 @@ hydrosedload (gw_rainfall_etc * gw_rain){
    *	Compute the decay function given the duration
    *  This is done for the quake sub routine
    *-------------------------------------------------*/
-    for (kk = 0; kk < quakeeventcounter[ep]; kk++)
-        if (quakeeventyear[ep][kk] == yr && quakeeventenergy[ep][kk] > quakethresholdenergy){
-            if (quakeeventenergy[ep][kk] > quakethresholdenergy_max)
-                quakeeventenergy[ep][kk] = quakethresholdenergy_max;
-            start_decay_year = yr;
-            end_decay_year = yr+quakeeventduration[ep][kk];
-            set_event = kk;
-        }
-    if(yr >= start_decay_year && yr <= end_decay_year && start_decay_year != end_decay_year){
-        max_quake_erosion = ((5.3 * quakeeventenergy[ep][set_event])/quakeeventdistance[ep][set_event]) * (exp(quakeeventdistance[ep][set_event]/quakedampingfactor)); 
-        decay_multiplier = 1+(((end_decay_year - yr) * (max_quake_erosion-1)) / (end_decay_year - start_decay_year));
+    if (earthquakedatafile[ep] != 0) {
+      for (kk = 0; kk < quakeeventcounter[ep]; kk++)
+          if (quakeeventyear[ep][kk] == yr && quakeeventenergy[ep][kk] > quakethresholdenergy){
+              if (quakeeventenergy[ep][kk] > quakethresholdenergy_max)
+                  quakeeventenergy[ep][kk] = quakethresholdenergy_max;
+              start_decay_year = yr;
+              end_decay_year = yr+quakeeventduration[ep][kk];
+              set_event = kk;
+          }
+      if(yr >= start_decay_year && yr <= end_decay_year && start_decay_year != end_decay_year){
+          max_quake_erosion = ((5.3 * quakeeventenergy[ep][set_event])/quakeeventdistance[ep][set_event]) * (exp(quakeeventdistance[ep][set_event]/quakedampingfactor)); 
+          decay_multiplier = 1+(((end_decay_year - yr) * (max_quake_erosion-1)) / (end_decay_year - start_decay_year));
+      }
+      else
+        decay_multiplier = 1;
     }
     else
-        decay_multiplier = 1;
+      decay_multiplier = 1;
   
   
     /*-----------------------------------
