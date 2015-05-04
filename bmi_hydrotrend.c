@@ -225,9 +225,10 @@ update_until(void * self, double then)
             if (update(self) == BMI_FAILURE)
                 return BMI_FAILURE;
         }
-
+/*
         if (update_frac(self, n_steps - (int)n_steps) == BMI_FAILURE)
             return BMI_FAILURE;
+*/
     }
 
     return BMI_SUCCESS;
