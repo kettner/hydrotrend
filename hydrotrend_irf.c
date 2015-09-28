@@ -29,6 +29,7 @@ _state_new (long n_days)
   s->width = malloc1d (s->n_days, double);
   s->depth = malloc1d (s->n_days, double);
   s->qs = malloc1d (s->n_days, double);
+  s->cs = malloc1d (s->n_days, double);
   s->qb = malloc1d (s->n_days, double);
   s->prec = malloc1d (s->n_days, double);
   s->temp = malloc1d (s->n_days, double);
@@ -44,6 +45,7 @@ _state_destroy (state * s)
   free (s->width);
   free (s->depth);
   free (s->qs);
+  free (s->cs);
   free (s->qb);
   free (s->prec);
   free (s->temp);
@@ -82,6 +84,7 @@ _ht_save_state (state * s)
       s->width[start + day] = (widcof[ep] * pow (Qsumtot[day], widpow[ep]));
       s->depth[start + day] = (depcof[ep] * pow (Qsumtot[day], deppow[ep]));
       s->qs[start + day] = Qs[day];
+      s->cs[start + day] = Qs[day] / (s->velocity[start + day] * s->width[start + day] * s->depth[start + day]);
       s->qb[start + day] = Qb[day];
       s->prec[start + day] = Pdaily[day];
       s->temp[start + day] = Tdaily[day];
@@ -1273,7 +1276,7 @@ hydro_get_width (state * self)
 double *
 hydro_get_depth_ptr (state * self)
 {
-  return (self)->width + self->day;
+  return (self)->depth + self->day;
 }
 
 double
@@ -1304,6 +1307,18 @@ double
 hydro_get_sediment_discharge (state * self)
 {
   return *hydro_get_sediment_discharge_ptr (self);
+}
+
+double *
+hydro_get_sediment_concentration_ptr (state * self)
+{
+  return self->cs + self->day;
+}
+
+double
+hydro_get_sediment_concentration (state * self)
+{
+  return *hydro_get_sediment_concentration_ptr (self);
 }
 
 double *

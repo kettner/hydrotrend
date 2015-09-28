@@ -14,6 +14,7 @@ typedef struct
   double *width;
   double *depth;
   double *qs;
+  double *cs;
   double *qb;
   double *temp;
   double *prec;
@@ -35,6 +36,8 @@ extern double * hydro_get_water_discharge_ptr (state * self);
 extern double hydro_get_water_discharge (state * self);
 extern double * hydro_get_sediment_discharge_ptr (state * self);
 extern double hydro_get_sediment_discharge (state * self);
+extern double * hydro_get_sediment_concentration_ptr(state * self);
+extern double hydro_get_sediment_concentration(state * self);
 extern double * hydro_get_bedload_flux_ptr (state * self);
 extern double hydro_get_bedload_flux (state * self);
 extern double * hydro_get_precipitation_ptr (state * self);
