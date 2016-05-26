@@ -1,19 +1,4 @@
-%YAML 1.2
----
-_name: Run Parameters
-run_duration:
-  description: Simulation run time
-  value:
-    type: float
-    default: 1.
-    units: y
-    range:
-      min: 0
-      max: 1000000
----
-_name: Temperature
 starting_mean_annual_temperature:
-  name: Starting mean annual temperature
   description: Mean annual temperature at the start of the simulation
   value:
     type: float
@@ -22,9 +7,7 @@ starting_mean_annual_temperature:
       min: 0.0
       max: 50.0
     units: deg C
-
 change_in_mean_annual_temperature:
-  name: Change in mean annual temperature
   description: Rate of change of mean annual temperature
   value:
     type: float
@@ -33,9 +16,7 @@ change_in_mean_annual_temperature:
       min: -10.0
       max: 10.0
     units: deg C / yr
-
 standard_deviation_of_mean_annual_temperature:
-  name: Standard deviation of mean annual temperature
   description: Standard deviation of mean annual temperature
   value:
     type: float
@@ -44,9 +25,7 @@ standard_deviation_of_mean_annual_temperature:
       min: 0.0
       max: 10.0
     units: deg C
-
 january_temperature_mean:
-  name: Mean January temperature
   description: Mean temperature for January
   value:
     type: float
@@ -55,9 +34,7 @@ january_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 february_temperature_mean:
-  name: Mean February temperature
   description: Mean temperature for February
   value:
     type: float
@@ -66,9 +43,7 @@ february_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 march_temperature_mean:
-  name: Mean March temperature
   description: Mean temperature for March
   value:
     type: float
@@ -77,9 +52,7 @@ march_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 april_temperature_mean:
-  name: Mean April temperature
   description: Mean temperature for April
   value:
     type: float
@@ -88,9 +61,7 @@ april_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 may_temperature_mean:
-  name: Mean May temperature
   description: Mean temperature for May
   value:
     type: float
@@ -99,9 +70,7 @@ may_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 june_temperature_mean:
-  name: Mean June temperature
   description: Mean temperature for June
   value:
     type: float
@@ -110,9 +79,7 @@ june_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 july_temperature_mean:
-  name: Mean July temperature
   description: Mean temperature for July
   value:
     type: float
@@ -121,9 +88,7 @@ july_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 august_temperature_mean:
-  name: Mean August temperature
   description: Mean temperature for August
   value:
     type: float
@@ -132,9 +97,7 @@ august_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 september_temperature_mean:
-  name: Mean September temperature
   description: Mean temperature for September
   value:
     type: float
@@ -143,9 +106,7 @@ september_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 october_temperature_mean:
-  name: Mean October temperature
   description: Mean temperature for October
   value:
     type: float
@@ -154,9 +115,7 @@ october_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 november_temperature_mean:
-  name: Mean November temperature
   description: Mean temperature for November
   value:
     type: float
@@ -165,9 +124,7 @@ november_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 december_temperature_mean:
-  name: Mean December temperature
   description: Mean temperature for December
   value:
     type: float
@@ -176,9 +133,7 @@ december_temperature_mean:
       min: 0.0
       max: 100.0
     units: deg C
-
 january_temperature_standard_deviation:
-  name: Standard deviation of January temperatures
   description: Standard deviation of January temperatures
   value:
     type: float
@@ -187,9 +142,7 @@ january_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 february_temperature_standard_deviation:
-  name: Standard deviation of February temperatures
   description: Standard deviation of February temperatures
   value:
     type: float
@@ -198,9 +151,7 @@ february_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 march_temperature_standard_deviation:
-  name: Standard deviation of March temperatures
   description: Standard deviation of March temperatures
   value:
     type: float
@@ -209,7 +160,6 @@ march_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 april_temperature_standard_deviation:
   name: Standard deviation of April temperatures
   description: Standard deviation of April temperatures
@@ -220,9 +170,7 @@ april_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 may_temperature_standard_deviation:
-  name: Standard deviation of May temperatures
   description: Standard deviation of May temperatures
   value:
     type: float
@@ -231,9 +179,7 @@ may_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 june_temperature_standard_deviation:
-  name: Standard deviation of June temperatures
   description: Standard deviation of June temperatures
   value:
     type: float
@@ -242,9 +188,7 @@ june_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 july_temperature_standard_deviation:
-  name: Standard deviation of July temperatures
   description: Standard deviation of July temperatures
   value:
     type: float
@@ -253,9 +197,7 @@ july_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 august_temperature_standard_deviation:
-  name: Standard deviation of August temperatures
   description: Standard deviation of August temperatures
   value:
     type: float
@@ -264,9 +206,7 @@ august_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 september_temperature_standard_deviation:
-  name: Standard deviation of September temperatures
   description: Standard deviation of September temperatures
   value:
     type: float
@@ -275,9 +215,7 @@ september_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 october_temperature_standard_deviation:
-  name: Standard deviation of October temperatures
   description: Standard deviation of October temperatures
   value:
     type: float
@@ -286,9 +224,7 @@ october_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 november_temperature_standard_deviation:
-  name: Standard deviation of November temperatures
   description: Standard deviation of November temperatures
   value:
     type: float
@@ -297,9 +233,7 @@ november_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
-
 december_temperature_standard_deviation:
-  name: Standard deviation of December temperatures
   description: Standard deviation of December temperatures
   value:
     type: float
@@ -308,10 +242,7 @@ december_temperature_standard_deviation:
       min: 0.0
       max: 100.0
     units: deg C
----
-_name: Precipitation
 total_annual_precipitation:
-  name: Total annual precipitation
   description: Mean total annual precipitation
   value: 
     type: float
@@ -320,9 +251,7 @@ total_annual_precipitation:
       min: 0.0
       max: 50.0
     units: m/yr
-
 change_in_total_annual_precipitation:
-  name: Change in total annual precipitation
   description: Rate of change in the total annual precipitation
   value: 
     type: float
@@ -331,9 +260,7 @@ change_in_total_annual_precipitation:
       min: -10.0
       max: 10.0
     units: m/yr/yr
-    
 standard_deviation_of_total_annual_precipitation:
-  name: Standard deviation of total annual precipitation
   description: Standard deviation of the total annual precipitation
   value: 
     type: float
@@ -342,9 +269,7 @@ standard_deviation_of_total_annual_precipitation:
       min: 0.0
       max: 10.0
     units: m/yr
-    
 january_precipitation_mean:
-  name: Mean January precipitation
   description: Mean precipitation for January
   value: 
     type: float
@@ -353,9 +278,7 @@ january_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 february_precipitation_mean:
-  name: Mean February precipitation
   description: Mean precipitation for February
   value: 
     type: float
@@ -364,9 +287,7 @@ february_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-    
 march_precipitation_mean:
-  name: Mean March precipitation
   description: Mean precipitation for March
   value: 
     type: float
@@ -375,9 +296,7 @@ march_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 april_precipitation_mean:
-  name: Mean April precipitation
   description: Mean precipitation for April
   value: 
     type: float
@@ -386,9 +305,7 @@ april_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-    
 may_precipitation_mean:
-  name: Mean May precipitation
   description: Mean precipitation for May
   value: 
     type: float
@@ -397,9 +314,7 @@ may_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 june_precipitation_mean:
-  name: Mean June precipitation
   description: Mean precipitation for June
   value: 
     type: float
@@ -408,9 +323,7 @@ june_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-    
 july_precipitation_mean:
-  name: Mean July precipitation
   description: Mean precipitation for July
   value: 
     type: float
@@ -419,9 +332,7 @@ july_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-    
 august_precipitation_mean:
-  name: Mean August precipitation
   description: Mean precipitation for August
   value: 
     type: float
@@ -430,9 +341,7 @@ august_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 september_precipitation_mean:
-  name: Mean September precipitation
   description: Mean precipitation for September
   value: 
     type: float
@@ -441,9 +350,7 @@ september_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 october_precipitation_mean:
-  name: Mean October precipitation
   description: Mean precipitation for October
   value: 
     type: float
@@ -452,9 +359,7 @@ october_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 november_precipitation_mean:
-  name: Mean November precipitation
   description: Mean precipitation for November
   value: 
     type: float
@@ -463,9 +368,7 @@ november_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 december_precipitation_mean:
-  name: Mean December precipitation
   description: Mean precipitation for December
   value: 
     type: float
@@ -474,9 +377,7 @@ december_precipitation_mean:
       min: 0.0
       max: 1000.0
     units: mm
-
 january_precipitation_standard_deviation:
-  name: Standard deviation of January precipitation
   description: Standard deviation of January precipitation
   value: 
     type: float
@@ -485,9 +386,7 @@ january_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 february_precipitation_standard_deviation:
-  name: Standard deviation of February precipitation
   description: Standard deviation of February precipitation
   value: 
     type: float
@@ -496,9 +395,7 @@ february_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 march_precipitation_standard_deviation:
-  name: Standard deviation of March precipitation
   description: Standard deviation of March precipitation
   value: 
     type: float
@@ -507,9 +404,7 @@ march_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 april_precipitation_standard_deviation:
-  name: Standard deviation of April precipitation
   description: Standard deviation of April precipitation
   value: 
     type: float
@@ -518,9 +413,7 @@ april_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 may_precipitation_standard_deviation:
-  name: Standard deviation of May precipitation
   description: Standard deviation of May precipitation
   value: 
     type: float
@@ -529,9 +422,7 @@ may_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 june_precipitation_standard_deviation:
-  name: Standard deviation of June precipitation
   description: Standard deviation of June precipitation
   value: 
     type: float
@@ -540,9 +431,7 @@ june_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 july_precipitation_standard_deviation:
-  name: Standard deviation of July precipitation
   description: Standard deviation of July precipitation
   value: 
     type: float
@@ -551,9 +440,7 @@ july_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 august_precipitation_standard_deviation:
-  name: Standard deviation of August precipitation
   description: Standard deviation of August precipitation
   value: 
     type: float
@@ -562,9 +449,7 @@ august_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 september_precipitation_standard_deviation:
-  name: Standard deviation of September precipitation
   description: Standard deviation of September precipitation
   value: 
     type: float
@@ -573,9 +458,7 @@ september_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 october_precipitation_standard_deviation:
-  name: Standard deviation of October precipitation
   description: Standard deviation of October precipitation
   value: 
     type: float
@@ -584,9 +467,7 @@ october_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 november_precipitation_standard_deviation:
-  name: Standard deviation of November precipitation
   description: Standard deviation of November precipitation
   value: 
     type: float
@@ -595,9 +476,7 @@ november_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
-
 december_precipitation_standard_deviation:
-  name: Standard deviation of December precipitation
   description: Standard deviation of December precipitation
   value: 
     type: float
@@ -606,10 +485,7 @@ december_precipitation_standard_deviation:
       min: 0.0
       max: 100.0
     units: mm
----
-_name: Basin
 bqrt_lithology_factor:
-  name: Lithology factor
   description: Lithology factor for BQRT equation
   value: 
     type: float
@@ -618,9 +494,7 @@ bqrt_lithology_factor:
       min: 0.3
       max: 3.0
     units: '-'
-
 bqrt_anthropogenic_factor:
-  name: Anthropogenic factor
   description: Anthropogenic factor for BQRT equation
   value: 
     type: float
@@ -629,9 +503,7 @@ bqrt_anthropogenic_factor:
       min: 0.5
       max: 8.0
     units: '-'
-
 lapse_rate:
-  name: Lapse rate
   description: Lapse rate to calculate freezing line
   value: 
     type: float
@@ -640,9 +512,7 @@ lapse_rate:
       min: 0.0
       max: 10.0
     units: deg C / km
-
 ela_start:
-  name: Starting ELA
   description: Starting equilibrium line altitude of glacier
   value: 
     type: float
@@ -651,9 +521,7 @@ ela_start:
       min: 0.0
       max: 10000.0
     units: m
-
 ela_change:
-  name: Change in ELA
   description: Rate of change of equilibrium line altitude
   value: 
     type: float
@@ -662,9 +530,7 @@ ela_change:
       min: -10.0
       max: 10.0
     units: m / yr
-
 evaporation_fraction:
-  name: Evaporation fraction
   description: Dry precipitation (nival and ice) evaporation fraction
   value: 
     type: float
@@ -673,9 +539,7 @@ evaporation_fraction:
       min: 0.0
       max: 1.0
     units: '-'
-
 basin_length:
-  name: River length
   description: River length
   value: 
     type: float
@@ -684,9 +548,7 @@ basin_length:
       min: 0.0
       max: 10000.0
     units: km
-
 reservoir_volume:
-  name: Reservoir volume
   description: Mean volume of reservoir
   value: 
     type: float
@@ -695,9 +557,7 @@ reservoir_volume:
       min: 0.0
       max: 100.0
     units: km^3
-
 reservoir_area:
-  name: Reservoir area
   description: Drainage area of reservoir
   value: 
     type: float
@@ -706,10 +566,7 @@ reservoir_area:
       min: 0.0
       max: 100000.0
     units: km^2
----
-_name: River Mouth
 river_velocity_coefficient:
-  name: River velocity coefficient
   description: River mouth velocity coefficient k in v=kQ^m
   value: 
     type: float
@@ -718,9 +575,7 @@ river_velocity_coefficient:
       min: 0.0
       max: 10.0
     units: m/s
-
 river_velocity_exponent:
-  name: River velocity exponent
   description: River mouth velocity exponent m in v=kQ^m
   value: 
     type: float
@@ -729,9 +584,7 @@ river_velocity_exponent:
       min: 0.0
       max: 10.0
     units: '-'
-
 river_width_coefficient:
-  name: River width coefficient
   description: River mouth width coefficient a in ack=1
   value: 
     type: float
@@ -740,9 +593,7 @@ river_width_coefficient:
       min: 0.0
       max: 1000.0
     units: m
-
 river_width_exponent:
-  name: River width exponent
   description: River mouth width exponent b in b+m+f=1
   value: 
     type: float
@@ -751,9 +602,7 @@ river_width_exponent:
       min: 0.0
       max: 10.0
     units: m
-
 river_mean_velocity:
-  name: Mean river velocity
   description: Mean river mouth velocity
   value: 
     type: float
@@ -762,9 +611,7 @@ river_mean_velocity:
       min: 0.0
       max: 10.0
     units: m/s
-
 base_flow:
-  name: Base flow
   description: Constant annual base flow
   value: 
     type: float
@@ -773,9 +620,7 @@ base_flow:
       min: 0.0
       max: 1.0e6
     units: m^3/s
-
 trapping_efficiency:
-  name: Trapping efficiency
   description: Delta trapping efficiency
   value: 
     type: float
@@ -784,9 +629,7 @@ trapping_efficiency:
       min: 0.0
       max: 1.0
     units: '-'
-
 delta_gradient:
-  name: Delta gradient
   description: Delta gradient
   value: 
     type: float
@@ -795,10 +638,7 @@ delta_gradient:
       min: 0.0
       max: 1.0
     units: '-'
----
-_name: Groundwater
 groundwater_storage_max:
-  name: Maximum groundwater storage
   description: Maximum groundwater storage
   value: 
     type: float
@@ -807,9 +647,7 @@ groundwater_storage_max:
       min: 0.0
       max: 1e16
     units: m^3
-
 groundwater_storage_min:
-  name: Minimum groundwater storage
   description: Minimum groundwater storage
   value: 
     type: float
@@ -818,9 +656,7 @@ groundwater_storage_min:
       min: 0.0
       max: 1e16
     units: m^3
-
 groundwater_storage_start:
-  name: Initial groundwater storage
   description: Groundwater storage at start of simulation
   value: 
     type: float
@@ -829,9 +665,7 @@ groundwater_storage_start:
       min: 0.0
       max: 1e16
     units: m^3
-
 groundwater_coefficient:
-  name: Groundwater coefficient
   description: Groundwater (subsurface storm flow) coefficient
   value: 
     type: float
@@ -840,9 +674,7 @@ groundwater_coefficient:
       min: 0.0
       max: 1e6
     units: m^3
-
 groundwater_exponent:
-  name: Groundwater exponent
   description: Groundwater (subsurface storm flow) exponent
   value: 
     type: float
@@ -851,9 +683,7 @@ groundwater_exponent:
       min: 0.0
       max: 10
     units: '-'
-
 hydraulic_conductivity:
-  name: Hydraulic conductivity
   description: Saturated hydraulic conductivity
   value: 
     type: float
