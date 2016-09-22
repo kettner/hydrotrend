@@ -1,3 +1,12 @@
+run_duration:
+  description: Number of years to run model for
+  value:
+    type: int
+    default: 100
+    range:
+      min: 0
+      max: 1000000
+    units: yr
 starting_mean_annual_temperature:
   description: Mean annual temperature at the start of the simulation
   value:
