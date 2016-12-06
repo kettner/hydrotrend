@@ -353,7 +353,7 @@ get_var_units(void *self, const char *name, char *units)
     } else if (strcmp(name, "channel_exit_water_sediment~suspended__mass_flow_rate") == 0) {
         strncpy(units, "kg / s", BMI_MAX_UNITS_NAME);
     } else if (strcmp(name,"channel_exit_water_sediment~suspended__mass_concentration") == 0) {
-        strncpy(units, "-", BMI_MAX_UNITS_NAME);
+        strncpy(units, "kg / m^3", BMI_MAX_UNITS_NAME);
     } else if (strcmp(name, "channel_exit_water_flow__speed") == 0) {
         strncpy(units, "m / s", BMI_MAX_UNITS_NAME);
     } else if (strcmp(name, "channel_entrance_water_sediment~bedload__mass_flow_rate") == 0) {
