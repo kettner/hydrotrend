@@ -14,13 +14,14 @@
  *-------------------------------------------------------------------------------------------*/
 
 #include "hydrotrend_cli.h"
-#include "hydrotrend_api.h"
 #include "hydroparams.h"
+#include "bmi_hydrotrend.h"
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
+
 
 #define MAXLENGTH (80)
 
@@ -138,7 +139,7 @@ parse_command_line (int argc, char *argv[])
             in_file_prefix = strdup (argv[optind++]);
           else
             {
-              fprintf (stderr, "Error: Prefix specifed twice\n", ch);
+              fprintf (stderr, "Error: Prefix specifed twice\n");
               exit (EXIT_FAILURE);
             }
         }
@@ -152,7 +153,7 @@ parse_command_line (int argc, char *argv[])
             out_dir = strdup (argv[optind++]);
           else
             {
-              fprintf (stderr, "Error: Output directory specifed twice\n", ch);
+              fprintf (stderr, "Error: Output directory specifed twice\n");
               exit (EXIT_FAILURE);
             }
         }

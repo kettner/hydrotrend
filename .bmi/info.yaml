@@ -1,0 +1,16 @@
+id: hydrotrend
+name: HydroTrend
+class: Hydrotrend
+initialize_args: _hydrotrend_bmi_initialize.txt
+summary: 
+  Climate-driven hydrological water balance and transport model that simulates
+  water discharge and sediment load at a river outlet. HydroTrend simulates
+  water and sediment fluxes at a daily timescale based on drainage basin
+  characteristics and climate. HydroTrend can provide this river flux
+  information to other components like CEM and Sedflux2D or Sedflux3D
+url: http://csdms.colorado.edu/wiki/Model_help:HydroTrend
+author: Albert Kettner
+email: albert.kettner@colorado.edu
+version: 3.0.1
+license: GPLv3
+doi: 10.1594/IEDA/100135

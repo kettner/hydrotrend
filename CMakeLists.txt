@@ -32,8 +32,8 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
 
 ########### libhydrotrend ###############
 
-set( hydrotrend_lib_SRCS
-   hydrotrend_api.c
+set(hydrotrend_lib_SRCS
+   bmi_hydrotrend.c
    hydrotrend_irf.c
    hydroalloc_mem.c
    hydrocalqsnew.c
@@ -51,7 +51,6 @@ set( hydrotrend_lib_SRCS
    hydrooutput.c
    hydroprintannual.c
    hydroprintstat.c
-   hydroprinttable.c
    hydrorain.c
    hydroran2.c
    hydroran2sediment.c
@@ -74,23 +73,21 @@ set( hydrotrend_lib_SRCS
    hydroswap.c
    hydroweather.c)
 
-add_library(hydrotrend ${hydrotrend_lib_SRCS} )
-add_library(hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
+########### BMI ###########
 
-target_link_libraries( hydrotrend m )
-
-#set_target_properties(hydrotrend PROPERTIES VERSION 4.2.0 SOVERSION 4)
-install(TARGETS hydrotrend DESTINATION lib COMPONENT hydrotrend)
-export(TARGETS hydrotrend FILE hydrotrend-exports.cmake)
+add_library(bmi_hydrotrend ${hydrotrend_lib_SRCS})
+add_library(bmi_hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
+install(TARGETS bmi_hydrotrend DESTINATION lib)
+install(TARGETS bmi_hydrotrend-static DESTINATION lib)
+install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 
 ########### hydrotrend main program ###############
 
 set(hydrotrend_SRCS hydrotrend_main.c)
-#SET(hydrotrend_SRCS ${hydrotrend_lib_SRCS} hydrotrend_main.c)
 
 add_executable(run_hydrotrend ${hydrotrend_SRCS})
 
-target_link_libraries(run_hydrotrend hydrotrend-static m)
+target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
 
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         DESTINATION bin
@@ -127,12 +124,6 @@ endif (WITH_PYTHON_BINDINGS AND PYTHONLIBS_FOUND AND SWIG_FOUND)
 
 ########### Install files ###############
 
-install(FILES  hydrotrend_cli.h
-        DESTINATION include
-        COMPONENT hydrotrend)
-install(FILES  hydrotrend_api.h RENAME bmi_hydrotrend.h
-        DESTINATION include
-        COMPONENT hydrotrend)
 install(FILES  hydrotrend.pc DESTINATION lib/pkgconfig  COMPONENT hydrotrend)
 
 ########### Configuration Information ###############

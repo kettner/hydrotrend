@@ -5,11 +5,17 @@
 #include "hydrotrend.h"
 #include "hydroclimate.h"
 #include "hydroinout.h"
+#include "hydrofree_mem.h"
+
 #include <stdlib.h>
 #include <string.h>
 
-state *
-state_new (long n_days)
+
+extern int hydrorandomsediment(void);
+
+
+static state *
+_state_new (long n_days)
 {
   state *s;
 
@@ -23,6 +29,7 @@ state_new (long n_days)
   s->width = malloc1d (s->n_days, double);
   s->depth = malloc1d (s->n_days, double);
   s->qs = malloc1d (s->n_days, double);
+  s->cs = malloc1d (s->n_days, double);
   s->qb = malloc1d (s->n_days, double);
   s->prec = malloc1d (s->n_days, double);
   s->temp = malloc1d (s->n_days, double);
@@ -30,14 +37,15 @@ state_new (long n_days)
   return s;
 }
 
-state *
-state_destroy (state * s)
+static state *
+_state_destroy (state * s)
 {
   free (s->q);
   free (s->velocity);
   free (s->width);
   free (s->depth);
   free (s->qs);
+  free (s->cs);
   free (s->qb);
   free (s->prec);
   free (s->temp);
@@ -47,8 +55,8 @@ state_destroy (state * s)
   return NULL;
 }
 
-int
-ht_save_state (state * s)
+static int
+_ht_save_state (state * s)
 {
 
   int err = 0;
@@ -76,6 +84,7 @@ ht_save_state (state * s)
       s->width[start + day] = (widcof[ep] * pow (Qsumtot[day], widpow[ep]));
       s->depth[start + day] = (depcof[ep] * pow (Qsumtot[day], deppow[ep]));
       s->qs[start + day] = Qs[day];
+      s->cs[start + day] = Qs[day] / (s->velocity[start + day] * s->width[start + day] * s->depth[start + day]);
       s->qb[start + day] = Qb[day];
       s->prec[start + day] = Pdaily[day];
       s->temp[start + day] = Tdaily[day];
@@ -85,7 +94,7 @@ ht_save_state (state * s)
 }
 
 state *
-initialize (char* in_dir, char* in_file_prefix, char* out_dir)
+hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 {
   state *s = NULL;
   char* in_file;
@@ -294,7 +303,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
       long total_days = 0;
       for (ep = 0; ep < nepochs; ep++)
         total_days += nyears[ep] * daysiy;
-      s = state_new (total_days);
+      s = _state_new (total_days);
     }
                 /*--------------------------
 		 *  Run each epoch of data
@@ -899,7 +908,7 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 						 *------------------------------------------*/
                     if (verbose)
                       printf ("Calling ht_save_state... \n");
-                    err = ht_save_state (s);
+                    err = _ht_save_state (s);
                     if (err)
                       {
                         fprintf (stderr,
@@ -1129,14 +1138,14 @@ initialize (char* in_dir, char* in_file_prefix, char* out_dir)
 }
 
 state *
-run ( state * s, double time )
+hydro_run ( state * s, double time )
 {
   s->day = time;
   return s;
 }
 
 state*
-finalize (state * s)
+hydro_finalize (state * s)
 {
   int p, err;
   /*---------------------------------
@@ -1235,7 +1244,116 @@ finalize (state * s)
   fprintf (stderr, "\nHydroTrend 3.0 finished. \n\n");
   fclose (fidlog);
 
-  state_destroy (s);
+  _state_destroy (s);
 
   return NULL;
+}
+
+double *
+hydro_get_velocity_ptr (state * self)
+{
+  return self->velocity + self->day;
+}
+
+double
+hydro_get_velocity (state * self)
+{
+  return *hydro_get_velocity_ptr(self);
+}
+
+double *
+hydro_get_width_ptr (state * self)
+{
+  return self->width + self->day;
+}
+
+double
+hydro_get_width (state * self)
+{
+  return *hydro_get_width_ptr(self);
+}
+
+double *
+hydro_get_depth_ptr (state * self)
+{
+  return (self)->depth + self->day;
+}
+
+double
+hydro_get_depth (state * self)
+{
+  return *hydro_get_depth_ptr(self);
+}
+
+double *
+hydro_get_water_discharge_ptr (state * self)
+{
+  return self->q + self->day;
+}
+
+double
+hydro_get_water_discharge (state * self)
+{
+  return *hydro_get_water_discharge_ptr(self);
+}
+
+double *
+hydro_get_sediment_discharge_ptr (state * self)
+{
+  return self->qs + self->day;
+}
+
+double
+hydro_get_sediment_discharge (state * self)
+{
+  return *hydro_get_sediment_discharge_ptr (self);
+}
+
+double *
+hydro_get_sediment_concentration_ptr (state * self)
+{
+  return self->cs + self->day;
+}
+
+double
+hydro_get_sediment_concentration (state * self)
+{
+  return *hydro_get_sediment_concentration_ptr (self);
+}
+
+double *
+hydro_get_bedload_flux_ptr (state * self)
+{
+  return self->qb + self->day;
+}
+
+double
+hydro_get_bedload_flux (state * self)
+{
+  return *hydro_get_bedload_flux_ptr (self);
+}
+
+//A.KETTNER JULY 28TH, 2011
+double *
+hydro_get_precipitation_ptr (state * self)
+{
+  return self->prec + self->day;
+}
+
+double
+hydro_get_precipitation (state * self)
+{
+  return *hydro_get_precipitation_ptr (self);
+}
+
+double *
+hydro_get_temperature_ptr (state * self)
+{
+  return self->temp + self->day;
+}
+
+double
+hydro_get_temperature (state * self)
+{
+  return *hydro_get_temperature_ptr (self);
 }

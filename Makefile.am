@@ -22,7 +22,6 @@ libhydrotrend_la_SOURCES = \
    hydrooutput.c      \
    hydroprintannual.c   \
    hydroprintstat.c    \
-   hydroprinttable.c   \
    hydrorain.c      \
    hydroran2.c      \
    hydroran2sediment.c		\
