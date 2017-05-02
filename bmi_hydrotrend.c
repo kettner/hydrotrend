@@ -147,7 +147,7 @@ initialize(const char * file, void **handle)
 
     *handle = NULL;
 
-    if (file) {
+    if (file && file[0] != '\0') {
       FILE * fp = fopen (file, "r");
 
       if (fp) {
