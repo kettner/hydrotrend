@@ -1,27 +1,46 @@
+Hydrotrend
+===
 
-09/12/11
-
-With this you should be able to compile HydroTrend:
-
-1) Install cmake on your linux machine if you haven't installed it yet (http://www.cmake.org/cmake/resources/software.html)
-
-2) Than, in the hydrotrend root directory (hydrotrend-trunk-rxxx) make a '_build' folder (mkdir _build).
-
-3) cd to the _build dir.
-
-4) in the _build directory type the command: cmake ./..
-
-5) Once that is finished, use the command in the same directory: make
-
-6) cd ../data
-
-7) cp -r input/ HYDRO_IN
-
-8) mkdir HYDRO_OUTPUT
-
-9) ../_build/run_hydrotrend -V (the -V (verbose) will generate some more information to your terminal, if you don't like that you can run it without the -V)
+You can find the official version of HydroTrend source code here:
+https://github.com/kettern/hydrotrend
 
 
+Install a pre-built version of HydroTrend
+-----------------------------------------
 
-Feel free to contact me if you are having problems compiling the code: Albert Kettner (Kettner@colorado.edu)
+To install a pre-built version of this package with conda run:
 
+```bash
+$ conda install hydrotrend -c conda-forge
+```
+
+This will grab the latest version of *HydroTrend* from the
+[*conda-forge*](https://conda-forge.org/) and install it into your
+current environment.
+
+Build and install from source
+-----------------------------
+
+To build and install from source:
+
+```bash
+$ mkdir _build && cd _build
+$ cmake .. -DCMAKE_INSTALL_PREFIX=$PREFIX -DCMAKE_BUILD_TYPE=Release
+$ make all -j4
+$ make install
+```
+
+Run HydroTrend
+--------------
+
+Once HydroTrend is installed, use the `--help` option to get a brief overview
+of how to run it,
+
+```bash
+$ hydrotrend --help
+```
+To run the test example (using this repository),
+```bash
+$ cd data/input
+$ hydrotrend --in-dir=. --out-dir=. --prefix=HYDRO
+```
