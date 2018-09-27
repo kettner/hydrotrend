@@ -430,6 +430,14 @@ get_var_nbytes(void *self, const char *name, int *nbytes)
 
 
 static int
+get_var_location(void *self, const char *name, char *loc)
+{
+    strncpy(loc, "grid", BMI_MAX_VAR_NAME);
+    return BMI_SUCCESS;
+}
+
+
+static int
 get_value_ptr(void *self, const char *name, void **dest)
 {
     if (strcmp(name, "atmosphere_bottom_air__domain_mean_of_temperature") == 0) {
@@ -576,6 +584,7 @@ register_bmi_hydrotrend(BMI_Model *model)
     model->get_var_type = get_var_type;
     model->get_var_units = get_var_units;
     model->get_var_nbytes = get_var_nbytes;
+    model->get_var_location = get_var_location;
     model->get_current_time = get_current_time;
     model->get_start_time = get_start_time;
     model->get_end_time = get_end_time;

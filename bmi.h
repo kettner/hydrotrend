@@ -9,7 +9,6 @@ extern "C" {
 #define BMI_FAILURE (1)
 
 #define BMI_MAX_UNITS_NAME (2048)
-#define BMI_MAX_TYPE_NAME (2048)
 #define BMI_MAX_COMPONENT_NAME (2048)
 #define BMI_MAX_VAR_NAME (2048)
 
@@ -32,9 +31,10 @@ typedef struct {
 
   int (* get_var_grid)(void *, const char *, int *);
   int (* get_var_type)(void *, const char *, char *);
-  int (* get_var_itemsize)(void *, const char *, int *);
   int (* get_var_units)(void *, const char *, char *);
+  int (* get_var_itemsize)(void *, const char *, int *);
   int (* get_var_nbytes)(void *, const char *, int *);
+  int (* get_var_location)(void *, const char *, char *);
   int (* get_current_time)(void *, double *);
   int (* get_start_time)(void *, double *);
   int (* get_end_time)(void *, double *);
@@ -51,8 +51,8 @@ typedef struct {
   int (* set_value_at_indices)(void *, const char *, int *, int, void *);
 
   /* Grid information functions */
-  int (* get_grid_size)(void *, int, int *);
   int (* get_grid_rank)(void *, int, int *);
+  int (* get_grid_size)(void *, int, int *);
   int (* get_grid_type)(void *, int, char *);
   int (* get_grid_shape)(void *, int, int *);
   int (* get_grid_spacing)(void *, int, double *);
@@ -63,11 +63,15 @@ typedef struct {
   int (* get_grid_z)(void *, int, double *);
 
   int (* get_grid_face_count)(void *, int, int *);
+  int (* get_grid_point_count)(void *, int, int *);
   int (* get_grid_vertex_count)(void *, int, int *);
 
   int (* get_grid_connectivity)(void *, int, int *);
   int (* get_grid_offset)(void *, int, int *);
 } BMI_Model;
+
+
+BMI_Model * register_bmi_hydrotrend(BMI_Model *model);
 
 
 #if defined(__cplusplus)
