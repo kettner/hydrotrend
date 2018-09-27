@@ -94,34 +94,6 @@ install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         RENAME hydrotrend
         COMPONENT hydrotrend)
 
-########### Python bindings ###############
-
-# You may need to use -DCMAKE_INCLUDE_PATH and -DCMAKE_LIBRARY_PATH
-# to find the correct libraries/include paths
-find_package (SWIG)
-find_package (PythonLibs 2.6 EXACT)
-
-if (WITH_PYTHON_BINDINGS AND PYTHONLIBS_FOUND AND SWIG_FOUND)
-  include (${SWIG_USE_FILE})
-
-  include_directories (${PYTHON_INCLUDE_PATH})
-  include_directories (${CMAKE_CURRENT_SOURCE_DIR})
-
-  set (CMAKE_SWIG_FLAGS "")
-
-  swig_add_module (hydrotrend_mod python hydrotrend_mod.i ${hydrotrend_lib_SRCS})
-  swig_link_libraries (hydrotrend_mod ${PYTHON_LIBRARIES})
-
-  message ("Python include path " ${PYTHON_INCLUDE_PATH})
-  message ("Python libs " ${PYTHON_LIBRARIES})
-  message ("Python lib path " ${PYTHON_LIBRARY_PATH})
-
-  install (FILES ${CMAKE_BINARY_DIR}/hydrotrend_mod.py
-                 ${CMAKE_BINARY_DIR}/_hydrotrend_mod.so
-           DESTINATION lib/hydrotrend-python COMPONENT hydrotrend)
-
-endif (WITH_PYTHON_BINDINGS AND PYTHONLIBS_FOUND AND SWIG_FOUND)
-
 ########### Install files ###############
 
 install(FILES  hydrotrend.pc DESTINATION lib/pkgconfig  COMPONENT hydrotrend)
