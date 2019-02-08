@@ -75,7 +75,7 @@ hydrorandomsediment ()
  *  GASDEV, From "Numerical Recipes in C", p.289, 2nd ed.
  */
   jj = 0;
-  for (ii = 0; ii < nyears[ep] - 1; ii += 2)
+  for (ii = 0; ii < nyears[ep]; ii += 2)
     {
       do
         {
@@ -87,7 +87,8 @@ hydrorandomsediment ()
       while (rsq >= 1.0 || rsq == 0.0);
       fac = sqrt (-2.0 * log (rsq) / rsq);
       ranarraysediment[ii] = (double) v1 *fac;
-      ranarraysediment[ii + 1] = (double) v2 *fac;
+      if (ii + 1 < nyears[ep])
+        ranarraysediment[ii + 1] = (double) v2 *fac;
     }
 
 /*-------------------
