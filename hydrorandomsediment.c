@@ -64,8 +64,8 @@ hydrorandomsediment ()
   if (yr == syear[ep])
     rnseed = -INIT_RAN_NUM_SEED - 10 * ep;
 
-  unival = malloc1d (2 * nyears[ep], float);
-  for (ii = 0; ii < 2 * nyears[ep]; ii++)
+  unival = malloc1d (200 * nyears[ep], float);
+  for (ii = 0; ii < 200 * nyears[ep]; ii++)
     unival[ii] = hydroran2sediment (&rnseed);
 
 /*
