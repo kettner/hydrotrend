@@ -180,8 +180,10 @@ hydrosedload (gw_rainfall_etc * gw_rain){
                 TE[ep] = (Rarea[ep] / A) * TEsubbasin[ep];
             }
         }
-        else if (Rvol[ep] == 0.0)
+        else {
             TE[ep] = 0.0;
+            TEsubbasin[ep] = 0.0;
+        }
 
 /*--------------------------------
  *  Compute Qsbar for this epoch
