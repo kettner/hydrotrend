@@ -20,7 +20,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <getopt.h>
+#ifdef WITH_GETOPT
+# include <getopt.h>
+#endif
 
 
 #define MAXLENGTH (80)
@@ -35,6 +37,18 @@
 int is_valid_str (char *str);
 char *to_upper_str (char *str);
 
+#ifndef WITH_GETOPT
+ht_args_st *
+parse_command_line (int argc, char *argv[])
+{
+  ht_args_st *args = malloc(sizeof(ht_args_st));
+  args->in_file = strdup(HT_DEFAULT_PREFIX);
+  args->in_dir = strdup(HT_DEFAULT_IN_DIR);
+  args->out_dir = NULL;
+
+  return args;
+}
+#else
 static int verbose_flag = 0;
 static int version_flag = 0;
 static int help_flag = 0;
@@ -206,6 +220,8 @@ parse_command_line (int argc, char *argv[])
 
   return args;
 }
+#endif
+
 
 int
 is_valid_str (char *str)

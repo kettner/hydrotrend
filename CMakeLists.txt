@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
+include(CheckIncludeFile)
 
 project( hydrotrend )
 
@@ -31,6 +32,9 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
                 ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
 ########### libhydrotrend ###############
+
+check_include_file(getopt.h WITH_GETOPT)
+check_include_file(unistd.h WITH_UNISTD)
 
 set(hydrotrend_lib_SRCS
    bmi_hydrotrend.c

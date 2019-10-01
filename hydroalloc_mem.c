@@ -13,7 +13,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#ifdef WITH_UNISTD
+# include <unistd.h>
+#endif
 #include "hydroalloc_mem.h"
   
 /*      FUNCTION ALLOCATE_1D FILE */ 
