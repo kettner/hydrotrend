@@ -129,7 +129,7 @@ hydroopenfiles ()
       strcat (ffidasc, fidasc);
       if (verbose)
         printf ("Opening %s... \n", ffidasc);
-      if ((outp = fopen (ffidasc, "w")) == NULL)
+      if ((out_file = fopen (ffidasc, "w")) == NULL)
         {
           fprintf (stderr,
                    "  HydroOpenFiles ERROR: Unable to open the discharge file %s \n",

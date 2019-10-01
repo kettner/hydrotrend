@@ -33,7 +33,7 @@ FILE **fidhyps;
 FILE **fidquake;
 FILE *fidlog;
 FILE *fidlapserate;
-FILE *outp, *outp1, *outp2, *outp3, *outp4, *outp5;
+FILE *out_file, *outp1, *outp2, *outp3, *outp4, *outp5;
 
 char title[MAXCH];
 char moname[12][4];

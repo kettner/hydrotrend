@@ -537,7 +537,7 @@ fwrite (&Csoutlet[p], sizeof (float), 1, fiddis[p]);
         if (yr == syear[0])
         {
           
-fprintf (outp, "vel(m/s) wid(m) dep(m) ");
+fprintf (out_file, "vel(m/s) wid(m) dep(m) ");
           
 fprintf (outp1, "Q(m^3/s) ");
           
@@ -554,7 +554,7 @@ if (outletmodelflag == 1)
 for (p = 0; p < maxnoutlet; p++)
               {
                 
-fprintf (outp, "vel(m/s) wid(m) dep(m) ");
+fprintf (out_file, "vel(m/s) wid(m) dep(m) ");
                 
 fprintf (outp1, "Q(m^3/s) ");
                 
@@ -566,7 +566,7 @@ fprintf (outp2, "Qs(kg/s) ");
               
 }
           
-fprintf (outp, "\n");
+fprintf (out_file, "\n");
           
 fprintf (outp1, "\n");
           
@@ -578,7 +578,7 @@ fprintf (outp2, "\n");
           
 fprintf (outp5, "\n");
 
-fprintf (outp, "--------  ------- ------- ");
+fprintf (out_file, "--------  ------- ------- ");
           
 fprintf (outp1, "--------- ");
           
@@ -595,7 +595,7 @@ if (outletmodelflag == 1)
 for (p = 0; p < maxnoutlet; p++)
               {
                 
-fprintf (outp, "--------  ------- ------- ");
+fprintf (out_file, "--------  ------- ------- ");
                 
 fprintf (outp1, "--------- ");
                 
@@ -607,7 +607,7 @@ fprintf (outp2, "-------- ");
               
 }
           
-fprintf (outp, "\n");
+fprintf (out_file, "\n");
           
 fprintf (outp1, "\n");
           
@@ -628,7 +628,7 @@ fprintf (outp5, "\n");
         for (jj = 0; jj < recperyear; jj++)
         {
           
-fprintf (outp, "%.3f\t  %.3f\t  %.3f\t  ", vel[jj], wid[jj],
+fprintf (out_file, "%.3f\t  %.3f\t  %.3f\t  ", vel[jj], wid[jj],
                     dep[jj]);
           
 fprintf (outp1, "%.3f ", vel[jj] * wid[jj] * dep[jj]);
@@ -657,7 +657,7 @@ if (outletmodelflag == 1)
 for (p = 0; p < maxnoutlet; p++)
               {
                 
-fprintf (outp, "%.3f\t  %.3f\t  %.3f\t  ", veloutlet[jj][p],
+fprintf (out_file, "%.3f\t  %.3f\t  %.3f\t  ", veloutlet[jj][p],
                           widoutlet[jj][p], depoutlet[jj][p]);
                 
 fprintf (outp1, "%.3f ",
@@ -685,7 +685,7 @@ fprintf (outp2, "%.3f ", Qsavgoutlet[jj][p]);
               
 }
           
-fprintf (outp, "\n");
+fprintf (out_file, "\n");
           
 fprintf (outp1, "\n");
           
