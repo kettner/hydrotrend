@@ -32,7 +32,7 @@
 #include "hydrotrend.h"
 #include "hydrornseeds.h"
 #define MAXIT (3000)
-#define swap_vec( x , i , j ) { typeof(*x) temp=x[i]; x[i]=x[j]; x[j]=temp; }
+#define swap_dbl_vec( x , i , j ) { double _temp=x[i]; x[i]=x[j]; x[j]=_temp; }
 typedef int (Cost_fcn) (double *, int);
 
 /*--------------------
@@ -249,10 +249,10 @@ anneal (double *x, int n, Cost_fcn * f, int cost_min, int jj)
       do
         j = eh_get_fuzzy_int (daystrm[jj], n - 1, jj, count);
       while (j == i);
-      swap_vec (x, i, j);
+      swap_dbl_vec (x, i, j);
       cost_after = (*f) (x, n);
       if (cost_after > cost_before)
-        swap_vec (x, i, j);
+        swap_dbl_vec (x, i, j);
     }
   while (cost_after > (double) cost_min && ++itr < max_itr);
   return x;
