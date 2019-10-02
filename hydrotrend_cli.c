@@ -37,11 +37,52 @@
 int is_valid_str (char *str);
 char *to_upper_str (char *str);
 
+static char *help_msg[] = {
+  "Usage: hydrotrend [options] [prefix [directory]]",
+  "Options:",
+  "  -V or --verbose      Be verbose",
+  "  --brief              Be terse",
+  "  -v or --version      Print version number and exit",
+  "  -?,-h or --help      Print this information and exit",
+  "  -p, --prefix=PREFIX  Use PREFIX.IN as input file",
+  "  -S, --in-dir=DIR     Path to input file(s)",
+  "  -D, --out-dir=DIR    Put output in directory DIR",
+  NULL
+};
+
 #ifndef WITH_GETOPT
 ht_args_st *
 parse_command_line (int argc, char *argv[])
 {
   ht_args_st *args = malloc(sizeof(ht_args_st));
+  int arg;
+  int help_flag = 0;
+  int version_flag = 0;
+
+  for (arg=0; arg<argc; arg++) {
+    if (strcmp(argv[arg], "-h") == 0 || strcmp(argv[arg], "-?") == 0) {
+      help_flag = 1;
+    }
+    if (strcmp(argv[arg], "-v") == 0) {
+      version_flag = 1;
+    }
+  }
+  if (help_flag) {
+    char **str;
+    for (str = help_msg; *str; str++)
+      fprintf (stdout, "%s\n", *str);
+    exit (EXIT_SUCCESS);
+  }
+
+  if (version_flag) {
+    fprintf(
+        stdout,
+        "HydroTrend version %d.%d.%d\n",
+        HT_MAJOR_VERSION, HT_MINOR_VERSION, HT_MICRO_VERSION
+    );
+    exit (EXIT_SUCCESS);
+  }
+
   args->in_file = strdup(HT_DEFAULT_PREFIX);
   args->in_dir = strdup(HT_DEFAULT_IN_DIR);
   args->out_dir = NULL;
@@ -62,19 +103,6 @@ static struct option ht_long_opts[] = {
   {"in-dir", required_argument, NULL, 'S'},
   {"out-dir", required_argument, NULL, 'D'},
   {NULL, 0, NULL, 0}
-};
-
-static char *help_msg[] = {
-  "Usage: hydrotrend [options] [prefix [directory]]",
-  "Options:",
-  "  -V or --verbose      Be verbose",
-  "  --brief              Be terse",
-  "  -v or --version      Print version number and exit",
-  "  -?,-h or --help      Print this information and exit",
-  "  -p, --prefix=PREFIX  Use PREFIX.IN as input file",
-  "  -S, --in-dir=DIR     Path to input file(s)",
-  "  -D, --out-dir=DIR    Put output in directory DIR",
-  NULL
 };
 
 /** Parse command line options for hydrotrend.
