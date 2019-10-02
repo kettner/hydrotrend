@@ -47,7 +47,6 @@ matrixalloc1D (int max_width, long size)
   if (!atemp)
     {
       perror ("matrixalloc");
-      sleep (5);
       exit (1);
     }
   return atemp;
@@ -70,7 +69,6 @@ matrixalloc2D (int max_width, int max_length, long size)
   if (!atemp)
     {
       perror ("matrixalloc");
-      sleep (5);
       exit (1);
     }
   for (i = 0; i < max_width; ++i)
@@ -79,7 +77,6 @@ matrixalloc2D (int max_width, int max_length, long size)
       if (!atemp[i])
         {
           perror ("matrixalloc");
-          sleep (5);
           exit (1);
         }
     }
@@ -103,7 +100,6 @@ matrixalloc3D (int max_width, int max_length, int max_height, long size)
   if (!atemp)
     {
       perror ("matrixalloc");
-      sleep (5);
       exit (1);
     }
   for (i = 0; i < max_width; ++i)
@@ -112,7 +108,6 @@ matrixalloc3D (int max_width, int max_length, int max_height, long size)
       if (!atemp[i])
         {
           perror ("matrixalloc");
-          sleep (5);
           exit (1);
         }
     }
@@ -123,7 +118,6 @@ matrixalloc3D (int max_width, int max_length, int max_height, long size)
         if (!atemp[i][j])
           {
             perror ("matrixalloc");
-            sleep (5);
             exit (1);
           }
       }
