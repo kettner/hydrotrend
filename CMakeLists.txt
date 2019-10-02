@@ -36,6 +36,14 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
 check_include_file(getopt.h WITH_GETOPT)
 check_include_file(unistd.h WITH_UNISTD)
 
+if (WITH_GETOPT)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DWITH_GETOPT")
+endif (WITH_GETOPT)
+
+if (WITH_UNISTD)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DWITH_UNISTD")
+endif (WITH_UNISTD)
+
 set(hydrotrend_lib_SRCS
    bmi_hydrotrend.c
    hydrotrend_irf.c
