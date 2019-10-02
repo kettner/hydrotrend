@@ -35,6 +35,7 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
 
 check_include_file(getopt.h WITH_GETOPT)
 check_include_file(unistd.h WITH_UNISTD)
+find_library(LIB_M m)
 
 set(hydrotrend_lib_SRCS
    bmi_hydrotrend.c
@@ -91,7 +92,11 @@ set(hydrotrend_SRCS hydrotrend_main.c)
 
 add_executable(run_hydrotrend ${hydrotrend_SRCS})
 
-target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+if (LIB_M)
+  target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+elseif (NOT LIB_M)
+  target_link_libraries(run_hydrotrend bmi_hydrotrend-static)
+endif (LIB_M)
 
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         DESTINATION bin
