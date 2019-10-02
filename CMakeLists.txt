@@ -43,6 +43,7 @@ endif (WITH_GETOPT)
 if (WITH_UNISTD)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DWITH_UNISTD")
 endif (WITH_UNISTD)
+find_library(LIB_M m)
 
 set(hydrotrend_lib_SRCS
    bmi_hydrotrend.c
@@ -98,8 +99,9 @@ install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 set(hydrotrend_SRCS hydrotrend_main.c)
 
 add_executable(run_hydrotrend ${hydrotrend_SRCS})
-
-target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+if (LIB_M)
+  target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+endif (LIB_M)
 
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
         DESTINATION bin
