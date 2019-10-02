@@ -37,9 +37,7 @@ get_component_name (void *self, char * name)
 
 
 #define INPUT_VAR_NAME_COUNT (0)
-static const char *input_var_names[INPUT_VAR_NAME_COUNT] = {
-
-};
+static const char **input_var_names = NULL;
 
 
 static int
