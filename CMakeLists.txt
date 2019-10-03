@@ -109,7 +109,7 @@ endif (LIB_M)
 install(
   PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   DESTINATION bin
-  RENAME hydrotrend
+  RENAME hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   COMPONENT hydrotrend
 )
 
