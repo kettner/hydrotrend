@@ -107,7 +107,7 @@ elseif (NOT LIB_M)
 endif (LIB_M)
 
 install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
+  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   DESTINATION bin
   RENAME hydrotrend
   COMPONENT hydrotrend
