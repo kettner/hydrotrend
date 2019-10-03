@@ -106,10 +106,7 @@ elseif (NOT LIB_M)
   target_link_libraries(run_hydrotrend bmi_hydrotrend-static)
 endif (LIB_M)
 
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
-        DESTINATION bin
-        RENAME hydrotrend
-        COMPONENT hydrotrend)
+install(TARGETS run_hydrotrend DESTINATION bin RENAME hydrotrend COMPONENT hydrotrend)
 
 ########### Install files ###############
 
