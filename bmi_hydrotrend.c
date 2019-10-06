@@ -37,9 +37,7 @@ get_component_name (void *self, char * name)
 
 
 #define INPUT_VAR_NAME_COUNT (0)
-static const char *input_var_names[INPUT_VAR_NAME_COUNT] = {
-
-};
+static const char **input_var_names = NULL;
 
 
 static int
@@ -497,8 +495,8 @@ static int
 get_value_at_indices (void *self, const char *name, void *dest,
     int * inds, int len)
 {
-    void *src = NULL;
-    int itemsize = 0;
+    char *src = NULL;
+    size_t itemsize = 0;
 
     if (get_value_ptr(self, name, &src) == BMI_FAILURE)
         return BMI_FAILURE;
@@ -507,10 +505,10 @@ get_value_at_indices (void *self, const char *name, void *dest,
         return BMI_FAILURE;
 
     { /* Copy the data */
-        int i;
-        int offset;
-        void * ptr;
-        for (i=0, ptr=dest; i<len; i++, ptr+=itemsize) {
+        size_t i;
+        size_t offset;
+        char * ptr;
+        for (i=0, ptr=(char*)dest; i<len; i++, ptr+=itemsize) {
             offset = inds[i] * itemsize;
             memcpy (ptr, src + offset, itemsize);
         }
@@ -542,7 +540,7 @@ static int
 set_value_at_indices (void *self, const char *name, int * inds, int len,
     void *src)
 {
-    void * to = NULL;
+    char * to = NULL;
     int itemsize = 0;
 
     if (get_value_ptr (self, name, &to) == BMI_FAILURE)
@@ -552,10 +550,10 @@ set_value_at_indices (void *self, const char *name, int * inds, int len,
         return BMI_FAILURE;
 
     { /* Copy the data */
-        int i;
-        int offset;
-        void * ptr;
-        for (i=0, ptr=src; i<len; i++, ptr+=itemsize) {
+        size_t i;
+        size_t offset;
+        char * ptr;
+        for (i=0, ptr=(char*)src; i<len; i++, ptr+=itemsize) {
             offset = inds[i] * itemsize;
             memcpy (to + offset, ptr, itemsize);
         }

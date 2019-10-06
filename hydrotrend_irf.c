@@ -1221,7 +1221,7 @@ hydro_finalize (state * s)
 
   if (strncmp (asciioutput, ON, 2) == 0)
     {
-      fclose (outp);
+      fclose (out_file);
       fclose (outp1);
       fclose (outp2);
       fclose (outp3);
