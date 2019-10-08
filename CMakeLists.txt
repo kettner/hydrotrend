@@ -9,7 +9,7 @@ option (WITH_CTEST "Use CTest to build tests" OFF)
 set (BUILD_SHARED_LIBS ON)
 
 set (HYDROTREND_VERSION 3.1)
-set (HYDROTREND_EXE run_hydrotrend)
+set (HYDROTREND_EXE hydrotrend)
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
@@ -89,27 +89,41 @@ set(hydrotrend_lib_SRCS
 
 ########### BMI ###########
 
-add_library(bmi_hydrotrend ${hydrotrend_lib_SRCS})
-add_library(bmi_hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
-install(TARGETS bmi_hydrotrend DESTINATION lib)
-install(TARGETS bmi_hydrotrend-static DESTINATION lib)
+if (NOT WIN32)
+  add_library(bmi_hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
+  add_library(bmi_hydrotrend SHARED ${hydrotrend_lib_SRCS} )
+  set(BMI_HYDROTREND_LIB bmi_hydrotrend-static)
+  set(BMI_HYDROTREND_TARGETS bmi_hydrotrend bmi_hydrotrend-static)
+else (WIN32)
+  add_library(bmi_hydrotrend STATIC ${hydrotrend_lib_SRCS})
+  set(BMI_HYDROTREND_LIB bmi_hydrotrend)
+  set(BMI_HYDROTREND_TARGETS bmi_hydrotrend)
+endif (NOT WIN32)
+
+install(
+  TARGETS ${BMI_HYDROTREND_TARGETS}
+  EXPORT libbmi_hydrotrend
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
 install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 
 ########### hydrotrend main program ###############
 
 set(hydrotrend_SRCS hydrotrend_main.c)
 
-add_executable(run_hydrotrend ${hydrotrend_SRCS})
+add_executable(hydrotrend ${hydrotrend_SRCS})
 if (LIB_M)
-  target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+  target_link_libraries(hydrotrend ${BMI_HYDROTREND_LIB} m)
 elseif (NOT LIB_M)
-  target_link_libraries(run_hydrotrend bmi_hydrotrend-static)
+  target_link_libraries(hydrotrend ${BMI_HYDROTREND_LIB})
 endif (LIB_M)
 
 install(
-  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
+  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/Debug/hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   DESTINATION bin
-  RENAME hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   COMPONENT hydrotrend
 )
 
