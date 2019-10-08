@@ -121,11 +121,7 @@ elseif (NOT LIB_M)
   target_link_libraries(hydrotrend ${BMI_HYDROTREND_LIB})
 endif (LIB_M)
 
-install(
-  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/Debug/hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
-  DESTINATION bin
-  COMPONENT hydrotrend
-)
+install(TARGETS hydrotrend DESTINATION bin COMPONENT hydrotrend)
 
 ########### Install files ###############
 
