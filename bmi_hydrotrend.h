@@ -7,7 +7,7 @@ extern "C" {
 
 #define HT_MAJOR_VERSION (3)
 #define HT_MINOR_VERSION (0)
-#define HT_MICRO_VERSION (5)
+#define HT_MICRO_VERSION (7)
 
 #include "bmi.h"
 
