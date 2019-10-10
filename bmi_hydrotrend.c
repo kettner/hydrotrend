@@ -160,6 +160,8 @@ initialize(const char * file, void **handle)
         if (fgets (args, 2048, fp)==args) {
           out_dir = _str_strip (strdup (args));
         }
+
+        fclose(fp);
       }
       else
           return BMI_FAILURE;
@@ -430,7 +432,7 @@ get_var_nbytes(void *self, const char *name, int *nbytes)
 static int
 get_var_location(void *self, const char *name, char *loc)
 {
-    strncpy(loc, "grid", BMI_MAX_VAR_NAME);
+    strncpy(loc, "node", BMI_MAX_VAR_NAME);
     return BMI_SUCCESS;
 }
 
@@ -582,6 +584,7 @@ register_bmi_hydrotrend(BMI_Model *model)
     model->get_var_type = get_var_type;
     model->get_var_units = get_var_units;
     model->get_var_nbytes = get_var_nbytes;
+    model->get_var_itemsize = get_var_itemsize;
     model->get_var_location = get_var_location;
     model->get_current_time = get_current_time;
     model->get_start_time = get_start_time;

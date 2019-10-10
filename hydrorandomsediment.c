@@ -64,8 +64,8 @@ hydrorandomsediment ()
   if (yr == syear[ep])
     rnseed = -INIT_RAN_NUM_SEED - 10 * ep;
 
-  unival = malloc1d (2 * nyears[ep], float);
-  for (ii = 0; ii < 2 * nyears[ep]; ii++)
+  unival = malloc1d (200 * nyears[ep], float);
+  for (ii = 0; ii < 200 * nyears[ep]; ii++)
     unival[ii] = hydroran2sediment (&rnseed);
 
 /*
@@ -75,7 +75,7 @@ hydrorandomsediment ()
  *  GASDEV, From "Numerical Recipes in C", p.289, 2nd ed.
  */
   jj = 0;
-  for (ii = 0; ii < nyears[ep] - 1; ii += 2)
+  for (ii = 0; ii < nyears[ep]; ii += 2)
     {
       do
         {
@@ -87,7 +87,8 @@ hydrorandomsediment ()
       while (rsq >= 1.0 || rsq == 0.0);
       fac = sqrt (-2.0 * log (rsq) / rsq);
       ranarraysediment[ii] = (double) v1 *fac;
-      ranarraysediment[ii + 1] = (double) v2 *fac;
+      if (ii + 1 < nyears[ep])
+        ranarraysediment[ii + 1] = (double) v2 *fac;
     }
 
 /*-------------------
