@@ -308,7 +308,8 @@ cost_fcn (double *x, int n)
       else
         j[i] = 0;
       if (i > daystrm[jj])
-        k += fabs (j[i - 1] - j[i]);
+        k += abs (j[i - 1] - j[i]);
+        // k += fabs (j[i - 1] - j[i]);
     }
   freematrix1D ((void *) j);
   return k;

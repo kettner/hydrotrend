@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project( hydrotrend )
 
+set(CMAKE_MACOSX_RPATH 1)
+
 option (WITH_PYTHON_BINDINGS "Build Python bindings" OFF)
 option (WITH_CTEST "Use CTest to build tests" OFF)
 

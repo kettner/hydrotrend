@@ -44,7 +44,7 @@ hydrorandomsediment ()
  *  Local Variables
  *-------------------*/
   float hydroran2sediment (long *idum);
-  float fac, rsq, v1, v2, *unival;
+  float fac, rsq, v1, v2;
   double rsum;
   int err, ii, jj;
   err = 0;
@@ -64,10 +64,6 @@ hydrorandomsediment ()
   if (yr == syear[ep])
     rnseed = -INIT_RAN_NUM_SEED - 10 * ep;
 
-  unival = malloc1d (2 * nyears[ep], float);
-  for (ii = 0; ii < 2 * nyears[ep]; ii++)
-    unival[ii] = hydroran2sediment (&rnseed);
-
 /*
  *  Next generate Gaussian distributed deviates.
  *  The routine returns two random numbers for each pass,
@@ -75,17 +71,20 @@ hydrorandomsediment ()
  *  GASDEV, From "Numerical Recipes in C", p.289, 2nd ed.
  */
   jj = 0;
-  for (ii = 0; ii < nyears[ep] - 1; ii += 2)
+  for (ii = 0; ii < nyears[ep]; ii += 2)
     {
       do
         {
-          v1 = 2.0 * unival[jj] - 1.0;
-          v2 = 2.0 * unival[jj + 1] - 1.0;
+          v1 = 2.0 * hydroran2sediment(&rnseed) - 1.0;
+          v2 = 2.0 * hydroran2sediment(&rnseed) - 1.0;
+
           rsq = v1 * v1 + v2 * v2;
           jj += 2;
         }
       while (rsq >= 1.0 || rsq == 0.0);
       fac = sqrt (-2.0 * log (rsq) / rsq);
+
+      // Note that the length of ranarraysediment is longer than nyears[ep] + 1
       ranarraysediment[ii] = (double) v1 *fac;
       ranarraysediment[ii + 1] = (double) v2 *fac;
     }
@@ -102,6 +101,5 @@ hydrorandomsediment ()
       rmax = mx (rmax, ranarraysediment[ii]);
       rsum += ranarraysediment[ii];
     }
-  freematrix1D ((void *) unival);
   return (err);
 }                               /* end of HydroRandomsediment */

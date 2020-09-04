@@ -14,31 +14,50 @@
 extern int hydrorandomsediment(void);
 
 
-static state *
-_state_new (long n_days)
+HydrotrendData*
+new_data()
 {
-  state *s;
+  HydrotrendData *s;
 
-  s = malloc (sizeof (state));
+  s = malloc(sizeof(HydrotrendData));
 
   s->day = 0;
-  s->n_days = n_days;
+  s->n_days = 0;
 
-  s->q = malloc1d (s->n_days, double);
-  s->velocity = malloc1d (s->n_days, double);
-  s->width = malloc1d (s->n_days, double);
-  s->depth = malloc1d (s->n_days, double);
-  s->qs = malloc1d (s->n_days, double);
-  s->cs = malloc1d (s->n_days, double);
-  s->qb = malloc1d (s->n_days, double);
-  s->prec = malloc1d (s->n_days, double);
-  s->temp = malloc1d (s->n_days, double);
+  s->q = NULL;
+  s->velocity = NULL;
+  s->width = NULL;
+  s->depth = NULL;
+  s->qs = NULL;
+  s->cs = NULL;
+  s->qb = NULL;
+  s->prec = NULL;
+  s->temp = NULL;
 
   return s;
 }
 
-static state *
-_state_destroy (state * s)
+
+void
+initialize_data(HydrotrendData* self, int n_days)
+{
+  self->day = 0;
+  self->n_days = n_days;
+
+  self->q = malloc1d (self->n_days, double);
+  self->velocity = malloc1d (self->n_days, double);
+  self->width = malloc1d (self->n_days, double);
+  self->depth = malloc1d (self->n_days, double);
+  self->qs = malloc1d (self->n_days, double);
+  self->cs = malloc1d (self->n_days, double);
+  self->qb = malloc1d (self->n_days, double);
+  self->prec = malloc1d (self->n_days, double);
+  self->temp = malloc1d (self->n_days, double);
+}
+
+
+static HydrotrendData *
+_free_data (HydrotrendData * s)
 {
   free (s->q);
   free (s->velocity);
@@ -56,7 +75,7 @@ _state_destroy (state * s)
 }
 
 static int
-_ht_save_state (state * s)
+_ht_save_data (HydrotrendData * s)
 {
 
   int err = 0;
@@ -66,7 +85,7 @@ _ht_save_state (state * s)
 
   if (start + daysiy > s->n_days)
     {
-      fprintf( stderr, "ERROR: hydro_save_ht_state: %ld > %ld\n", start+daysiy, s->n_days );
+      fprintf( stderr, "ERROR: ht_save_data: %ld > %ld\n", start+daysiy, s->n_days );
       fprintf (stderr, "%d\n", ep);
       fprintf (stderr, "%d\n", nyears[ep]);
       fprintf (stderr, "%d\n", yr);
@@ -93,18 +112,18 @@ _ht_save_state (state * s)
   return (err);
 }
 
-state *
-hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
+
+void
+hydro_initialize(HydrotrendData *self, char* in_dir, char* in_file_prefix, char* out_dir)
 {
-  state *s = NULL;
   char* in_file;
 
-        /*---------------------
-	 *  Start the program
-	 *---------------------*/
+  /*---------------------
+   *  Start the program
+   *---------------------*/
   {
 
-                /*-------------------
+    /*-------------------
 		 *  Local Variables
 		 *-------------------*/
     int err, ii, lyear, maxnran, p, k, x;
@@ -112,7 +131,7 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
     double logarea, baseflowpercentage;
     gw_rainfall_etc *gw_rain;
 
-                /*------------------------
+    /*------------------------
 		 *  Initialize Variables
 		 *------------------------*/
     err = 0;
@@ -185,6 +204,7 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
                 /*---------------------
 		 *  Open the log file
 		 *---------------------*/
+
     if (verbose)
       printf ("Opening the log file (to append)... \n");
     strcpy (ffnamelog, startname);
@@ -285,7 +305,7 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
         exit (1);
       }
 
-                /*-----------------------
+    /*-----------------------
 		 *  Open the data files
 		 *-----------------------*/
     if (verbose)
@@ -298,12 +318,12 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
         exit (1);
       }
 
-    /* declare some memory for new state variables */
+    /* allocate memory for new Hydrotrend data */
     {
       long total_days = 0;
       for (ep = 0; ep < nepochs; ep++)
         total_days += nyears[ep] * daysiy;
-      s = _state_new (total_days);
+      initialize_data(self, total_days);
     }
                 /*--------------------------
 		 *  Run each epoch of data
@@ -886,9 +906,9 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
                       }
                   }
 
-                                        /*------------------------------------------
-					 *  Output the binary daily discharge file
-					 *------------------------------------------*/
+           /*------------------------------------------
+            * Output the binary daily discharge file
+            *------------------------------------------*/
                 if (setstartmeanQandQs == 4)
                   {
                     if (verbose)
@@ -903,18 +923,18 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
                         exit (1);
                       }
 
-                                                /*------------------------------------------
+            /*------------------------------------------
 						 *  Output the binary daily discharge file
 						 *------------------------------------------*/
                     if (verbose)
-                      printf ("Calling ht_save_state... \n");
-                    err = _ht_save_state (s);
+                      printf ("Calling ht_save_data... \n");
+                    err = _ht_save_data (self);
                     if (err)
                       {
                         fprintf (stderr,
-                                 " ERROR in ht_save_state: HydroTrend Aborted \n\n");
+                                 " ERROR in ht_save_data: HydroTrend Aborted \n\n");
                         fprintf (fidlog,
-                                 " ERROR in ht_save_state: HydroTrend Aborted \n\n");
+                                 " ERROR in ht_save_data: HydroTrend Aborted \n\n");
                         exit (1);
                       }
 
@@ -931,7 +951,7 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
                         fprintf (fidlog,
                                  " WARNING in HydroPrintTrend: Continuing \n\n");
                       }
-                  }             /* end setstartmeanQandQs == 4 statement */
+                  }             /* end setstartmeanQandQs == 4 */
 
                                         /*-------------------------------------------------------
 					 *  Did random number generator create enough values ?
@@ -1132,21 +1152,21 @@ hydro_initialize (char* in_dir, char* in_file_prefix, char* out_dir)
     if (raindatafile == 1)
       freematrix1D ((void *) gw_rain->Tperyear);
     hydrofreememoutlet (ep);
-
-    return s;
   }
 }
 
-state *
-hydro_run ( state * s, double time )
+
+HydrotrendData *
+hydro_run ( HydrotrendData * s, double time )
 {
   s->day = time;
   return s;
 }
 
-state*
-hydro_finalize (state * s)
+HydrotrendData*
+hydro_finalize (HydrotrendData * s)
 {
+
   int p, err;
   /*---------------------------------
    *  Print some summary statistics
@@ -1231,7 +1251,6 @@ hydro_finalize (state * s)
   if (outletmodelflag == 1)
     for (p = 0; p < maxnoutlet; p++)
       fclose (fiddis[p]);
-
 /*-------------------------------------------------
  *  Swap big-endian and little-endian file format
  *-------------------------------------------------*/
@@ -1240,120 +1259,119 @@ hydro_finalize (state * s)
   err = hydroswap ();
   if (err)
     fprintf (stderr, " WARNING in HydroSwap: Continuing \n\n");
-
   fprintf (stderr, "\nHydroTrend 3.0 finished. \n\n");
   fclose (fidlog);
 
-  _state_destroy (s);
+  _free_data (s);
 
   return NULL;
 }
 
 double *
-hydro_get_velocity_ptr (state * self)
+hydro_get_velocity_ptr (HydrotrendData * self)
 {
   return self->velocity + self->day;
 }
 
 double
-hydro_get_velocity (state * self)
+hydro_get_velocity (HydrotrendData * self)
 {
   return *hydro_get_velocity_ptr(self);
 }
 
 double *
-hydro_get_width_ptr (state * self)
+hydro_get_width_ptr (HydrotrendData * self)
 {
   return self->width + self->day;
 }
 
 double
-hydro_get_width (state * self)
+hydro_get_width (HydrotrendData * self)
 {
   return *hydro_get_width_ptr(self);
 }
 
 double *
-hydro_get_depth_ptr (state * self)
+hydro_get_depth_ptr (HydrotrendData * self)
 {
   return (self)->depth + self->day;
 }
 
 double
-hydro_get_depth (state * self)
+hydro_get_depth (HydrotrendData * self)
 {
   return *hydro_get_depth_ptr(self);
 }
 
 double *
-hydro_get_water_discharge_ptr (state * self)
+hydro_get_water_discharge_ptr (HydrotrendData * self)
 {
   return self->q + self->day;
 }
 
 double
-hydro_get_water_discharge (state * self)
+hydro_get_water_discharge (HydrotrendData * self)
 {
   return *hydro_get_water_discharge_ptr(self);
 }
 
 double *
-hydro_get_sediment_discharge_ptr (state * self)
+hydro_get_sediment_discharge_ptr (HydrotrendData * self)
 {
   return self->qs + self->day;
 }
 
 double
-hydro_get_sediment_discharge (state * self)
+hydro_get_sediment_discharge (HydrotrendData * self)
 {
   return *hydro_get_sediment_discharge_ptr (self);
 }
 
 double *
-hydro_get_sediment_concentration_ptr (state * self)
+hydro_get_sediment_concentration_ptr (HydrotrendData * self)
 {
   return self->cs + self->day;
 }
 
 double
-hydro_get_sediment_concentration (state * self)
+hydro_get_sediment_concentration (HydrotrendData * self)
 {
   return *hydro_get_sediment_concentration_ptr (self);
 }
 
 double *
-hydro_get_bedload_flux_ptr (state * self)
+hydro_get_bedload_flux_ptr (HydrotrendData * self)
 {
   return self->qb + self->day;
 }
 
 double
-hydro_get_bedload_flux (state * self)
+hydro_get_bedload_flux (HydrotrendData * self)
 {
   return *hydro_get_bedload_flux_ptr (self);
 }
 
 //A.KETTNER JULY 28TH, 2011
 double *
-hydro_get_precipitation_ptr (state * self)
+hydro_get_precipitation_ptr (HydrotrendData * self)
 {
   return self->prec + self->day;
 }
 
 double
-hydro_get_precipitation (state * self)
+hydro_get_precipitation (HydrotrendData * self)
 {
   return *hydro_get_precipitation_ptr (self);
 }
 
 double *
-hydro_get_temperature_ptr (state * self)
+hydro_get_temperature_ptr (HydrotrendData * self)
 {
   return self->temp + self->day;
 }
 
 double
-hydro_get_temperature (state * self)
+hydro_get_temperature (HydrotrendData * self)
 {
   return *hydro_get_temperature_ptr (self);
 }
