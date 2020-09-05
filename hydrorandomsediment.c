@@ -19,7 +19,6 @@
  *  rmax	HydroRandom.c	double  -	random number generator stats
  *  rsum	HydroRandom.c	double  -	random number generator stats
  *  rsq		HydroRandom.c	float	-	random number generator variable	
- *  unival[]	HydroRandom.c	float	-	random number generator variable
  *  v1		HydroRandom.c	float	-	random number generator variable
  *  v2		HydroRandom.c	float	-	random number generator variable
  *
@@ -86,7 +85,8 @@ hydrorandomsediment ()
 
       // Note that the length of ranarraysediment is longer than nyears[ep] + 1
       ranarraysediment[ii] = (double) v1 *fac;
-      ranarraysediment[ii + 1] = (double) v2 *fac;
+      if (ii + 1 < nyears[ep])
+        ranarraysediment[ii + 1] = (double) v2 *fac;
     }
 
 /*-------------------

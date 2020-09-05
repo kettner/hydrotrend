@@ -26,7 +26,7 @@
  * fidtrend1    	hydroinout.h	FILE	-	annual trend file #1 id
  * fidtrend2    	hydroinout.h	FILE	-	annual trend file #2 id
  * fidtrend3	        hydroinout.h	FILE	-	annual trend file #3 id
- * outp                 hydroinout.h    FILE    -       output daily vel, wid en dep file id
+ * out_file             hydroinout.h    FILE    -       output daily vel, wid en dep file id
  * outp1                hydroinout.h    FILE    -       output daily Q file id
  * outp2                hydroinout.h    FILE    -       output daily Qs average file id
  * outp3                hydroinout.h    FILE    -       output daily Qb average file id
@@ -89,7 +89,7 @@ extern FILE **fidhyps;
 extern FILE **fidquake;
 extern FILE *fidlog;
 extern FILE *fidlapserate;
-extern FILE *outp, *outp1, *outp2, *outp3, *outp4, *outp5;
+extern FILE *out_file, *outp1, *outp2, *outp3, *outp4, *outp5;
 
 extern char title[MAXCH];
 extern char moname[12][4];

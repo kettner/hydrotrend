@@ -20,7 +20,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <getopt.h>
+#ifdef WITH_GETOPT
+# include <getopt.h>
+#endif
 
 
 #define MAXLENGTH (80)
@@ -35,6 +37,66 @@
 int is_valid_str (char *str);
 char *to_upper_str (char *str);
 
+#ifndef WITH_GETOPT
+static char *help_msg[] = {
+  "Usage: hydrotrend [indir [outdir]]",
+  "Options:",
+  "  -v       Print version number and exit",
+  "  -?,-h    Print this information and exit",
+  NULL
+};
+
+ht_args_st *
+parse_command_line (int argc, char *argv[])
+{
+  ht_args_st *args = malloc(sizeof(ht_args_st));
+  int arg;
+  int help_flag = 0;
+  int version_flag = 0;
+
+  for (arg=0; arg<argc; arg++) {
+    if (strcmp(argv[arg], "-h") == 0 || strcmp(argv[arg], "-?") == 0) {
+      help_flag = 1;
+    }
+    if (strcmp(argv[arg], "-v") == 0) {
+      version_flag = 1;
+    }
+  }
+  if (help_flag) {
+    char **str;
+    for (str = help_msg; *str; str++)
+      fprintf (stdout, "%s\n", *str);
+    exit (EXIT_SUCCESS);
+  }
+
+  if (version_flag) {
+    fprintf(
+        stdout,
+        "HydroTrend version %d.%d.%d\n",
+        HT_MAJOR_VERSION, HT_MINOR_VERSION, HT_MICRO_VERSION
+    );
+    exit (EXIT_SUCCESS);
+  }
+
+  args->in_file = strdup(HT_DEFAULT_PREFIX);
+
+  if (argc == 1) {
+    args->in_dir = strdup(".");
+    args->out_dir = strdup(".");
+  } else if (argc == 2) {
+    args->in_dir = strdup(argv[1]);
+    args->out_dir = strdup(".");
+  } else if (argc == 3 ) {
+    args->in_dir = strdup(argv[1]);
+    args->out_dir = strdup(argv[2]);
+  } else {
+    fprintf(stderr, "incorrect arguments. %s -h for help", argv[0]);
+    exit(EXIT_FAILURE);
+  }
+
+  return args;
+}
+#else
 static int verbose_flag = 0;
 static int version_flag = 0;
 static int help_flag = 0;
@@ -206,6 +268,8 @@ parse_command_line (int argc, char *argv[])
 
   return args;
 }
+#endif
+
 
 int
 is_valid_str (char *str)

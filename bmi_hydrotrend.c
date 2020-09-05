@@ -37,9 +37,7 @@ get_component_name (BMI_Model *self, char * name)
 
 
 #define INPUT_VAR_NAME_COUNT (0)
-static const char *input_var_names[INPUT_VAR_NAME_COUNT] = {
-
-};
+static const char **input_var_names = NULL;
 
 
 static int
@@ -458,12 +456,12 @@ get_value_at_indices (BMI_Model *self, const char *name, void *dest,
         return BMI_FAILURE;
 
     { /* Copy the data */
-        int i;
-        int offset;
-        void * ptr;
-        for (i=0, ptr=dest; i<len; i++, ptr+=itemsize) {
+        size_t i;
+        size_t offset;
+        char * ptr;
+        for (i=0, ptr=(char*)dest; i<len; i++, ptr+=itemsize) {
             offset = inds[i] * itemsize;
-            memcpy (ptr, src + offset, itemsize);
+            memcpy (ptr, (char*)src + offset, itemsize);
         }
     }
 
@@ -503,12 +501,12 @@ set_value_at_indices (BMI_Model *self, const char *name, int * inds, int len,
         return BMI_FAILURE;
 
     { /* Copy the data */
-        int i;
-        int offset;
-        void * ptr;
-        for (i=0, ptr=src; i<len; i++, ptr+=itemsize) {
+        size_t i;
+        size_t offset;
+        char * ptr;
+        for (i=0, ptr=(char*)src; i<len; i++, ptr+=itemsize) {
             offset = inds[i] * itemsize;
-            memcpy (to + offset, ptr, itemsize);
+            memcpy ((char*)to + offset, ptr, itemsize);
         }
     }
     return BMI_SUCCESS;
@@ -538,6 +536,7 @@ register_bmi_hydrotrend(BMI_Model *model)
     model->get_var_units = get_var_units;
     model->get_var_itemsize = get_var_itemsize;
     model->get_var_nbytes = get_var_nbytes;
+    model->get_var_itemsize = get_var_itemsize;
     model->get_var_location = get_var_location;
     model->get_current_time = get_current_time;
     model->get_start_time = get_start_time;

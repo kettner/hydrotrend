@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
+include(CheckIncludeFile)
 
 project( hydrotrend )
 
@@ -33,6 +34,19 @@ configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
                 ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
 
 ########### libhydrotrend ###############
+
+check_include_file(getopt.h WITH_GETOPT)
+check_include_file(unistd.h WITH_UNISTD)
+find_library(LIB_M m)
+
+if (WITH_GETOPT)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DWITH_GETOPT")
+endif (WITH_GETOPT)
+
+if (WITH_UNISTD)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DWITH_UNISTD")
+endif (WITH_UNISTD)
+find_library(LIB_M m)
 
 set(hydrotrend_lib_SRCS
    bmi_hydrotrend.c
@@ -88,13 +102,18 @@ install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 set(hydrotrend_SRCS hydrotrend_main.c)
 
 add_executable(run_hydrotrend ${hydrotrend_SRCS})
+if (LIB_M)
+  target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+elseif (NOT LIB_M)
+  target_link_libraries(run_hydrotrend bmi_hydrotrend-static)
+endif (LIB_M)
 
-target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
-
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend
-        DESTINATION bin
-        RENAME hydrotrend
-        COMPONENT hydrotrend)
+install(
+  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
+  DESTINATION bin
+  RENAME hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
+  COMPONENT hydrotrend
+)
 
 ########### Install files ###############
 
