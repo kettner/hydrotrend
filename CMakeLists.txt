@@ -89,23 +89,20 @@ set(hydrotrend_lib_SRCS
 
 ########### BMI ###########
 
-if (NOT WIN32)
-  add_library(bmi_hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
-  add_library(bmi_hydrotrend SHARED ${hydrotrend_lib_SRCS} )
-  set(BMI_HYDROTREND_LIB bmi_hydrotrend-static)
-  set(BMI_HYDROTREND_TARGETS bmi_hydrotrend bmi_hydrotrend-static)
-else (WIN32)
-  add_library(bmi_hydrotrend STATIC ${hydrotrend_lib_SRCS})
-  set(BMI_HYDROTREND_LIB bmi_hydrotrend)
-  set(BMI_HYDROTREND_TARGETS bmi_hydrotrend)
-endif (NOT WIN32)
+add_library(bmi_hydrotrend-static STATIC ${hydrotrend_lib_SRCS} )
+add_library(bmi_hydrotrend SHARED ${hydrotrend_lib_SRCS} )
+set_target_properties(
+  bmi_hydrotrend PROPERTIES
+  WINDOWS_EXPORT_ALL_SYMBOLS true
+  C_VISIBILITY_PRESET visible
+)
 
 install(
-  TARGETS ${BMI_HYDROTREND_TARGETS}
+  TARGETS bmi_hydrotrend bmi_hydrotrend-static
   EXPORT libbmi_hydrotrend
   RUNTIME DESTINATION bin
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
   FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
