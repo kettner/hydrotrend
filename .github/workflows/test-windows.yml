@@ -46,5 +46,9 @@ jobs:
           :: Build and install
           cmake --build . --target install --config ${{ env.build-type }}
 
-          :: Test
-          ctest --output-on-failure -C ${{ env.build-type }} -V
+      - name: Test
+        working-directory: ${{ github.workspace }}/tests
+        run: |
+          hydrotrend --verbose
+          hydrotrend --help
+          hydrotrend
