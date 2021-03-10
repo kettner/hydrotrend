@@ -5,6 +5,11 @@ project(hydrotrend)
 include(CheckIncludeFile)
 include(CTest)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(BMIC REQUIRED IMPORTED_TARGET bmic)
+include_directories(${BMIC_INCLUDE_DIRS})
+check_include_file(bmi.h WITH_BMI)
+
 set(CMAKE_MACOSX_RPATH 1)
 set(BUILD_SHARED_LIBS ON)
 set(HYDROTREND_VERSION 3.1)
