@@ -52,6 +52,6 @@ jobs:
         shell: cmd /C CALL {0}
         working-directory: ${{ github.workspace }}/tests
         run: |
-          "%LIBRARY_PREFIX%\hydrotrend" --verbose
-          "%LIBRARY_PREFIX%\hydrotrend" --help
-          "%LIBRARY_PREFIX%\hydrotrend"
+          "hydrotrend" --verbose
+          "hydrotrend" --help
+          "hydrotrend"
