@@ -35,9 +35,7 @@ jobs:
         run: |
           & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" -vcvars_ver=14.16 10.0.19041.0
 
-          cmake .. ^
-            -DCMAKE_INSTALL_PREFIX:PATH=$env:CONDA_PREFIX ^
-            -DCMAKE_BUILD_TYPE=${{ env.build-type }}
+          cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$env:CONDA_PREFIX -DCMAKE_BUILD_TYPE=${{ env.build-type }}
 
           cmake --build . --target install --config ${{ env.build-type }}
 
