@@ -1,0 +1,51 @@
+name: Build/Test CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.9"]
+        build-type: [Release]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge
+          channel-priority: true
+
+      - name: Show conda installation info
+        run: conda info
+
+      - name: Install build tools and dependencies into env
+        run: |
+          conda install mamba
+          mamba install --file=requirements.txt
+          mamba list
+
+      - name: Make cmake build directory
+        run: cmake -E make_directory build
+
+      - name: Configure cmake
+        working-directory: ${{ github.workspace }}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+
+      - name: Build
+        working-directory: ${{ github.workspace }}/build
+        run: cmake --build . --config ${{ matrix.build-type }}
+
+      - name: Test
+        working-directory: ${{ github.workspace }}/build
+        run: ctest -C ${{ matrix.build-type }} --output-on-failure

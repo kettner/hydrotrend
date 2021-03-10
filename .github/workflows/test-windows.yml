@@ -1,0 +1,50 @@
+name: Build/Test CI
+
+on: [push, pull_request]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    env:
+      build-type: Release
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: 3.9
+          channels: conda-forge
+          channel-priority: true
+
+      - name: Show conda installation info
+        run: conda info
+
+      - name: Install build tools and dependencies into env
+        run: |
+          conda install --file=requirements.txt
+          conda list
+
+      - name: Make cmake build directory
+        run: cmake -E make_directory build
+
+      - name: Configure, build, and test
+        shell: cmd /C CALL {0}
+        working-directory: ${{ github.workspace }}\build
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" -vcvars_ver=14.16 10.0.19041.0
+
+          :: Configure
+          cmake ^
+            -LAH -G "NMake Makefiles" ^
+            -DPKG_CONFIG_EXECUTABLE:FILEPATH=C:/Miniconda/envs/test/Library/bin/pkg-config.exe ^
+            -DCMAKE_BUILD_TYPE=${{ env.build-type }} ^
+            ..
+
+          :: Build and install
+          cmake --build . --target install --config ${{ env.build-type }}
+
+          :: Test
+          ctest --output-on-failure -C ${{ env.build-type }} -V
