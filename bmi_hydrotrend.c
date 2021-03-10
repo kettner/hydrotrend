@@ -4,7 +4,7 @@
 #include <float.h>
 #include <ctype.h>
 
-#include "bmi.h"
+#include <bmi.h>
 #include "hydrotrend_irf.h"
 
 /* Implement this: Add model-specific includes */
