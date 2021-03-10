@@ -51,6 +51,6 @@ jobs:
       - name: Test
         working-directory: ${{ github.workspace }}/tests
         run: |
-          hydrotrend --verbose
-          hydrotrend --help
-          hydrotrend
+          call "%LIBRARY_PREFIX%\hydrotrend" --verbose
+          call "%LIBRARY_PREFIX%\hydrotrend" --help
+          call "%LIBRARY_PREFIX%\hydrotrend"
