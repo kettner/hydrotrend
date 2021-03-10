@@ -49,9 +49,9 @@ jobs:
           cmake --build . --target install --config ${{ env.build-type }}
 
       - name: Test
-        shell: cmd /C CALL {0}
+        shell: pwsh
         working-directory: ${{ github.workspace }}/tests
         run: |
-          "hydrotrend" --verbose
-          "hydrotrend" --help
-          "hydrotrend"
+          hydrotrend --verbose
+          hydrotrend --help
+          hydrotrend
