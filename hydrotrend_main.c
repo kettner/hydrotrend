@@ -50,7 +50,7 @@ main (int argc, char **argv)
   fprint_current_time ( stdout, "Start" );
 
   {
-    BMI_Model * model = (BMI_Model*)malloc(sizeof(BMI_Model));
+    Bmi * model = (Bmi*)malloc(sizeof(Bmi));
 
     register_bmi_hydrotrend(model);
 
