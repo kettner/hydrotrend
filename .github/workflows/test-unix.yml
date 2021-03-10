@@ -1,4 +1,4 @@
-name: Build/Test CI
+name: Test Unix
 
 on: [push, pull_request]
 
@@ -44,7 +44,7 @@ jobs:
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
-        run: cmake --build . --config ${{ matrix.build-type }}
+        run: cmake --build . --target install --config ${{ matrix.build-type }}
 
       - name: Test
         working-directory: ${{ github.workspace }}/tests

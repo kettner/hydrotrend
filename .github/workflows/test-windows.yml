@@ -1,4 +1,4 @@
-name: Build/Test CI
+name: Test Windows
 
 on: [push, pull_request]
 
