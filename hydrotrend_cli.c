@@ -81,11 +81,11 @@ parse_command_line (int argc, char *argv[])
   args->in_file = strdup(HT_DEFAULT_PREFIX);
 
   if (argc == 1) {
-    args->in_dir = strdup(".");
-    args->out_dir = strdup(".");
+    args->in_dir = strdup(HT_DEFAULT_IN_DIR);
+    args->out_dir = strdup(HT_DEFAULT_OUT_DIR);
   } else if (argc == 2) {
     args->in_dir = strdup(argv[1]);
-    args->out_dir = strdup(".");
+    args->out_dir = strdup(HT_DEFAULT_OUT_DIR);
   } else if (argc == 3 ) {
     args->in_dir = strdup(argv[1]);
     args->out_dir = strdup(argv[2]);
