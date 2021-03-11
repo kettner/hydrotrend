@@ -103,7 +103,7 @@ elseif (NOT LIB_M)
 endif (LIB_M)
 
 install(
-  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
+  TARGETS run_hydrotrend
   DESTINATION bin
   RENAME hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   COMPONENT hydrotrend
@@ -111,7 +111,7 @@ install(
 
 ########### Install files ###############
 
-install(FILES  hydrotrend.pc DESTINATION lib/pkgconfig  COMPONENT hydrotrend)
+install(FILES hydrotrend.pc DESTINATION lib/pkgconfig COMPONENT hydrotrend)
 
 ########### Configuration Information ###############
 
