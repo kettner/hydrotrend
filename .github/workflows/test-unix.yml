@@ -49,6 +49,6 @@ jobs:
       - name: Test
         working-directory: ${{ github.workspace }}/tests
         run: |
-          hydrotrend --verbose
-          hydrotrend --help
+          hydrotrend -v
+          hydrotrend -h
           hydrotrend
