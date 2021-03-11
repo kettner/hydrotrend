@@ -29,7 +29,7 @@
 
 #define HT_DEFAULT_PREFIX  "HYDRO"
 #define HT_DEFAULT_IN_DIR  "./HYDRO_IN"
-#define HT_DEFAULT_OUT_DIR "HYDRO_OUT"
+#define HT_DEFAULT_OUT_DIR "HYDRO_OUTPUT"
 
 #define TRUE  (1)
 #define FALSE (0)
