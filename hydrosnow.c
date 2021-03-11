@@ -245,7 +245,7 @@ hydrosnow ()
   Mout = Mgw + Mnival + Enivalannual * totalarea[ep] + Msnowend + Mwrapout;
   Minput = MPnival + Mwrapin + Msnowstart;
 
-  if ((fabs (Mout - Minput) / Minput) > masscheck)
+  if (Minput > 0.0 && (fabs (Mout - Minput) / Minput) > masscheck)
     {
       fprintf (stderr, "\nERROR in HydroSnow: \n");
       fprintf (stderr, "  Mass Balance error: Mout != Minput \n\n");

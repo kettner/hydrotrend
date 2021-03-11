@@ -1,35 +1,28 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.0)
+
+project(hydrotrend)
+
 include(CheckIncludeFile)
 
-project( hydrotrend )
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(BMIC REQUIRED IMPORTED_TARGET bmic)
+include_directories(${BMIC_INCLUDE_DIRS})
 
-option (WITH_PYTHON_BINDINGS "Build Python bindings" OFF)
-option (WITH_CTEST "Use CTest to build tests" OFF)
+set(CMAKE_MACOSX_RPATH 1)
+set(BUILD_SHARED_LIBS ON)
+set(HYDROTREND_VERSION 3.1)
 
-set (BUILD_SHARED_LIBS ON)
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc
+)
 
-set (HYDROTREND_VERSION 3.1)
-set (HYDROTREND_EXE run_hydrotrend)
+add_subdirectory(data)
 
-configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
-
-if (WITH_CTEST)
-
-include (CTest)
-ENABLE_TESTING()
-
-add_test (HYDROTREND_VERSION ${HYDROTREND_EXE} --version)
-add_test (HYDROTREND_HELP ${HYDROTREND_EXE} --help)
-add_test (HYDROTREND_TEST_WITHOUT_ARGS
-          ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_without_args.sh)
-#add_test (HYDROTREND_TEST_WITH_ARGS
-#          ${CMAKE_CURRENT_BINARY_DIR}/data/hydrotrend_test_with_args.sh)
-endif (WITH_CTEST)
-
-add_subdirectory( data )
-
-configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
-                ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc )
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc
+)
 
 ########### libhydrotrend ###############
 
@@ -46,46 +39,48 @@ if (WITH_UNISTD)
 endif (WITH_UNISTD)
 find_library(LIB_M m)
 
-set(hydrotrend_lib_SRCS
-   bmi_hydrotrend.c
-   hydrotrend_irf.c
-   hydroalloc_mem.c
-   hydrocalqsnew.c
-   hydrocheckinput.c
-   hydroclimate.c
-   hydrotrend_cli.c
-   hydroexpdist.c
-   hydrofree_mem.c
-   hydroglacial.c
-   hydrohypsom.c
-   hydroinputalloc.c
-   hydromaxevents.c
-   hydroopenfiles.c
-   hydrooutlet.c
-   hydrooutput.c
-   hydroprintannual.c
-   hydroprintstat.c
-   hydrorain.c
-   hydroran2.c
-   hydroran2sediment.c
-   hydrorandom.c
-   hydrorandomsediment.c
-   hydroreadclimate.c
-   hydroreadevaporation.c
-   hydroreadearthquake.c
-   hydroreadhypsom.c
-   hydroreadinput.c
-   hydrosecurityinputcheck.c
-   hydrosedload.c
-   hydrosetgeoparams.c
-   hydrosetglobalpar.c
-   hydrosetparams.c
-   hydroshoulder.c
-   hydroshuffle.c
-   hydrosnow.c
-   hydrosumflow.c
-   hydroswap.c
-   hydroweather.c)
+set(
+  hydrotrend_lib_SRCS
+  bmi_hydrotrend.c
+  hydrotrend_irf.c
+  hydroalloc_mem.c
+  hydrocalqsnew.c
+  hydrocheckinput.c
+  hydroclimate.c
+  hydrotrend_cli.c
+  hydroexpdist.c
+  hydrofree_mem.c
+  hydroglacial.c
+  hydrohypsom.c
+  hydroinputalloc.c
+  hydromaxevents.c
+  hydroopenfiles.c
+  hydrooutlet.c
+  hydrooutput.c
+  hydroprintannual.c
+  hydroprintstat.c
+  hydrorain.c
+  hydroran2.c
+  hydroran2sediment.c
+  hydrorandom.c
+  hydrorandomsediment.c
+  hydroreadclimate.c
+  hydroreadevaporation.c
+  hydroreadearthquake.c
+  hydroreadhypsom.c
+  hydroreadinput.c
+  hydrosecurityinputcheck.c
+  hydrosedload.c
+  hydrosetgeoparams.c
+  hydrosetglobalpar.c
+  hydrosetparams.c
+  hydroshoulder.c
+  hydroshuffle.c
+  hydrosnow.c
+  hydrosumflow.c
+  hydroswap.c
+  hydroweather.c
+)
 
 ########### BMI ###########
 
@@ -99,23 +94,22 @@ install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 
 set(hydrotrend_SRCS hydrotrend_main.c)
 
-add_executable(run_hydrotrend ${hydrotrend_SRCS})
+add_executable(hydrotrend ${hydrotrend_SRCS})
 if (LIB_M)
-  target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+  target_link_libraries(hydrotrend bmi_hydrotrend-static m)
 elseif (NOT LIB_M)
-  target_link_libraries(run_hydrotrend bmi_hydrotrend-static)
+  target_link_libraries(hydrotrend bmi_hydrotrend-static)
 endif (LIB_M)
 
 install(
-  PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/run_hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
+  TARGETS hydrotrend
   DESTINATION bin
-  RENAME hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   COMPONENT hydrotrend
 )
 
 ########### Install files ###############
 
-install(FILES  hydrotrend.pc DESTINATION lib/pkgconfig  COMPONENT hydrotrend)
+install(FILES hydrotrend.pc DESTINATION lib/pkgconfig COMPONENT hydrotrend)
 
 ########### Configuration Information ###############
 
