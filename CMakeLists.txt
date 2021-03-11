@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.0)
 project(hydrotrend)
 
 include(CheckIncludeFile)
-include(CTest)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(BMIC REQUIRED IMPORTED_TARGET bmic)
@@ -18,10 +17,6 @@ configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
   ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc
 )
-
-if (BUILD_TESTING)
-  add_subdirectory(tests)
-endif (BUILD_TESTING)
 
 add_subdirectory(data)
 
