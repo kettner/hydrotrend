@@ -11,7 +11,6 @@ include_directories(${BMIC_INCLUDE_DIRS})
 set(CMAKE_MACOSX_RPATH 1)
 set(BUILD_SHARED_LIBS ON)
 set(HYDROTREND_VERSION 3.1)
-set(HYDROTREND_EXE run_hydrotrend)
 
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/hydrotrend.pc.cmake
@@ -95,17 +94,16 @@ install(FILES bmi.h bmi_hydrotrend.h DESTINATION include/hydrotrend)
 
 set(hydrotrend_SRCS hydrotrend_main.c)
 
-add_executable(run_hydrotrend ${hydrotrend_SRCS})
+add_executable(hydrotrend ${hydrotrend_SRCS})
 if (LIB_M)
-  target_link_libraries(run_hydrotrend bmi_hydrotrend-static m)
+  target_link_libraries(hydrotrend bmi_hydrotrend-static m)
 elseif (NOT LIB_M)
-  target_link_libraries(run_hydrotrend bmi_hydrotrend-static)
+  target_link_libraries(hydrotrend bmi_hydrotrend-static)
 endif (LIB_M)
 
 install(
-  TARGETS run_hydrotrend
+  TARGETS hydrotrend
   DESTINATION bin
-  RENAME hydrotrend${CMAKE_EXECUTABLE_SUFFIX}
   COMPONENT hydrotrend
 )
 
